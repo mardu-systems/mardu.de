@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: sven-frech/mardu-de-frontend
+  IMAGE_NAME: mardu-systems/mardu-de-frontend
 
 jobs:
   build-and-deploy:

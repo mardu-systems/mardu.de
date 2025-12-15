@@ -1,6 +1,6 @@
 services:
   frechekoepfe-frontend:
-    image: ghcr.io/sven-frech/mardu-de-frontend:{{ .Env.IMAGE_TAG }}
+    image: ghcr.io/mardu-systems/mardu-de-frontend:{{ .Env.IMAGE_TAG }}
     description: "mardu.de frontend"
     ports:
       - "3000/tcp"
