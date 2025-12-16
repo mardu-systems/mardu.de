@@ -49,15 +49,14 @@ export default function HomePage() {
               <p>
                 Mardu ist eine flexibel anwendbare funkbasierte Zugriffs- und
                 Zutrittskontrolllösung. Alle Endgeräte sind mit einander Funkvernetzt um höchste
-                Ausfallsicherheit garantieren zu können. Zentral und Vollständig Lokal kann das
-                System verwaltet werden, sodass sich verschiedenste Einsatzszenarien abbilden
-                lassen. Von Innen und Außenbereichen bis hin zu temporären Aufbauten wie Festivals.
+                Ausfallsicherheit garantieren zu können. Zentral und wahlweise Vollständig Lokal
+                kann das System verwaltet werden, sodass sich verschiedenste Einsatzszenarien
+                abbilden lassen.
               </p>
               <p className="mt-4">
-                Hierdurch lassen sich verschiedenste Einsatzszenarien abbilden. Von Innen und
-                Außenbereichen bis hin zu temporären Aufbauten wie Festivals. Mit Mardu können
-                Zutritte zu Türen, Toren und Drehkreuzen sowie Maschinenzugriffe oder jeder andere
-                sicherheitsrelevante Bereich gesichert werden.
+                Von Innen und Außenbereichen bis hin zu temporären Aufbauten wie Festivals. Mit
+                Mardu können Zutritte zu Türen, Toren und Drehkreuzen sowie Maschinenzugriffe oder
+                jeder andere sicherheitsrelevante Bereich gesichert werden.
               </p>
               <p className="mt-4">
                 Alle Vorgänge werden werden nachvollziehbar und DSGVO konform protokolliert: So
