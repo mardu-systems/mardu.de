@@ -206,9 +206,9 @@ export default function HomePage() {
             description: (
               <>
                 <p>
-                  Luca studierte Medieninformatik an der Hochschule Osnabrück und machte zuvor eine
-                  Ausbildung zum Fachinformatiker für Systemintegration. Bei Mardu arbeitet er an
-                  Web-, App- und Backend-Themen sowie an Nutzer- und Rechteverwaltung.
+                  B.Sc. Medieninformatik (Hochschule Osnabrück) und ausgebildeter Fachinformatiker
+                  für Systemintegration. Verantwortlich für Web-, App- und Backend-Entwicklung sowie
+                  Nutzer- und Rechteverwaltung.
                 </p>
               </>
             ),
@@ -224,9 +224,8 @@ export default function HomePage() {
             description: (
               <>
                 <p>
-                  Erik studierte Elektrotechnik und Informationstechnik am Karlsruher Institut für
-                  Technologie. Bei Mardu beschäftigt er sich mit Embedded Software und
-                  Hardware-Entwicklung.
+                  B.Sc. Elektrotechnik und Informationstechnik (Karlsruher Institut für Technologie,
+                  KIT). Fokus auf Embedded Software sowie Hardware-Entwicklung.
                 </p>
               </>
             ),
@@ -240,9 +239,8 @@ export default function HomePage() {
             description: (
               <>
                 <p>
-                  Melvin studiert Volkswirtschaftslehre an der Universität Münster und absolvierte
-                  zuvor eine Ausbildung zum Industriekaufmann. Bei Mardu kümmert er sich um
-                  kaufmännische Themen wie Finanzen, Buchhaltung und Controlling.
+                  Studium Volkswirtschaftslehre (Universität Münster) und Ausbildung zum
+                  Industriekaufmann. Zuständig für Finanzen, Buchhaltung und Controlling.
                 </p>
               </>
             ),
