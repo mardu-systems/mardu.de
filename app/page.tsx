@@ -70,9 +70,9 @@ export default function HomePage() {
         <DualImageSection
           cards={[
             {
-              imageSrc: "/mardu-space.jpeg",
-              imageAlt: "Zugriffskontrolle",
-              title: "mardu.space",
+              imageSrc: '/mardu-space.jpeg',
+              imageAlt: 'Zugriffskontrolle',
+              title: 'mardu.space',
               description: (
                 <>
                   <p>Werkstätten, Produktionshallen und Labore sind Orte der täglichen Arbeit bieten aber auch enormes Gefahrenpotential.</p>
@@ -81,13 +81,13 @@ export default function HomePage() {
                   </p>
                 </>
               ),
-              buttonText: "Mehr erfahren",
-              buttonHref: "https://mardu.space"
+              buttonText: 'Mehr erfahren',
+              buttonHref: 'https://mardu.space',
             },
             {
-              imageSrc: "/mardu-constructions.jpg",
-              imageAlt: "Maschinenfreigabe",
-              title: "mardu.construction (Early Access)",
+              imageSrc: '/mardu-constructions.jpg',
+              imageAlt: 'Maschinenfreigabe',
+              title: 'mardu.construction (Early Access)',
               description: (
                 <>
                   <p>Digitale flexible und skalierbare Zutrittskontrollen für Baustellen das ist mardu.construction. Hierdurch erlangt vollständige Kontrolle und Übersicht über alle Bereiche, Lieferanten, Subunternehmer und Mitarbeitende auf der Baustelle. Gleichzeitig kann sich effektiv vor Diebstahl und Zeitverzögerungen geschützt werden.</p>
@@ -95,8 +95,8 @@ export default function HomePage() {
                   mardu.construction befindet sich aktuell im Early-Access-Projektstadium. Funktionen werden gemeinsam mit ersten Anwendern erprobt, weiterentwickelt und gezielt an reale Baustellenanforderungen angepasst.
                   </p>
                 </>
-              )
-            }
+              ),
+            },
           ]}
         />
       </section>
@@ -195,7 +195,7 @@ export default function HomePage() {
       <TripleImageSection
         cards={[
           {
-            imageSrc: "/people/Bild2.jpg",
+            imageSrc: '/people/Bild2.jpg',
             imageAlt: 'Luca Schöneberg',
             title: 'Luca Schöneberg',
             subtitle: '(Co-Founder)',
@@ -209,10 +209,10 @@ export default function HomePage() {
                   an Web-, App- und Backend-Themen sowie an Nutzer- und Rechteverwaltung.
                 </p>
               </>
-            )
+            ),
           },
           {
-            imageSrc: "/people/Erik.jpeg",
+            imageSrc: '/people/Erik.jpeg',
             imageAlt: 'Labore und Forschungseinrichtungen',
             title: 'Erik Frey',
             subtitle: '(Co-Founder)',
@@ -226,10 +226,10 @@ export default function HomePage() {
                   Bei Mardu beschäftigt er sich mit Embedded Software und Hardware-Entwicklung.
                 </p>
               </>
-            )
+            ),
           },
           {
-            imageSrc: "/people/Bild1.jpg",
+            imageSrc: '/people/Bild1.jpg',
             imageAlt: 'Melvin Valerius',
             title: 'Melvin Valerius',
             subtitle: '(kauf. Leiter)',
@@ -242,22 +242,21 @@ export default function HomePage() {
                   wie Finanzen, Buchhaltung und Controlling.
                 </p>
               </>
-            )
-          }
+            ),
+          },
         ]}
       />
 
       <section id="contact">
         <CTASection
           title="Sicherheit, Transparenz und Kontrolle – zentral gesteuert"
-          description="Sprechen Sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle eine Lösung finden."
+          description="Sprechen sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle ein Lösung finden."
           primaryButtonText="Jetzt für unseren Newsletter anmelden"
           primaryButtonHref="https://flow.cleverreach.com/fl/27df128d-415e-4904-bc2a-29dedd704f6f/"
           secondaryButtonText="Beratung Vereinbaren"
           secondaryButtonHref="/contact"
         />
       </section>
-
     </main>
   );
 }

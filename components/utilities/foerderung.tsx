@@ -29,9 +29,7 @@ export default function Foerderung({
         <header className="text-center mb-10">
           <h2 className="text-2xl md:text-4xl">{title}</h2>
         </header>
-        <p>
-           {description ? <div className="mb-6 text-center">{description}</div> : null}
-        </p>
+        {description ? <div className="mb-6 text-center">{description}</div> : null}
 
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
           {items.map((it, idx) => (
