@@ -14,6 +14,6 @@ export const defaultFooterMetaLinks: FooterLink[] = [
     { href: "/publisher", label: "Impressum" },
     { href: "/privacy", label: "Datenschutz" },
     { href: "https://www.linkedin.com/company/marduofficial/", label: "LinkedIn" },
-    { href: "https://www.instagram.com/mardu.de?igsh=MWN3NGlreWNtc2xpZA==", label: "Instagram" },
+    { href: "https://www.instagram.com/mardu.de", label: "Instagram" },
     { href: "mailto:info@mardu.de", label: "Kontakt" },
 ];
