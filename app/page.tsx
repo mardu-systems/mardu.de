@@ -225,7 +225,7 @@ export default function HomePage() {
               <>
                 <p>
                   B.Sc. Elektrotechnik und Informationstechnik (Karlsruher Institut für Technologie,
-                  KIT). Fokus auf Embedded Software sowie Hardware-Entwicklung.
+                  KIT). Zuständig für Embedded Software und Hardware-Entwicklung.
                 </p>
               </>
             ),
