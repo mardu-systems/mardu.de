@@ -14,14 +14,13 @@ import { FileSearchCorner, HeartHandshake, Milestone } from 'lucide-react';
 /* ===================== Seite ===================== */
 
 export default function HomePage() {
-  const timelineRef = useRef<HTMLDivElement>(null);
-
+  useRef<HTMLDivElement>(null);
   return (
     <main className="relative min-h-screen bg-[#F5F6F7] flex flex-col justify-center md:justify-start">
       {/* Hero Header Section */}
       <section id="home">
         <HeroSection
-          title="Mardu – smarte Zugangssysteme für Baustellen, Werkstätten und Labore"
+          title="Smarte Zugangssysteme für Baustellen, Werkstätten und Labore"
           description={
             <>
               <p className="mb-4">
@@ -70,6 +69,8 @@ export default function HomePage() {
           }
           imageSrc="/Mardu-System.jpeg"
           imageAlt="Mardu System"
+          buttonText="Kontaktiere uns"
+          buttonHref="/contact"
           className="mb-20"
         />
       </section>
