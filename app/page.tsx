@@ -28,7 +28,7 @@ export default function HomePage() {
           description={
             <>
               <p className="mb-4">
-                Mit Mardu verwalten Verantwortliche Zutritt und Maschinennutzung: Wer darf wann welche Tür öffnen und welche Maschine nutzen – von der Werkstatt bis zur Baustelle.
+                Mit Mardu verwalten Verantwortliche Zutritt und Maschinennutzung: Wer darf wann welche Tür öffnen und welche Maschine nutzen – von der Werkstatt (<Link href="#produkte">mardu.space</Link>) bis zur Baustelle (<Link href="#produkte">mardu.construction</Link>).
               </p>
             </>
           }
@@ -47,15 +47,16 @@ export default function HomePage() {
           description={
             <>
               <p>
-                Mardu ist eine modulare, skalierbare Plattform für moderne Zutritts- und Nutzungskontrolle.
-                Sie verbindet zentrale Software mit flexibler Hardware, sodass sich unterschiedliche Einsatzszenarien
-                abbilden lassen – von Innenräumen bis zu temporären Standorten.<br></br><br></br>
-                Mit Mardu verwalten Verantwortliche Zugänge und Ressourcen wie Türen, Tore, Maschinen,
-                Flächen und sicherheitsrelevante Bereiche zentral. Berechtigungen lassen sich zeitlich,
-                personenbezogen oder projektbezogen vergeben – manuell, automatisiert oder regelbasiert.<br></br><br></br>
-                Alle Vorgänge werden nachvollziehbar protokolliert: Wer hatte wann worauf Zugriff, wo fand die Nutzung statt
-                und wie lange. So reduziert Mardu Schlüsselverwaltung und papierbasierte Nachweise – bei gleichzeitig höherer
-                Transparenz und klaren Verantwortlichkeiten.
+                Mardu ist eine flexibel anwendbare funkbasierte Zugriffs- und Zutrittskontrolllösung. Alle Endgeräte sind mit einander Funkvernetzt um höchste Ausfallsicherheit garantieren zu können. Zentral und Vollständig Lokal kann das System verwaltet werden, sodass sich verschiedenste Einsatzszenarien abbilden lassen. Von Innen und Außenbereichen bis hin zu temporären Aufbauten wie Festivals.
+              </p>
+              <p className="mt-4">
+                Hierdurch lassen sich verschiedenste Einsatzszenarien abbilden. Von Innen und Außenbereichen bis hin zu temporären Aufbauten wie Festivals. Mit Mardu können Zutritte zu Türen, Toren und Drehkreuzen sowie Maschinenzugriffe oder jeder andere sicherheitsrelevante Bereich gesichert werden.
+              </p>
+              <p className="mt-4">
+                Alle Vorgänge werden werden nachvollziehbar und DSGVO konform protokolliert: So reduziert Mardu Schlüsselverwaltung und papierbasierte Nachweise.
+              </p>
+              <p className="mt-4">
+                Sprechen sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle ein Lösung finden.
               </p>
             </>
           }
@@ -74,8 +75,10 @@ export default function HomePage() {
               title: "mardu.space",
               description: (
                 <>
-                  <p>Makerspaces und FabLabs eröffnen kreative Möglichkeiten, bringen aber auch Risiken durch leistungsstarke Maschinen mit sich. Besonders beim Zugang für Minderjährige ist klare Verantwortung gefragt.</p>
-                  <p>Das mardu.space System sorgt mit eigener Hard- und Software sowie einer europaweit anerkannten Kenntnisdatenbank (Open Education Badges) für sichere Zutritts- und Zugriffskontrollen. So werden nur geschulte Nutzer freigeschaltet – und ihre Qualifikationen lassen sich standortübergreifend einsetzen.</p>
+                  <p>Werkstätten, Produktionshallen und Labore sind Orte der täglichen Arbeit bieten aber auch enormes Gefahrenpotential.</p>
+                  <p className="mt-4">
+                  Durch mardu.space wird mit dem Mardu System sichergestellt, dass nur berechtigte Nutzer Zugriff auf die Maschinen haben. Anwendung findet dieses System vorallem in Makerspaces, Schülerlaboren und Universitäten aber auch in größeren Produzierenden Betrieben oder Werkstätten mit mehreren Hunderten Geräten.
+                  </p>
                 </>
               ),
               buttonText: "Mehr erfahren",
@@ -87,8 +90,10 @@ export default function HomePage() {
               title: "mardu.construction (Early Access)",
               description: (
                 <>
-                  <p>Digitale Zutrittskontrolle für Baustellen, Container und temporäre Infrastruktur ermöglicht eine sichere und effiziente Verwaltung aller Zugänge – auch in dynamischen, wechselnden Umgebungen. Zugriffsrechte für Subunternehmer, Lieferanten und Mitarbeitende lassen sich gezielt vergeben, zeitlich begrenzen und jederzeit anpassen.</p>
-                  <p>mardu.construction befindet sich aktuell im Early-Access-Projektstadium. Funktionen werden gemeinsam mit ersten Anwendern erprobt, weiterentwickelt und gezielt an reale Baustellenanforderungen angepasst.</p>
+                  <p>Digitale flexible und skalierbare Zutrittskontrollen für Baustellen das ist mardu.construction. Hierdurch erlangt vollständige Kontrolle und Übersicht über alle Bereiche, Lieferanten, Subunternehmer und Mitarbeitende auf der Baustelle. Gleichzeitig kann sich effektiv vor Diebstahl und Zeitverzögerungen geschützt werden.</p>
+                  <p className="mt-4">
+                  mardu.construction befindet sich aktuell im Early-Access-Projektstadium. Funktionen werden gemeinsam mit ersten Anwendern erprobt, weiterentwickelt und gezielt an reale Baustellenanforderungen angepasst.
+                  </p>
                 </>
               )
             }
@@ -99,22 +104,21 @@ export default function HomePage() {
       <section id="argumente">
         <ThreeArguments
           className="mt-12"
-          title={<span>3 Vorteile bei dem Einsatz von Mardu</span>}
+          title={<span>Drei Vorteile beim Einsatz von Mardu</span>}
           items={[
             {
-              title: 'Mehr Sicherheit',
+              title: 'Mehr Sicherheit & Nachvollziehbarkeit',
               description: (
                 <>
-                  Unbefugte Zugriffe werden zuverlässig verhindert.
-                  Jeder Zutritt oder jede Benutzung einer Maschine ist personen- und zeitbezogen geregelt
-                  und lückenlos dokumentiert.
+                  Unbefugte Zugriffe werden zuverlässig verhindert. Jeder Zutritt oder jede Benutzung einer Maschine ist personen- und zeitbezogen geregelt und lückenlos dokumentiert.
                 </>
               ),
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                  stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  className="lucide lucide-heart-handshake-icon lucide-heart-handshake">
-                  <path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762" />
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  className="lucide lucide-shield-check">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="m9 12 2 2 4-4" />
                 </svg>
               ),
             },
@@ -122,31 +126,36 @@ export default function HomePage() {
               title: 'Klare Regeln & weniger Aufwand',
               description: (
                 <>
-                  Zugangsrechte lassen sich flexibel vergeben, ändern oder entziehen – ganz ohne Schlüssel,
-                  Schlössertausch oder manuelle Listen.
+                  Berechtigungen lassen sich flexibel von überall vergeben, ändern oder entziehen. Ganz ohne Schlüssel, Schlössertausch oder manuelle Listen.
                 </>
               ),
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                  stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  className="lucide lucide-milestone-icon lucide-milestone"><path d="M12 13v8" />
-                  <path d="M12 3v3" /><path d="M4 6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h13a2 2 0 0 0 1.152-.365l3.424-2.317a1 1 0 0 0 0-1.635l-3.424-2.318A2 2 0 0 0 17 6z" />
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  className="lucide lucide-list-checks">
+                  <path d="m3 10 2.2 2.2c.2.2.7.2.9 0L12 5" />
+                  <path d="M3 16l2.2 2.2c.2.2.7.2.9 0L12 11" />
+                  <path d="M16 6h3" />
+                  <path d="M16 12h3" />
+                  <path d="M16 18h3" />
                 </svg>
               ),
             },
             {
-              title: 'Transparenz & Nachvollziehbarkeit',
+              title: 'Lokal und Zentral verwaltbar',
               description: (
                 <>
-                  Alle Zutritte oder Zugriffe werden protokolliert. So ist jederzeit ersichtlich, wer welche Tür,
-                  welches Tor welche Zone betreten oder Maschine gestartet hat – wichtig für Haftung, Audits und Organisation.
+                  Alle Berechtigungen werden vor Ort zentral gespeichert und verwaltet. Gleichzeitig kann alles über Fernzugriff verwaltet werden. Hierdurch kann höchste Ausfallsicherheit bei gleichzeitiger Flexibilität gewährleistet werden.
                 </>
               ),
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
-                  stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  className="lucide lucide-file-search-corner-icon lucide-file-search-corner">
-                  <path d="M11.1 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.589 3.588A2.4 2.4 0 0 1 20 8v3.25" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="m21 22-2.88-2.88" /><circle cx="16" cy="17" r="3" />
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  className="lucide lucide-server">
+                  <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+                  <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+                  <line x1="6" x2="6.01" y1="6" y2="6" />
+                  <line x1="6" x2="6.01" y1="18" y2="18" />
                 </svg>
               ),
             },
@@ -241,7 +250,7 @@ export default function HomePage() {
       <section id="contact">
         <CTASection
           title="Sicherheit, Transparenz und Kontrolle – zentral gesteuert"
-          description="Mit Mardu behalten Betreiber volle Kontrolle über Zugänge, Maschinen und Flächen – ohne aufwändige Schlüsselverwaltung, mit lückenloser Dokumentation und flexiblen Rechte-Modellen. Erfahren Sie, wie Makerspaces, Baustellen und Labore von intelligenten Zutrittssystemen profitieren."
+          description="Sprechen Sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle eine Lösung finden."
           primaryButtonText="Jetzt für unseren Newsletter anmelden"
           primaryButtonHref="https://flow.cleverreach.com/fl/27df128d-415e-4904-bc2a-29dedd704f6f/"
           secondaryButtonText="Beratung Vereinbaren"
