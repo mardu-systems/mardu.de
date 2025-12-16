@@ -214,7 +214,7 @@ export default function HomePage() {
               <>
                 <p>
                   Erik studierte Elektrotechnik und Informationstechnik am Karlsruher Institut für Technologie.
-                  Bei Mardu beschäftigt er sich mit Embedded Software und der Anbindung von Hardware-Komponenten.
+                  Bei Mardu beschäftigt er sich mit Embedded Software und Hardware-Entwicklung.
                 </p>
               </>
             )
