@@ -31,9 +31,9 @@ export default function HomePage() {
               </p>
             </>
           }
-          buttonText="Mehr zu mardu.space"
+          buttonText="Lösungen für Werkstätten"
           buttonHref="https://mardu.space"
-          secondaryButtonText="Mehr zu mardu.construction"
+          secondaryButtonText="Lösungen für Baustellen"
           secondaryButtonHref="/#produkte"
           imageSrc="/_A7_9072_quer.jpg"
           imageAlt="Zugriffskontrollsysteme im Makerspace"
@@ -61,9 +61,9 @@ export default function HomePage() {
                 Alle Vorgänge werden werden nachvollziehbar und DSGVO konform protokolliert: So
                 reduziert Mardu Schlüsselverwaltung und papierbasierte Nachweise.
               </p>
+
               <p className="mt-4">
-                Sprechen sie uns gerne an, gemeinsam lässt sich für die verschiedensten
-                Anwendungsfälle ein Lösung finden.
+                Egal, ob von der Stange oder als Speziallösung – wir sind dein Ansprechpartner.
               </p>
             </>
           }
