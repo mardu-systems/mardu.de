@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { title } from 'process';
 
 export interface TripleImageCardProps {
   imageSrc: string;
@@ -13,6 +12,7 @@ export interface TripleImageCardProps {
   linkedinUrl?: string; // optional LinkedIn profile
   email?: string; // optional email
   objectPosition?: string; // e.g. 'center top' for zoom/reposition
+  unoptimized?: boolean;
 }
 
 export interface TripleImageSectionProps {
@@ -41,12 +41,9 @@ export default function TripleImageSection({
                   alt={card.imageAlt}
                   fill
                   priority={index === 0}
+                  unoptimized={card.unoptimized}
                   sizes="(max-width: 768px) 100vw, (max-width: 1440px) 33vw"
-                  className={`object-cover ${
-                    card.objectPosition
-                      ? ''
-                      : ''
-                  }`}
+                  className="object-cover"
                   style={card.objectPosition ? { objectPosition: card.objectPosition } : {}}
                 />
               </div>
