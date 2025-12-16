@@ -41,9 +41,9 @@ export default function HomePage() {
         />
       </section>
 
-      <section id="plattform">
+      <section id="loesung">
         <FeatureSection
-          title="Die Mardu-Plattform"
+          title="Die Mardu-Lösung"
           description={
             <>
               <p>
