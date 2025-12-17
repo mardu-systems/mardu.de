@@ -23,10 +23,10 @@ export default function HomePage() {
           description={
             <>
               <p className="mb-4">
-                Mit Mardu verwalten Verantwortliche Zutritt und Maschinennutzung: Wer darf wann
-                welche Tür öffnen und welche Maschine nutzen – von der Werkstatt (
-                <Link href="#produkte">mardu.space</Link>) bis zur Baustelle (
-                <Link href="#produkte">mardu.construction</Link>).
+                Verwalte Zutritt und Maschinennutzung – mobil auf der Baustelle oder stationär in
+                der Werkstatt.
+                <br />
+                Mardu passt sich an deine Bedürfnisse an.
               </p>
             </>
           }
