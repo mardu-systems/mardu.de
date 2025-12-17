@@ -8,7 +8,6 @@ import DualImageSection from '@/components/utilities/dual-image-section';
 import ThreeArguments from '@/components/utilities/three-arguments';
 import Foerderung from '@/components/utilities/foerderung';
 import TripleImageSection from '@/components/utilities/triple-image-section';
-import Link from 'next/link';
 import { FileSearchCorner, HeartHandshake, Milestone } from 'lucide-react';
 
 /* ===================== Seite ===================== */
@@ -42,24 +41,24 @@ export default function HomePage() {
 
       <section id="loesung">
         <FeatureSection
+          className="text-white mb-20"
           title="Die Mardu-Lösung"
           description={
             <>
               <p>
-                Mardu ist eine flexibel anwendbare funkbasierte Zugriffs- und
-                Zutrittskontrolllösung. Alle Endgeräte sind mit einander Funkvernetzt um höchste
-                Ausfallsicherheit garantieren zu können. Zentral und wahlweise Vollständig Lokal
-                kann das System verwaltet werden, sodass sich verschiedenste Einsatzszenarien
-                abbilden lassen.
+                Wir sind eine flexible, funkbasierte Lösung für die Zugriffs- und Zutrittskontrolle.
+                Alle Endgeräte sind per Funk vernetzt und dank Dual-Band-Mesh-Technologie
+                hochausfallsicher. Mardu kann zentral verwaltet oder vollständig lokal betrieben
+                werden und deckt so verschiedenste Einsatzszenarien ab – von permanenter
+                Installation bis temporärem Setup.
               </p>
               <p className="mt-4">
-                Von Innen und Außenbereichen bis hin zu temporären Aufbauten wie Festivals. Mit
-                Mardu können Zutritte zu Türen, Toren und Drehkreuzen sowie Maschinenzugriffe oder
-                jeder andere sicherheitsrelevante Bereich gesichert werden.
+                Ideal für Innen- und Außenbereiche sowie temporäre Setups (z. B. Festivals). Sichern
+                Sie damit Türen, Tore, Drehkreuze, Maschinenzugänge und weitere kritische Bereiche.
               </p>
               <p className="mt-4">
-                Alle Vorgänge werden werden nachvollziehbar und DSGVO konform protokolliert: So
-                reduziert Mardu Schlüsselverwaltung und papierbasierte Nachweise.
+                Alle Vorgänge werden nachvollziehbar und DSGVO-konform protokolliert. Dadruch
+                reduzieren wir deine Bürokratie.
               </p>
 
               <p className="mt-4">
@@ -71,7 +70,6 @@ export default function HomePage() {
           imageAlt="Mardu System"
           buttonText="Kontaktiere uns"
           buttonHref="/contact"
-          className="mb-20"
         />
       </section>
 
@@ -225,7 +223,7 @@ export default function HomePage() {
               <>
                 <p>
                   B.Sc. Elektrotechnik und Informationstechnik (Karlsruher Institut für Technologie,
-                  KIT). Zuständig für Embedded Software und Hardware-Entwicklung.
+                  KIT). Verantwortlich für Embedded Software und Hardware-Entwicklung.
                 </p>
               </>
             ),
