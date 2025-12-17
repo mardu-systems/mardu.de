@@ -153,7 +153,7 @@ export default function MobileNav({
         <div className="p-6 pb-[max(env(safe-area-inset-bottom),1.5rem)] flex justify-center">
           <MeetergoCTAButton
             onClick={closeAndGo}
-            className="w-full max-w-md h-14 text-base tracking-wide uppercase bg-yellow-500 hover:bg-yellow-400 text-black"
+            className="w-full max-w-md h-14 text-base tracking-wide uppercase bg-[#F5C842] hover:bg-[#F5D25C] text-black"
           >
             Demo Vereinbaren
           </MeetergoCTAButton>
