@@ -29,9 +29,6 @@ export default function SiteShell({
     <div data-header-variant={headerVariant} className="bg-background text-foreground">
       <SiteHeader
         items={defaultHeaderItems}
-        logoLightSrc="/marduspace_logo_bg_black.svg"
-        variant={headerVariant}
-        logoDarkSrc="/marduspace_logo_bg_white.svg"
         showTopbar={false}
       />
       <div className="bg-background" data-theme="light" style={{ colorScheme: 'light' }}>

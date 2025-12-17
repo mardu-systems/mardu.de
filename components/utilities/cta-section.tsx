@@ -23,11 +23,7 @@ export interface CTASectionProps {
 
   primaryButtonText: string;
 
-  primaryButtonHref: string;
-
   secondaryButtonText?: string;
-
-  secondaryButtonHref?: string;
 
   backgroundColor?: string;
 
@@ -40,9 +36,7 @@ export default function CTASection({
   title,
   description,
   primaryButtonText,
-  primaryButtonHref,
   secondaryButtonText,
-  secondaryButtonHref,
   backgroundColor = 'bg-[#351B59]',
   textColor = 'text-white',
   className = '',

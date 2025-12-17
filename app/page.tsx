@@ -251,9 +251,7 @@ export default function HomePage() {
           title="Sicherheit, Transparenz und Kontrolle – zentral gesteuert"
           description="Sprechen sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle ein Lösung finden."
           primaryButtonText="Jetzt für unseren Newsletter anmelden"
-          primaryButtonHref="https://flow.cleverreach.com/fl/27df128d-415e-4904-bc2a-29dedd704f6f/"
           secondaryButtonText="Beratung Vereinbaren"
-          secondaryButtonHref="/contact"
         />
       </section>
     </main>
