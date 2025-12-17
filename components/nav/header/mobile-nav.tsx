@@ -16,6 +16,7 @@ import clsx from 'clsx';
 import { NavEntry } from '@/types/header';
 import BurgerIcon from './burger-icon';
 import { useScrollToSection } from '@/hooks/use-scroll-to-section';
+import { MeetergoCTAButton } from '@/components/utilities/meetergo-cta-button';
 
 export default function MobileNav({
   items,
@@ -148,16 +149,14 @@ export default function MobileNav({
           </Accordion>
         </nav>
 
-        {/* Footer-CTA */}
+        {/* Footer-CTA ToDO: Link Demo Vereinbaren .... Kontakte */}
         <div className="p-6 pb-[max(env(safe-area-inset-bottom),1.5rem)] flex justify-center">
-          <Button
-            asChild
+          <MeetergoCTAButton
+            onClick={closeAndGo}
             className="w-full max-w-md h-14 text-base tracking-wide uppercase bg-yellow-500 hover:bg-yellow-400 text-black"
           >
-            <Link href="/configurator" onClick={closeAndGo}>
-              Demo Vereinbaren
-            </Link>
-          </Button>
+            Demo Vereinbaren
+          </MeetergoCTAButton>
         </div>
       </SheetContent>
     </Sheet>

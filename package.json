@@ -1,4 +1,4 @@
- {
+{
   "name": "mardu.space",
   "version": "0.1.0",
   "private": true,
@@ -68,7 +68,8 @@
     "tailwind-clip-path": "^1.0.0",
     "tailwind-merge": "^3.4.0",
     "vaul": "^1.1.2",
-    "zod": "^4.2.1"
+    "zod": "^4.2.1",
+    "meetergo-integration": "github:meetergo/meetergo-integration"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
