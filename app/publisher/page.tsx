@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import path from 'path';
 import fs from 'fs/promises';
 import Markdown from 'react-markdown';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'Impressum',

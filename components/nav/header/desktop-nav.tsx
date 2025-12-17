@@ -12,10 +12,9 @@ import { useScrollToSection } from '@/hooks/use-scroll-to-section';
 
 interface DesktopNavProps {
   items: NavEntry[];
-  variant?: 'dark' | 'light';
 }
 
-export default function DesktopNav({ items, variant = 'dark' }: DesktopNavProps) {
+export default function DesktopNav({ items }: DesktopNavProps) {
   return (
     <div
       className={clsx(

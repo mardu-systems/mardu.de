@@ -20,12 +20,6 @@ export interface HeaderProps {
   showAccount?: boolean;
   showHelp?: boolean;
   salesPhone?: string;
-  /** Light logo for dark backgrounds */
-  logoLightSrc: string;
-  /** Dark logo for light backgrounds / transparent over video */
-  logoDarkSrc: string;
-  /** Color variant for text and logo */
-  variant?: 'dark' | 'light';
 }
 
 const SCROLL_THRESHOLD = 24;
@@ -41,13 +35,6 @@ function useScrolled(threshold = 20) {
   return scrolled;
 }
 
-function getHeaderBgAnimate(scrolled: boolean) {
-  return {
-    backgroundColor: scrolled ? 'rgba(10,0,12,0.80)' : 'rgba(0,0,0,0)',
-    backdropFilter: scrolled ? 'blur(8px)' : 'blur(0px)',
-  } as const;
-}
-
 export default function SiteHeader({
   items,
   showTopbar = true,
@@ -55,22 +42,11 @@ export default function SiteHeader({
   showAccount = true,
   showHelp = true,
   salesPhone = '+49 176 200 00 00',
-  logoLightSrc,
-  logoDarkSrc,
-  variant = 'light',
 }: HeaderProps) {
   const scrolled = useScrolled(SCROLL_THRESHOLD);
-  const effectiveVariant = React.useMemo(() => {
-    if (scrolled) {
-      return 'dark';
-    }
-    return variant;
-  }, [scrolled, variant]);
 
   // Top-Offset for fixed header
   const navTopOffset = showTopbar && !scrolled ? TOPBAR_HEIGHT : 0;
-
-  const bgStyle = React.useMemo(() => getHeaderBgAnimate(scrolled), [scrolled]);
 
   return (
     <header>
@@ -112,10 +88,9 @@ export default function SiteHeader({
               <MobileNav items={items} variant="light" />
             </div>
 
-            <DesktopNav items={items} variant="light" />
+            <DesktopNav items={items} />
             <div className="hidden md:block ml-4">
               <MeetergoCTAButton
-                variant="ghost"
                 className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#F5C842] hover:bg-[#F5D25C] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2 mt-3 sm:mt-0 sm:ml-4"
               >
                 Demo Vereinbaren

@@ -110,7 +110,8 @@ export default plugin(({ addUtilities, matchUtilities, theme }) => {
     );
 
     // b) Named function wrappers: `.clip-path-circle-[...]`, etc.
-    const { DEFAULT, ...named } = funcs;
+    const named = { ...funcs };
+    delete named.DEFAULT;
     for (const [alias, fn] of Object.entries(named)) {
         if (!fn) continue;
         matchUtilities(

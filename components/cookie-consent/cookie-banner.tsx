@@ -30,8 +30,10 @@ export default function CookieConsentBanner() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (prefs && !prefs.given) setVisible(true);
-  }, [prefs]);
+    if (prefs && !prefs.given && !visible) {
+      setTimeout(() => setVisible(true), 0);
+    }
+  }, [prefs, visible]);
 
   useEffect(() => {
     window.openCookieSettings = () => {

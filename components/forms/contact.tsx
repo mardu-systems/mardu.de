@@ -40,7 +40,6 @@ type Props = {
   extra?: Record<string, unknown>;
   submitLabel?: string;
   successMessage?: string;
-  recaptchaAction?: string;
   layout?: 'plain' | 'card';
 };
 
@@ -51,8 +50,7 @@ export function ContactForm({
   action = '/api/contact',
   extra,
   submitLabel = 'Senden',
-  successMessage = 'Danke! Nachricht gesendet.',
-  recaptchaAction = 'contact',
+  successMessage = 'Danke! Nachricht gesendet',
   layout = 'plain',
 }: Props) {
   const form = useForm<ContactValues>({

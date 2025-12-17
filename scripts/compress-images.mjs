@@ -1,11 +1,8 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
-import url from 'node:url';
 import sharp from 'sharp';
 import { optimize as optimizeSvg } from 'svgo';
-
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 function formatBytes(bytes) {
     if (bytes === 0) return '0 B';
