@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import React, { Suspense } from 'react';
+import React from 'react';
 import SiteShell from '@/components/layout/site-shell';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -91,9 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="bg-background text-foreground antialiased overflow-x-hidden">
-        <Suspense fallback={null}>
-          <SiteShell>{children}</SiteShell>
-        </Suspense>
+        <SiteShell>{children}</SiteShell>
         <Analytics />
         <SpeedInsights />
       </body>
