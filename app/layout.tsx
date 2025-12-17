@@ -3,6 +3,7 @@ import './globals.css';
 import React, { Suspense } from 'react';
 import SiteShell from '@/components/layout/site-shell';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -92,8 +93,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background text-foreground antialiased overflow-x-hidden">
         <Suspense fallback={null}>
           <SiteShell>{children}</SiteShell>
-          <Analytics />
         </Suspense>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
