@@ -5,12 +5,30 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
+// Types extracted from meetergo-integration definitions
+export interface MeetergoPrefill {
+  firstname?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  message?: string;
+  timezone?: string;
+  locale?: string;
+  [key: string]: string | undefined;
+}
+
+interface MeetergoIntegration {
+  launchScheduler: (schedulerLink?: string, params?: Record<string, string>) => void;
+  isReady: () => boolean;
+  openModal: () => void;
+  closeModal: () => void;
+  setPrefill: (prefill: MeetergoPrefill) => void;
+}
+
 declare global {
   interface Window {
-    meetergo?: {
-      launchScheduler: (link: string, prefill?: Record<string, unknown>) => void;
-      isReady: () => boolean;
-    };
+    meetergo?: MeetergoIntegration;
   }
 }
 
@@ -19,6 +37,7 @@ export interface MeetergoCTAButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   link?: string;
+  prefill?: MeetergoPrefill;
 }
 
 export function MeetergoCTAButton({
@@ -26,6 +45,7 @@ export function MeetergoCTAButton({
   children,
   onClick,
   link = 'https://cal.meetergo.com/infomardu/30-min-meeting-or-info',
+  prefill,
   ...props
 }: MeetergoCTAButtonProps) {
   const SRC = 'https://liv-showcase.s3.eu-central-1.amazonaws.com/browser-v3.js';
@@ -45,7 +65,6 @@ export function MeetergoCTAButton({
 
       const existingScript = document.querySelector(`script[src="${SRC}"]`);
       if (existingScript) {
-        // If script exists but meetergo isn't ready, verify if it's loaded
         if (existingScript.getAttribute('data-loaded') === 'true') {
           resolve();
         } else {
@@ -90,7 +109,17 @@ export function MeetergoCTAButton({
         }
 
         if (window.meetergo) {
-          window.meetergo.launchScheduler(link);
+          // Convert prefill to Record<string, string> as required by launchScheduler params
+          const params: Record<string, string> = {};
+          if (prefill) {
+            Object.entries(prefill).forEach(([key, value]) => {
+              if (value !== undefined) {
+                params[key] = value;
+              }
+            });
+          }
+
+          window.meetergo.launchScheduler(link, params);
         } else {
           console.error('Meetergo SDK not initialized');
         }
@@ -100,7 +129,7 @@ export function MeetergoCTAButton({
         setLoading(false);
       }
     },
-    [ensureScript, link, onClick],
+    [ensureScript, link, prefill, onClick],
   );
 
   return (

@@ -9,6 +9,7 @@ import DesktopNav from './desktop-nav';
 import MobileNav from './mobile-nav';
 import Topbar, { TOPBAR_HEIGHT } from './topbar';
 import { NavEntry } from '@/types/header';
+import { MeetergoCTAButton } from '@/components/utilities/meetergo-cta-button';
 
 export type { NavEntry } from '@/types/header';
 
@@ -84,11 +85,8 @@ export default function SiteHeader({
       )}
 
       <div
-        className={clsx(
-          'fixed z-50 transition-colors duration-200',
-          scrolled && 'border-white/10',
-        )}
-        style={{ 
+        className={clsx('fixed z-50 transition-colors duration-200', scrolled && 'border-white/10')}
+        style={{
           top: `calc(${navTopOffset}px + 1rem)`,
           left: '1rem',
           right: '1rem',
@@ -116,65 +114,15 @@ export default function SiteHeader({
 
             <DesktopNav items={items} variant="light" />
 
-            <LazyMeetergoButton />
+            <MeetergoCTAButton
+              variant="ghost"
+              className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#FFB703] hover:bg-[#FFB703] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2 mt-3 sm:mt-0 sm:ml-4"
+            >
+              Demo Vereinbaren
+            </MeetergoCTAButton>
           </nav>
         </div>
       </div>
     </header>
-  );
-}
-
-function LazyMeetergoButton() {
-  const btnRef = React.useRef<HTMLButtonElement>(null);
-  const [loaded, setLoaded] = React.useState(false);
-  const SRC = 'https://liv-showcase.s3.eu-central-1.amazonaws.com/browser-v3.js';
-
-  const ensureScript = React.useCallback(() => {
-    return new Promise<void>((resolve, reject) => {
-      if (loaded || document.querySelector(`script[src="${SRC}"]`)) {
-        setLoaded(true);
-        resolve();
-        return;
-      }
-      const s = document.createElement('script');
-      s.src = SRC;
-      s.async = true;
-      s.onload = () => {
-        setLoaded(true);
-        resolve();
-      };
-      s.onerror = (e) => reject(e);
-      document.body.appendChild(s);
-    });
-  }, [loaded]);
-
-  const onClick = React.useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!loaded) {
-      e.preventDefault();
-      e.stopPropagation();
-      try {
-        await ensureScript();
-        // wait a tick so the script can bind listeners, then re-dispatch
-        setTimeout(() => {
-          btnRef.current?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-        }, 0);
-      } catch (err) {
-        console.error('Failed to load Meetergo script', err);
-      }
-    }
-  }, [ensureScript, loaded]);
-
-  return (
-    <div className="hidden md:block ml-4">
-      <button
-        ref={btnRef}
-        onClick={onClick}
-        className="meetergo-modal-button inline-flex items-center justify-center h-11 px-6 rounded-lg bg-[#F5C842] hover:bg-[#F5D25C] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2"
-        {...({ link: 'https://cal.meetergo.com/infomardu/30-min-meeting-or-info' } as any)}
-        type="button"
-      >
-        Demo Vereinbaren
-      </button>
-    </div>
   );
 }
