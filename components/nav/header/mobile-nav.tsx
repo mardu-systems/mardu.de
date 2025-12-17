@@ -149,7 +149,7 @@ export default function MobileNav({
           </Accordion>
         </nav>
 
-        {/* Footer-CTA ToDO: Link Demo Vereinbaren .... Kontakte */}
+        {/* Footer-CTA */}
         <div className="p-6 pb-[max(env(safe-area-inset-bottom),1.5rem)] flex justify-center">
           <MeetergoCTAButton
             onClick={closeAndGo}
