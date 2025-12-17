@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import React, { Suspense } from 'react';
-import CookieConsentBanner from '@/components/cookie-consent/cookie-banner';
-import TrackingProvider from '@/components/cookie-consent/tracking-provider';
 import SiteShell from '@/components/layout/site-shell';
+import { Analytics } from '@vercel/analytics/react';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -92,11 +91,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-background text-foreground antialiased overflow-x-hidden">
         <Suspense fallback={null}>
-          <TrackingProvider>
-            <SiteShell>
-              {children}
-            </SiteShell>
-          </TrackingProvider>
+          <SiteShell>{children}</SiteShell>
+          <Analytics />
         </Suspense>
       </body>
     </html>
