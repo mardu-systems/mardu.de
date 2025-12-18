@@ -39,6 +39,7 @@ export default function Foerderung({
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center ${it.className ?? ''}`}
+              aria-label={it.alt}
             >
               <Image
                 src={it.src}

@@ -73,7 +73,10 @@ export default function MobileNav({
         </SheetHeader>
 
         {/* Navigation - Centered */}
-        <nav className="flex-1 flex items-center justify-center px-6 overflow-y-auto">
+        <nav
+          className="flex-1 flex items-center justify-center px-6 overflow-y-auto"
+          aria-label="Mobile Navigation"
+        >
           <Accordion type="multiple" className="w-full max-w-md">
             {items.map((entry) => (
               <div key={entry.label}>

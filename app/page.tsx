@@ -1,6 +1,3 @@
-'use client';
-
-import { useRef } from 'react';
 import HeroSection from '@/components/utilities/hero-section';
 import CTASection from '@/components/utilities/cta-section';
 import FeatureSection from '@/components/utilities/feature-section';
@@ -13,7 +10,6 @@ import { FileSearchCorner, HeartHandshake, Milestone } from 'lucide-react';
 /* ===================== Seite ===================== */
 
 export default function HomePage() {
-  useRef<HTMLDivElement>(null);
   return (
     <main className="relative min-h-screen bg-[#F5F6F7] flex flex-col justify-center md:justify-start">
       {/* Hero Header Section */}
@@ -34,7 +30,7 @@ export default function HomePage() {
           buttonHref="https://mardu.space"
           secondaryButtonText="Lösungen für Baustellen"
           secondaryButtonHref="/#produkte"
-          imageSrc="/_A7_9072_quer.jpg"
+          imageSrc="/_A7_9072_quer.webp"
           imageAlt="Zugriffskontrollsysteme im Makerspace"
         />
       </section>
@@ -66,7 +62,7 @@ export default function HomePage() {
               </p>
             </>
           }
-          imageSrc="/Mardu-System.jpeg"
+          imageSrc="/Mardu-System.webp"
           imageAlt="Mardu System"
           buttonText="Kontaktiere uns"
           buttonHref="/contact"
@@ -77,7 +73,7 @@ export default function HomePage() {
         <DualImageSection
           cards={[
             {
-              imageSrc: '/mardu-space.jpeg',
+              imageSrc: '/mardu-space.webp',
               imageAlt: 'Zugriffskontrolle',
               title: 'mardu.space',
               description: (
@@ -98,7 +94,7 @@ export default function HomePage() {
               buttonHref: 'https://mardu.space',
             },
             {
-              imageSrc: '/mardu-constructions.jpg',
+              imageSrc: '/mardu-constructions.webp',
               imageAlt: 'Maschinenfreigabe',
               title: 'mardu.construction (Early Access)',
               description: (
@@ -195,7 +191,7 @@ export default function HomePage() {
       <TripleImageSection
         cards={[
           {
-            imageSrc: '/people/Bild2.jpg',
+            imageSrc: '/people/Bild2.webp',
             imageAlt: 'Luca Schöneberg',
             title: 'Luca Schöneberg',
             subtitle: '(Co-Founder)',
@@ -212,7 +208,7 @@ export default function HomePage() {
             ),
           },
           {
-            imageSrc: '/people/Erik.jpeg',
+            imageSrc: '/people/Erik.webp',
             imageAlt: 'Erik Frey',
             unoptimized: true,
             title: 'Erik Frey',
@@ -229,7 +225,7 @@ export default function HomePage() {
             ),
           },
           {
-            imageSrc: '/people/Bild1.jpg',
+            imageSrc: '/people/Bild1.webp',
             imageAlt: 'Melvin Valerius',
             title: 'Melvin Valerius',
             subtitle: '(kauf. Leiter)',

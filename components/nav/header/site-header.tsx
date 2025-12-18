@@ -4,9 +4,9 @@ import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 
 import DesktopNav from './desktop-nav';
-import MobileNav from './mobile-nav';
 import Topbar, { TOPBAR_HEIGHT } from './topbar';
 import { NavEntry } from '@/types/header';
 import { MeetergoCTAButton } from '@/components/utilities/meetergo-cta-button';
@@ -34,6 +34,8 @@ function useScrolled(threshold = 20) {
   }, [threshold]);
   return scrolled;
 }
+
+const MobileNav = dynamic(() => import('./mobile-nav'), { ssr: false });
 
 export default function SiteHeader({
   items,
@@ -69,7 +71,7 @@ export default function SiteHeader({
         }}
       >
         <div className="relative mx-auto max-w-7xl bg-white rounded-2xl shadow-lg border border-gray-200/50">
-          <nav className="flex h-20 items-center gap-3 px-6">
+          <nav className="flex h-20 items-center gap-3 px-6" aria-label="Hauptnavigation">
             <div className="flex items-center">
               <Link href="/" aria-label="Mardu Home" className="block">
                 <div className="relative h-12 w-[150px]">

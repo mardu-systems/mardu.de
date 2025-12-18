@@ -63,6 +63,13 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
+        url: '/_A7_9072_quer.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Mardu Zutrittskontrolle und Maschinenfreigabe',
+        type: 'image/webp',
+      },
+      {
         url: '/_A7_9072_quer.jpg',
         width: 1200,
         height: 630,
@@ -75,33 +82,34 @@ export const metadata: Metadata = {
     title: 'Mardu – Zutrittskontrolle & Maschinenfreigabe',
     description:
       'Zutrittskontrolle und Maschinenfreigabe für Werkstätten, Labore, Makerspaces und Baustellen – flexibel, ausfallsicher, DSGVO-konform.',
-    images: ['/_A7_9072_quer.jpg'],
+    images: ['/_A7_9072_quer.webp', '/_A7_9072_quer.jpg'],
   },
 };
 
-const jsonLd = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Mardu',
-    url: 'https://mardu.de',
-    logo: 'https://mardu.de/logos/Logo.svg',
-    email: 'info@mardu.de',
-    sameAs: ['https://www.linkedin.com/company/marduofficial'],
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Mardu',
-    url: 'https://mardu.de',
-    publisher: {
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
       '@type': 'Organization',
       name: 'Mardu',
       url: 'https://mardu.de',
       logo: 'https://mardu.de/logos/Logo.svg',
+      email: 'info@mardu.de',
+      sameAs: ['https://www.linkedin.com/company/marduofficial'],
     },
-  },
-];
+    {
+      '@type': 'WebSite',
+      name: 'Mardu',
+      url: 'https://mardu.de',
+      publisher: {
+        '@type': 'Organization',
+        name: 'Mardu',
+        url: 'https://mardu.de',
+        logo: 'https://mardu.de/logos/Logo.svg',
+      },
+    },
+  ],
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   console.log('runtime', process.versions.bun);

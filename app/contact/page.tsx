@@ -11,7 +11,13 @@ export default function ContactPage() {
   return (
     <main className="pt-[calc(var(--app-header-height,64px)+env(safe-area-inset-top))] min-h-screen">
       <section className="max-w-7xl mx-auto px-4 py-10">
-        <div className="pt-8">
+        <header className="pt-8 pb-6">
+          <h1 className="text-3xl font-bold">Kontakt</h1>
+          <p className="text-base text-muted-foreground mt-2">
+            Melde dich bei uns – wir antworten so schnell wie möglich.
+          </p>
+        </header>
+        <div>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="space-y-6 pt-8 text-base leading-relaxed">
               <p>Du hast Fragen oder möchtest uns besuchen? Melde dich gerne bei uns.</p>
