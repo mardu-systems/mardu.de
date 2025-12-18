@@ -82,6 +82,7 @@ const jsonLd = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  console.log('runtime', process.versions.bun);
   return (
     <html lang="de">
       <head>
