@@ -16,11 +16,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://mardu.de'),
   title: {
-    default: 'mardu.de – Zugriffskontrollsysteme für Makerspaces',
-    template: '%s | mardu.de',
+    default: 'Mardu – Zutrittskontrolle & Maschinenfreigabe für Werkstätten, Labore & Baustellen',
+    template: '%s | Mardu',
   },
   description:
-    'mardu.de bietet sichere Zutritts- und Zugriffskontrollen mit eigener Hard- und Software sowie einer europaweit anerkannten Kenntnisdatenbank.',
+    'Zutrittskontrolle und Maschinenfreigabe mit Funk-Mesh, Protokollierung und Rechteverwaltung – für Makerspaces, Labore, Werkstätten und Baustellen. DSGVO-konform.',
   keywords: [
     'Zugriffskontrollsysteme',
     'Makerspace',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     'Open Education Badges',
   ],
   alternates: {
-    canonical: 'https://mardu.space',
+    canonical: 'https://mardu.de',
   },
   icons: {
     icon: [
@@ -42,12 +42,23 @@ export const metadata: Metadata = {
     shortcut: [{ url: '/favicon/favicon.ico' }],
   },
   manifest: '/site.webmanifest',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
-    title: 'mardu.space – Zugriffskontrollsysteme für Makerspaces',
+    title: 'Mardu – Zutrittskontrolle & Maschinenfreigabe',
     description:
-      'Sichere Zutritts- und Zugriffskontrollen für Makerspaces, FabLabs und Schülerlabore.',
-    url: 'https://mardu.de',
-    siteName: 'mardu.de',
+      'Smarte Zutrittskontrolle und Maschinenfreigabe für Werkstätten, Labore, Makerspaces und Baustellen – flexibel, ausfallsicher, DSGVO-konform.',
+    url: '/',
+    siteName: 'Mardu',
     locale: 'de_DE',
     type: 'website',
     images: [
@@ -55,31 +66,42 @@ export const metadata: Metadata = {
         url: '/_A7_9072_quer.jpg',
         width: 1200,
         height: 630,
-        alt: 'Zugriffskontrollsysteme für Makerspaces',
+        alt: 'Mardu Zutrittskontrolle und Maschinenfreigabe',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'mardu.space – Zugriffskontrollsysteme für Makerspaces',
+    title: 'Mardu – Zutrittskontrolle & Maschinenfreigabe',
     description:
-      'Sichere Zutritts- und Zugriffskontrollen für Makerspaces, FabLabs und Schülerlabore.',
+      'Zutrittskontrolle und Maschinenfreigabe für Werkstätten, Labore, Makerspaces und Baustellen – flexibel, ausfallsicher, DSGVO-konform.',
     images: ['/_A7_9072_quer.jpg'],
   },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'mardu.space',
-  url: 'https://mardu.space',
-  publisher: {
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'mardu.space',
-    url: 'https://mardu.space',
-    logo: 'https://mardu.space/marduspace_logo_bg_white.svg',
+    name: 'Mardu',
+    url: 'https://mardu.de',
+    logo: 'https://mardu.de/logos/Logo.svg',
+    email: 'info@mardu.de',
+    sameAs: ['https://www.linkedin.com/company/marduofficial'],
   },
-};
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Mardu',
+    url: 'https://mardu.de',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Mardu',
+      url: 'https://mardu.de',
+      logo: 'https://mardu.de/logos/Logo.svg',
+    },
+  },
+];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   console.log('runtime', process.versions.bun);
