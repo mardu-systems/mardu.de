@@ -39,9 +39,8 @@ Wichtige Hinweise für LLM-Crawler und Agents:
 
 ## Optional
 
-- [Impressum](https://mardu.de/impressum): Falls vorhanden
-- [Datenschutz](https://mardu.de/datenschutz): Falls vorhanden
-- [AGB / Rechtliches](https://mardu.de/agb): Falls vorhanden
+- [Impressum](https://www.mardu.de/publisher): Falls vorhanden
+- [Datenschutz](https://www.mardu.de/privacy): Falls vorhanden
 `;
 
   return new Response(content, {
