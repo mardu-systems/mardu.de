@@ -1,5 +1,4 @@
-export async function GET() {
-  const content = `# Mardu (mardu.de)
+# Mardu (mardu.de)
 
 > Mardu entwickelt funkbasierte Zutritts- und Zugriffskontrollsysteme (Hard- und Software) für Werkstätten, Labore, Makerspaces und Baustellen. Kernfunktionen: Rechteverwaltung, Maschinenfreigabe/Zutritt, ausfallsichere Vernetzung (Mesh), nachvollziehbare Protokollierung (DSGVO-orientiert) sowie Betrieb lokal vor Ort oder zentral verwaltet.
 
@@ -39,15 +38,5 @@ Wichtige Hinweise für LLM-Crawler und Agents:
 
 ## Optional
 
-- [Impressum](https://www.mardu.de/publisher): Falls vorhanden
-- [Datenschutz](https://www.mardu.de/privacy): Falls vorhanden
-`;
-
-  return new Response(content, {
-    headers: {
-      'content-type': 'text/plain; charset=utf-8',
-      // optional, aber praktisch:
-      'cache-control': 'public, max-age=3600',
-    },
-  });
-}
+- [Impressum](https://www.mardu.de/publisher)
+- [Datenschutz](https://www.mardu.de/privacy)
