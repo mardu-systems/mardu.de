@@ -121,7 +121,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-background text-foreground antialiased overflow-x-hidden">
+      <body className="text-foreground antialiased overflow-x-hidden">
         <SiteShell>{children}</SiteShell>
         <Analytics />
         <SpeedInsights />

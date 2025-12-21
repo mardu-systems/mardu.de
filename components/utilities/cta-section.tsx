@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -15,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { MeetergoCTAButton } from '@/components/utilities/meetergo-cta-button';
+import { useState } from 'react';
 
 export interface CTASectionProps {
   title: string;
@@ -41,7 +41,7 @@ export default function CTASection({
   textColor = 'text-white',
   className = '',
 }: CTASectionProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <section className={cn('w-full py-12 md:py-16 px-4', className)}>

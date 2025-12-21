@@ -33,8 +33,7 @@ declare global {
 }
 
 export interface MeetergoCTAButtonProps
-  extends React.ComponentProps<'button'>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   link?: string;
   prefill?: MeetergoPrefill;
@@ -135,7 +134,10 @@ export function MeetergoCTAButton({
   return (
     <Button
       onClick={handleClick}
-      className={cn(className)}
+      className={cn(
+        'w-full sm:w-auto h-12 px-6 rounded-lg bg-[#F5C842] hover:bg-[#F5D25C] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2 mt-3 sm:mt-0 sm:ml-4',
+        className,
+      )}
       disabled={loading || props.disabled}
       {...props}
     >

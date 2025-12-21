@@ -18,7 +18,7 @@ export default function DesktopNav({ items }: DesktopNavProps) {
   return (
     <div
       className={clsx(
-        'hidden md:flex md:flex-1 md:items-center md:gap-6 md:justify-end ',
+        'relative z-20 pointer-events-auto hidden md:flex md:flex-1 md:items-center md:justify-end md:gap-6',
       )}
     >
       {items.map((entry) => (
@@ -33,7 +33,7 @@ function DesktopNavEntry({ entry }: { entry: NavEntry }) {
   const router = useRouter();
   const pathname = usePathname();
   const baseClasses =
-    'group relative rounded-lg px-3 py-2 text-[0.9rem] text-regular tracking-[0.1em] font-normal focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-white text-neutral-900/80 hover:text-neutral-900 transition-colors';
+    'group relative inline-flex cursor-pointer pointer-events-auto items-center rounded-lg px-3 py-2 text-[0.9rem] font-normal tracking-[0.1em] text-neutral-900/80 transition-colors hover:text-neutral-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-neutral-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
   if (entry.type === 'link') {
     // Prüfe ob es ein Anchor-Link ist (startet mit #)
@@ -48,12 +48,12 @@ function DesktopNavEntry({ entry }: { entry: NavEntry }) {
         scrollToSection(entry.href);
       };
       return (
-        <button onClick={handleClick} className={clsx(baseClasses)}>
+        <button type="button" onClick={handleClick} className={clsx(baseClasses)}>
           {entry.label}
         </button>
       );
     }
-    
+
     return (
       <Link href={entry.href} className={clsx(baseClasses)}>
         {entry.label}
@@ -65,12 +65,12 @@ function DesktopNavEntry({ entry }: { entry: NavEntry }) {
   return (
     <HoverCard openDelay={50} closeDelay={80}>
       <HoverCardTrigger asChild>
-        <button aria-haspopup="menu" className={clsx(baseClasses, 'flex items-center gap-1')}>
+        <button type="button" aria-haspopup="menu" className={clsx(baseClasses, 'flex items-center gap-1')}>
           {entry.label}
           <ChevronDown className="h-3.5 w-3.5 transition group-data-[state=open]:rotate-180" />
         </button>
       </HoverCardTrigger>
-      <HoverCardContent className="w-full border border-border bg-background p-0 text-foreground shadow-2xl backdrop-blur-xl">
+      <HoverCardContent className="w-full pointer-events-auto border border-border bg-background p-0 text-foreground shadow-2xl backdrop-blur-xl">
         <MegaContent group={entry} />
       </HoverCardContent>
     </HoverCard>

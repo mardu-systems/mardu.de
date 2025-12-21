@@ -11,7 +11,7 @@ import { FileSearchCorner, HeartHandshake, Milestone } from 'lucide-react';
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen bg-[#F5F6F7] flex flex-col justify-center md:justify-start">
+    <main className="relative min-h-screen flex flex-col justify-center md:justify-start">
       {/* Hero Header Section */}
       <section id="home">
         <HeroSection
@@ -210,7 +210,6 @@ export default function HomePage() {
           {
             imageSrc: '/people/Erik.webp',
             imageAlt: 'Erik Frey',
-            unoptimized: true,
             title: 'Erik Frey',
             subtitle: '(Co-Founder)',
             linkedinUrl: 'https://www.linkedin.com/in/erik-frey-660236346',
