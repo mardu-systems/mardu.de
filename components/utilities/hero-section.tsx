@@ -65,7 +65,7 @@ export default function HeroSection({
         colors={['#F5C842', '#F786AE', '#351B59']}
         waveWidth={30}
         blur={8}
-        speed="slow"
+        speed="fast"
         waveOpacity={0.1}
         containerClassName="w-full overflow-hidden"
         className="w-full max-w-7xl px-4 md:px-8 mx-auto py-10 lg:py-20"
