@@ -71,19 +71,19 @@ link[type="text/css"] {
 
 :root {
     --background: oklch(0.9797 0.0026 286.3509);
-    --foreground: oklch(0.2182 0.0019 286.2389);
+    --foreground: oklch(0.23 0.06 298);
     --card: oklch(1.0000 0 0);
     --card-foreground: var(--foreground);
     --popover: oklch(1.0000 0 0);
     --popover-foreground: var(--foreground);
-    --primary: oklch(0.2956 0.1079 298.5239);
-    --primary-foreground: oklch(1.0000 0 0);
-    --secondary: oklch(0.9194 0.0097 273.3493);
-    --secondary-foreground: var(--foreground);
-    --muted: oklch(0.9495 0.0055 274.9641);
-    --muted-foreground: oklch(0.4498 0.0101 271.1890);
-    --accent: oklch(0.5734 0.1738 33.3190);
-    --accent-foreground: oklch(1.0000 0 0);
+    --primary: oklch(0.28 0.12 298);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.96 0.01 298);
+    --secondary-foreground: oklch(0.23 0.06 298);
+    --muted: oklch(0.97 0.005 286);
+    --muted-foreground: oklch(0.45 0.03 286);
+    --accent: oklch(0.88 0.16 88);
+    --accent-foreground: oklch(0.16 0.02 88);
     --destructive: oklch(0.5502 0.2200 25.0385);
     --destructive-foreground: oklch(1.0000 0 0);
     --border: oklch(0.9011 0.0098 273.3462);
@@ -320,16 +320,24 @@ select:focus-visible {
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
     --animate-aurora: aurora 60s linear infinite;
-  @keyframes aurora {
-  from {
-    backgroundPosition: 50% 50%, 50% 50%;
-        }
-  to {
-    backgroundPosition: 350% 50%, 350% 50%;
-        }
+    --animate-spin: spin 2s linear infinite;
+}
+
+@keyframes aurora {
+    from {
+        background-position: 50% 50%, 50% 50%;
     }
-  --animate-spin: spin 2s linear infinite
+    to {
+        background-position: 350% 50%, 350% 50%;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @layer base {
