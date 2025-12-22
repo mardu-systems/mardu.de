@@ -1,8 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion, useReducedMotion } from 'framer-motion';
-import type { HTMLAttributes } from 'react';
+import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
 
 const directionOffsets = {
   up: { axis: 'y', sign: 1 },
@@ -13,7 +12,7 @@ const directionOffsets = {
 
 type Direction = keyof typeof directionOffsets;
 
-export type ScrollRevealProps = HTMLAttributes<HTMLDivElement> & {
+export type ScrollRevealProps = HTMLMotionProps<'div'> & {
   delay?: number;
   duration?: number;
   viewportAmount?: number;
@@ -38,9 +37,9 @@ export function ScrollReveal({
 
   if (shouldReduceMotion) {
     return (
-      <div className={cn(className)} {...props}>
+      <motion.div className={cn(className)} {...props}>
         {children}
-      </div>
+      </motion.div>
     );
   }
 
