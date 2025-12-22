@@ -5,6 +5,8 @@ import Image from 'next/image';
 import WavyBackground from '@/components/ui/shadcn-io/wavy-background';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export interface HeroSectionProps {
 
@@ -48,6 +50,7 @@ export default function HeroSection({
   onPlayClick,
 }: HeroSectionProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -67,7 +70,7 @@ export default function HeroSection({
         containerClassName="w-full overflow-hidden"
         className="w-full max-w-7xl px-4 md:px-8 mx-auto py-10 lg:py-20"
       >
-        <div className="flex flex-col items-start gap-6">
+        <ScrollReveal className="flex flex-col items-start gap-6">
           {/* Main Heading */}
           <h1 className="text-[32px] md:text-[40px] lg:text-[50px] font-semibold leading-[1.2] text-[#351B5A] w-full">
             {title}
@@ -79,7 +82,7 @@ export default function HeroSection({
           </div>
 
           {(buttonText || secondaryButtonText) && (
-            <div className="flex flex-wrap gap-4">
+            <ScrollReveal className="flex flex-wrap gap-4" delay={0.1} direction="up">
               {buttonText && (
                 <Link
                   href={buttonHref}
@@ -96,14 +99,22 @@ export default function HeroSection({
                   {secondaryButtonText}
                 </Link>
               )}
-            </div>
+            </ScrollReveal>
           )}
-        </div>
+        </ScrollReveal>
       </WavyBackground>
 
       {/* Image Section (no waves behind it) */}
-      <div className="w-full max-w-7xl px-4 md:px-8 mx-auto mt-3 mb-12">
-        <div className="relative w-full h-125 md:h-162.5 lg:h-160 rounded-[34px] overflow-hidden shadow-lg">
+      <ScrollReveal className="w-full max-w-7xl px-4 md:px-8 mx-auto mt-3 mb-12" direction="up">
+        <motion.div
+          className="relative w-full h-125 md:h-162.5 lg:h-160 rounded-[34px] overflow-hidden shadow-lg"
+          animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
+          transition={
+            shouldReduceMotion
+              ? undefined
+              : { duration: 12, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }
+          }
+        >
           {!isPlaying ? (
             <>
               <Image
@@ -152,8 +163,8 @@ export default function HeroSection({
               />
             )
           )}
-        </div>
-      </div>
+        </motion.div>
+      </ScrollReveal>
     </section>
   );
 }

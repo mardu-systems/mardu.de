@@ -1,8 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export type FeatureSectionProps = {
   title: string | ReactNode;
@@ -30,6 +34,8 @@ export default function FeatureSection({
   buttonHref,
   backgroundColor = '#351B59',
 }: React.ComponentProps<'div'> & FeatureSectionProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section
       className={cn('w-full py-12 md:py-16 lg:py-20 my-10 px-4 md:px-8', className)}
@@ -38,7 +44,7 @@ export default function FeatureSection({
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Text Content */}
-          <div className="space-y-6">
+          <ScrollReveal className="space-y-6" direction="up">
             <h2 className="text-3xl sm:text-4xl md:text-5xl leading-tight">{title}</h2>
 
             <div className="text-base md:text-lg leading-relaxed opacity-95 space-y-4">
@@ -55,11 +61,19 @@ export default function FeatureSection({
                 </Link>
               </div>
             )}
-          </div>
+          </ScrollReveal>
 
           {/* Right Column */}
-          <div className="relative flex items-center justify-center">
-            <div className="md:pl-10 lg:pl-12 md:pt-10 lg:pt-12 w-full max-w-150 rounded-2xl">
+          <ScrollReveal className="relative flex items-center justify-center" delay={0.1} direction="right">
+            <motion.div
+              className="md:pl-10 lg:pl-12 md:pt-10 lg:pt-12 w-full max-w-150 rounded-2xl"
+              animate={shouldReduceMotion ? undefined : { scale: [1, 1.02, 1] }}
+              transition={
+                shouldReduceMotion
+                  ? undefined
+                  : { duration: 10, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }
+              }
+            >
               <Image
                 src={imageSrc}
                 alt={imageAlt}
@@ -68,8 +82,8 @@ export default function FeatureSection({
                 className="w-full h-auto object-contain rounded-2xl"
                 loading="lazy"
               />
-            </div>
-          </div>
+            </motion.div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

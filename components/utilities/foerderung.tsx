@@ -1,6 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { motion } from 'framer-motion';
+import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
 
 export type FoerderItem = {
   href: string;
@@ -26,30 +30,38 @@ export default function Foerderung({
   return (
     <section id="foerderung" className={`w-full pb-18 pt-36 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <header className="text-center mb-10">
+        <ScrollReveal className="text-center mb-10" direction="up">
           <h2 className="text-2xl md:text-4xl">{title}</h2>
-        </header>
-        {description ? <div className="mb-6 text-center">{description}</div> : null}
+        </ScrollReveal>
+        {description ? <ScrollReveal className="mb-6 text-center">{description}</ScrollReveal> : null}
 
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
           {items.map((it, idx) => (
-            <Link
-              key={idx}
-              href={it.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex items-center ${it.className ?? ''}`}
-              aria-label={it.alt}
-            >
-              <Image
-                src={it.src}
-                alt={it.alt}
-                width={it.width ?? 140}
-                height={20}
-                className="object-contain"
-                loading="lazy"
-              />
-            </Link>
+            <ScrollReveal key={idx} delay={idx * 0.05} direction="up">
+              <Link
+                href={it.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center ${it.className ?? ''}`}
+                aria-label={it.alt}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+                  className="rounded-2xl p-2"
+                >
+                  <Image
+                    src={it.src}
+                    alt={it.alt}
+                    width={it.width ?? 140}
+                    height={20}
+                    className="object-contain"
+                    loading="lazy"
+                  />
+                </motion.div>
+              </Link>
+            </ScrollReveal>
           ))}
         </div>
       </div>
