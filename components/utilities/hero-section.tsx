@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import WavyBackground from '@/components/ui/shadcn-io/wavy-background';
+import WavyBackground from '@/components/ui/wavy-background';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';

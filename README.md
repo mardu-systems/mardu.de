@@ -1,3 +1,13 @@
+# Mardu.space
+
+This is the official repository for the Mardu website.
+
+## License
+
+**Copyright © 2026 Mardu. All Rights Reserved.**
+
+This project is not open source. The source code is available for viewing and educational purposes only. You may not use, copy, modify, or distribute the code, assets, or designs without explicit written permission from the copyright holder.
+
 ## Getting Started
 
 First, run the development server:
