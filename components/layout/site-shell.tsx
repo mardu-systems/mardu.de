@@ -9,9 +9,13 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     <div>
       <SiteHeader items={defaultHeaderItems} />
       <div data-theme="light" style={{ colorScheme: 'light' }}>
-            {children}
+        {children}
       </div>
-      <SiteFooter navLinks={defaultFooterNavLinks} metaLinks={defaultFooterMetaLinks} />
+      <SiteFooter
+        description="Verwalte Zutritt und Maschinennutzung – mobil auf der Baustelle oder stationär inder Werkstatt. - Mardu passt sich an deine Bedürfnisse an."
+        navLinks={defaultFooterNavLinks}
+        metaLinks={defaultFooterMetaLinks}
+      />
     </div>
   );
 }
