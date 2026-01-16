@@ -8,7 +8,7 @@ import React from 'react';
 import clsx from 'clsx';
 import MegaContent from './mega-content';
 import { NavEntry } from '@/types/header';
-import { useScrollToSection } from '../../../../mardu.space/hooks/use-scroll-to-section';
+import { useScrollToSection } from '@/hooks/use-scroll-to-section';
 
 interface DesktopNavProps {
   items: NavEntry[];
