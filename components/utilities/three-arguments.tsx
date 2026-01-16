@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
+import { cn } from '@/lib/utils';
 
 export type ArgumentItem = {
   title: string;
@@ -23,7 +24,7 @@ type Props = {
 function HexagonIconWrapper({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
-      className="w-28 h-28 rounded-[18px] bg-white flex items-center justify-center drop-shadow-md"
+      className="w-28 h-28 rounded-[18px] bg-card flex items-center justify-center shadow-md border border-border"
       whileHover={{ rotate: -2 }}
       transition={{ type: 'spring', stiffness: 200, damping: 18 }}
     >
@@ -32,12 +33,16 @@ function HexagonIconWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function ThreeArguments({ title = '3 gute Vorteile', items, className = '' }: Props) {
+export default function ThreeArguments({
+  title = '3 gute Vorteile',
+  items,
+  className = '',
+}: Props) {
   return (
-    <section className={`w-full ${className} bg-[#351B59] text-white py-12 md:py-20`}>
+    <section className={cn('w-full bg-primary text-primary-foreground py-12 md:py-20', className)}>
       <div className="max-w-7xl mx-auto px-1">
         <ScrollReveal className="text-center mb-10" direction="up">
-          <h2 className="text-2xl md:text-4xl">{title}</h2>
+          <h2 className="text-2xl md:text-4xl font-bold">{title}</h2>
         </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -52,20 +57,28 @@ export default function ThreeArguments({ title = '3 gute Vorteile', items, class
                     <HexagonIconWrapper>{it.icon}</HexagonIconWrapper>
                   ) : it.iconSrc ? (
                     <HexagonIconWrapper>
-                      <Image src={it.iconSrc} alt={it.title} width={88} height={88} className="w-16 h-16 object-contain" />
+                      <Image
+                        src={it.iconSrc}
+                        alt={it.title}
+                        width={88}
+                        height={88}
+                        className="w-16 h-16 object-contain"
+                      />
                     </HexagonIconWrapper>
                   ) : (
                     <HexagonIconWrapper>
                       {/* fallback simple dot */}
-                      <div className="w-8 h-8 rounded-full bg-green-300" />
+                      <div className="w-8 h-8 rounded-full bg-accent" />
                     </HexagonIconWrapper>
                   )}
                 </div>
 
-                <h3 className="text-lg md:text-xl mb-3 md:mb-4 text-white">{it.title}</h3>
+                <h3 className="text-lg md:text-xl mb-3 md:mb-4 text-primary-foreground font-semibold">
+                  {it.title}
+                </h3>
 
-                <div className="text-white max-w-[38ch]">
-                  <p>{it.description}</p>
+                <div className="text-primary-foreground/90 max-w-[38ch]">
+                  {typeof it.description === 'string' ? <p>{it.description}</p> : it.description}
                 </div>
               </motion.article>
             </ScrollReveal>

@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
-import { MeetergoCTAButton } from '@/components/utilities/meetergo-cta-button';
+import { MeetergoCTAButton } from './meetergo-cta-button';
 import { useState } from 'react';
 import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -39,7 +39,7 @@ export default function CTASection({
   description,
   primaryButtonText,
   secondaryButtonText,
-  backgroundColor = 'bg-[#351B59]',
+  backgroundColor = 'bg-primary',
   textColor = 'text-white',
   className = '',
 }: CTASectionProps) {
@@ -87,7 +87,9 @@ export default function CTASection({
             <motion.div
               className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"
               animate={
-                shouldReduceMotion ? undefined : { opacity: [0.2, 0.45, 0.2], scale: [0.9, 1.08, 0.95] }
+                shouldReduceMotion
+                  ? undefined
+                  : { opacity: [0.2, 0.45, 0.2], scale: [0.9, 1.08, 0.95] }
               }
               transition={
                 shouldReduceMotion
@@ -98,7 +100,9 @@ export default function CTASection({
             <motion.div
               className="absolute bottom-0 left-0 w-96 h-96 bg-purple-900/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"
               animate={
-                shouldReduceMotion ? undefined : { opacity: [0.15, 0.3, 0.15], scale: [1, 1.12, 0.92] }
+                shouldReduceMotion
+                  ? undefined
+                  : { opacity: [0.15, 0.3, 0.15], scale: [1, 1.12, 0.92] }
               }
               transition={
                 shouldReduceMotion
@@ -108,10 +112,10 @@ export default function CTASection({
             />
 
             {/* Content */}
-            <div className="relative z-10 max-w-4xl">
+            <div className="relative z-10 max-w-4xl text-left">
               <h2
                 className={cn(
-                  'text-[28px] md:text-[36px] lg:text-[42px] font-bold leading-[1.2] mb-6 text-center sm:text-left',
+                  'text-[28px] md:text-[36px] lg:text-[42px] font-bold leading-[1.2] mb-6',
                   textColor,
                 )}
               >
@@ -120,7 +124,7 @@ export default function CTASection({
 
               <p
                 className={cn(
-                  'text-[16px] md:text-[18px] lg:text-[20px] leading-[1.6] mb-8 opacity-95 text-center sm:text-left',
+                  'text-[16px] md:text-[18px] lg:text-[20px] leading-[1.6] mb-8 opacity-95',
                   textColor,
                 )}
               >
@@ -131,11 +135,11 @@ export default function CTASection({
                 {/* Primary Button with Modal */}
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
-                    <Button className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#FFB703] hover:bg-[#FFB703] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2">
+                    <Button className="w-full sm:w-auto h-12 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                       {primaryButtonText}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto bg-white">
+                  <DialogContent className="sm:max-w-150 max-h-[90vh] overflow-y-auto bg-card">
                     <DialogHeader>
                       <DialogTitle>Anmelden</DialogTitle>
                       <DialogDescription>
@@ -193,7 +197,7 @@ export default function CTASection({
                       <div className="space-y-2">
                         <Label
                           htmlFor="email"
-                          className="after:content-['*'] after:ml-0.5 after:text-red-500"
+                          className="after:content-['*'] after:ml-0.5 after:text-destructive"
                         >
                           E-Mail
                         </Label>
@@ -207,19 +211,27 @@ export default function CTASection({
                       </div>
 
                       <div className="flex items-start space-x-3 pt-2">
-                        <Checkbox id="tags" name="tags[]" value="accept" required className="mt-1" />
-                        <Label htmlFor="tags" className="text-xs font-normal leading-relaxed">
+                        <Checkbox
+                          id="tags"
+                          name="tags[]"
+                          value="accept"
+                          required
+                          className="mt-1"
+                        />
+                        <Label
+                          htmlFor="tags"
+                          className="text-xs font-normal leading-relaxed text-muted-foreground"
+                        >
                           Ihre hier eingegebenen Daten werden lediglich zur Personalisierung des
-                          Newsletters verwendet und nicht an Dritte weitergegeben. Durch Absenden der
-                          von Ihnen eingegebenen Daten willigen Sie in die Datenverarbeitung ein und
-                          bestätigen unsere Datenschutzerklärung.
+                          Newsletters verwendet und nicht an Dritte weitergegeben. Durch Absenden
+                          der von Ihnen eingegebenen Daten willigen Sie in die Datenverarbeitung ein
+                          und bestätigen unsere Datenschutzerklärung.
                         </Label>
                       </div>
 
                       <Button
                         type="submit"
-                        variant="ghost"
-                        className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#FFB703] hover:bg-[#FFB703] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2"
+                        className="w-full sm:w-auto h-12 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       >
                         Anmelden
                       </Button>
@@ -228,12 +240,7 @@ export default function CTASection({
                 </Dialog>
 
                 {secondaryButtonText ? (
-                  <MeetergoCTAButton
-                    variant="ghost"
-                    className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#FFB703] hover:bg-[#FFB703] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2 mt-3 sm:mt-0 sm:ml-4"
-                  >
-                    Demo Vereinbaren
-                  </MeetergoCTAButton>
+                  <MeetergoCTAButton className="mt-3 sm:mt-0">Demo Vereinbaren</MeetergoCTAButton>
                 ) : null}
               </div>
             </div>

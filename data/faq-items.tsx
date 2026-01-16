@@ -1,4 +1,4 @@
-import type {FaqItem} from "@/components/utilities/faq";
+import type {FaqItem} from "../../mardu.space/components/utilities/faq";
 
 export const faqItems: FaqItem[] = [
     {

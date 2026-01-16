@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import clipPath from '@/plugin/clip-path';
+import clipPath from './plugin/clip-path';
 
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
