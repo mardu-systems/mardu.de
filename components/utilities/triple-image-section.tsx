@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
+import { cn } from '@/lib/utils';
+import React from 'react';
 
 export interface TripleImageCardProps {
   imageSrc: string;
@@ -24,16 +26,24 @@ export interface TripleImageSectionProps {
 
 export default function TripleImageSection({ cards, className = '' }: TripleImageSectionProps) {
   return (
-    <section className={`flex flex-col items-center px-4 md:px-8 py-12 md:py-24 ${className}`}>
+    <section
+      className={cn(
+        'flex flex-col items-center px-4 md:px-8 py-12 md:py-24 text-foreground',
+        className,
+      )}
+    >
       <div className="w-full max-w-7xl">
         <ScrollReveal className="text-center mb-10">
-          <h2 className="text-2xl md:text-4xl">Unser Team</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-primary">Unser Team</h2>
         </ScrollReveal>
         {/* Grid: 1 column on mobile, 3 columns on desktop */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {cards.map((card, index) => (
             <ScrollReveal key={card.title ?? index} delay={index * 0.1} className="flex flex-col">
-              <motion.article layout className="flex flex-col">
+              <motion.article
+                layout
+                className="flex flex-col"
+              >
                 {/* Image */}
                 <motion.div
                   className="relative w-full aspect-square md:h-[400px] rounded-3xl overflow-hidden mb-6"
@@ -52,17 +62,17 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
                 </motion.div>
 
                 {/* Content */}
-                <div className="flex flex-col gap-3 px-6 pb-6">
+                <div className="flex flex-col gap-3 px-6 pb-8">
                   {/* Title */}
-                  <h3 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] text-[#351B5A]">
+                  <h3 className="text-xl md:text-3xl font-bold text-primary">
                     {card.title}
                   </h3>
-                  <h5 className="text-[15px] md:text-[20px] font-semibold text-[#351B5A]">
+                  <h5 className="text-sm md:text-lg font-semibold text-primary/80">
                     {card.subtitle}
                   </h5>
 
                   {/* Description */}
-                  <div className="text-[16px] md:text-[18px] leading-[1.4] text-[#061C3D] space-y-3">
+                  <div className="text-sm md:text-base text-muted-foreground space-y-3 leading-relaxed">
                     {typeof card.description === 'string' ? (
                       <p>{card.description}</p>
                     ) : (
@@ -79,7 +89,7 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
                             href={card.linkedinUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center h-11 w-11 rounded-lg bg-[#0A66C2] hover:bg-[#004182] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A66C2] focus-visible:ring-offset-2"
+                            className="inline-flex items-center justify-center h-11 w-11 rounded-lg bg-[#0A66C2] hover:bg-[#004182] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A66C2] focus-visible:ring-offset-2 shadow-sm"
                             aria-label={`LinkedIn Profil von ${card.title}`}
                           >
                             <svg
@@ -98,7 +108,7 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                           <Link
                             href={`mailto:${card.email}`}
-                            className="inline-flex items-center justify-center h-11 w-11 rounded-lg bg-[#FFB703] hover:bg-[#e6a600] text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB703] focus-visible:ring-offset-2"
+                            className="inline-flex items-center justify-center h-11 w-11 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 shadow-sm"
                             aria-label={`E-Mail an ${card.title}`}
                           >
                             <svg
