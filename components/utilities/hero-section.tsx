@@ -47,7 +47,7 @@ export default function HeroSection({
     }
   };
   return (
-    <section className={cn('flex flex-col items-center pt-20 bg-background', className)}>
+    <section className={cn('flex flex-col items-center py-20 bg-background', className)}>
       {/* Waves behind the copy */}
       <WavyBackground
         colors={['#F5C842', '#F786AE', '#351B59']} // Keeping brand specific wave colors for now as they might be specific assets
@@ -58,14 +58,14 @@ export default function HeroSection({
         containerClassName="w-full overflow-hidden"
         className="w-full max-w-7xl px-4 md:px-8 mx-auto py-10 lg:py-20"
       >
-        <ScrollReveal className="flex flex-col items-start gap-6">
+        <ScrollReveal className="flex flex-col items-start gap-6 w-full">
           {/* Main Heading */}
-          <h1 className="text-[32px] md:text-[40px] lg:text-[50px] font-semibold leading-[1.2] text-primary w-full">
+          <h1 className="text-4xl md:text-5xl lg:text-5xl font-semibold leading-tight text-primary w-full max-w-4xl text-balance">
             {title}
           </h1>
 
           {/* Description Text */}
-          <div className="text-[16px] md:text-[18px] lg:text-[20px] leading-[1.4] text-foreground w-full">
+          <div className="text-base md:text-lg leading-relaxed text-foreground w-full max-w-3xl">
             {description}
           </div>
 
@@ -74,7 +74,7 @@ export default function HeroSection({
               {buttonText && (
                 <Link
                   href={buttonHref}
-                  className="inline-flex items-center justify-center h-11 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="inline-flex touch-manipulation items-center justify-center h-11 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   {buttonText}
                 </Link>
@@ -82,7 +82,7 @@ export default function HeroSection({
               {secondaryButtonText && secondaryButtonHref && (
                 <Link
                   href={secondaryButtonHref}
-                  className="inline-flex items-center justify-center h-11 px-6 rounded-lg border-2 border-primary hover:bg-primary hover:text-primary-foreground text-primary font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="inline-flex touch-manipulation items-center justify-center h-11 px-6 rounded-lg border-2 border-primary hover:bg-primary hover:text-primary-foreground text-primary font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                   {secondaryButtonText}
                 </Link>
@@ -93,7 +93,7 @@ export default function HeroSection({
       </WavyBackground>
 
       {/* Image Section (no waves behind it) */}
-      <ScrollReveal className="w-full max-w-7xl px-4 md:px-8 mx-auto mt-3 mb-12" direction="up">
+      <ScrollReveal className="w-full max-w-7xl px-4 md:px-8 mx-auto mt-3" direction="up">
         <motion.div
           className="relative w-full h-125 md:h-162.5 lg:h-160 rounded-[34px] overflow-hidden shadow-lg bg-muted"
           animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
@@ -118,8 +118,9 @@ export default function HeroSection({
               {mediaType === 'video' && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button
+                    type="button"
                     onClick={handlePlayClick}
-                    className="flex items-center justify-center w-22 h-22 bg-background rounded-lg shadow-lg hover:scale-110 transition-transform duration-200"
+                    className="flex touch-manipulation items-center justify-center w-22 h-22 bg-background rounded-lg shadow-lg hover:scale-110 transition-transform duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     aria-label="Video abspielen"
                   >
                     <svg
@@ -129,6 +130,8 @@ export default function HeroSection({
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                       className="ml-1 text-primary"
+                      aria-hidden="true"
+                      focusable="false"
                     >
                       <path d="M6 4.5L18 12L6 19.5V4.5Z" fill="currentColor" />
                     </svg>

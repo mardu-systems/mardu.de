@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
 import { cn } from '@/lib/utils';
-import React from 'react';
 
 export interface TripleImageCardProps {
   imageSrc: string;
@@ -28,7 +27,7 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
   return (
     <section
       className={cn(
-        'flex flex-col items-center px-4 md:px-8 py-12 md:py-24 text-foreground',
+        'flex flex-col items-center px-4 md:px-8 py-12 md:py-24 bg-background text-foreground',
         className,
       )}
     >
@@ -42,11 +41,11 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
             <ScrollReveal key={card.title ?? index} delay={index * 0.1} className="flex flex-col">
               <motion.article
                 layout
-                className="flex flex-col"
+                className="flex flex-col h-full bg-card rounded-[24px] overflow-hidden shadow-sm"
               >
                 {/* Image */}
                 <motion.div
-                  className="relative w-full aspect-square md:h-[400px] rounded-3xl overflow-hidden mb-6"
+                  className="relative w-full aspect-square md:h-[400px] overflow-hidden mb-6"
                   transition={{ duration: 0.5, ease: 'easeOut' }}
                 >
                   <Image
@@ -64,15 +63,15 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
                 {/* Content */}
                 <div className="flex flex-col gap-3 px-6 pb-8">
                   {/* Title */}
-                  <h3 className="text-xl md:text-3xl font-bold text-primary">
+                  <h3 className="text-[24px] md:text-[28px] font-bold leading-[1.2] text-primary">
                     {card.title}
                   </h3>
-                  <h5 className="text-sm md:text-lg font-semibold text-primary/80">
+                  <h5 className="text-[15px] md:text-[20px] font-semibold text-primary/80">
                     {card.subtitle}
                   </h5>
 
                   {/* Description */}
-                  <div className="text-sm md:text-base text-muted-foreground space-y-3 leading-relaxed">
+                  <div className="text-[16px] md:text-[18px] leading-[1.4] text-muted-foreground space-y-3">
                     {typeof card.description === 'string' ? (
                       <p>{card.description}</p>
                     ) : (
