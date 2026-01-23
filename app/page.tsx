@@ -159,35 +159,6 @@ export default function HomePage() {
         />
       </section>
 
-      <section id="foerderung">
-        <Foerderung
-          items={[
-            {
-              href: 'https://www.bmwk.de/',
-              src: '/logos/bmwk.svg',
-              alt: 'Bundesministerium für Wirtschaft und Klimaschutz',
-            },
-            {
-              href: 'https://www.esf.de/portal/DE/ESF-Plus-2021-2027/Liste-der-Vorhaben/inhalt.html',
-              src: '/logos/eu_esf.svg',
-              alt: 'Europäische Union – Europäischer Sozialfonds Plus (ESF Plus)',
-            },
-            {
-              href: 'https://www.exist.de/',
-              src: '/logos/exist.svg',
-              alt: 'EXIST – Existenzgründungen aus der Wissenschaft',
-            },
-          ]}
-          description={
-            <>
-              Die Europäische Union fördert zusammen mit dem Bundesministerium für Wirtschaft und
-              Klimaschutz über den Europäischen Sozialfonds Plus (ESF Plus) das Programm{' '}
-              <em>Existenzgründungen aus der Wissenschaft (EXIST)</em> in Deutschland.
-            </>
-          }
-        />
-      </section>
-
       <TripleImageSection
         cards={[
           {
@@ -247,6 +218,35 @@ export default function HomePage() {
           description="Sprechen sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle ein Lösung finden."
           primaryButtonText="Jetzt für unseren Newsletter anmelden"
           secondaryButtonText="Beratung Vereinbaren"
+        />
+      </section>
+
+      <section id="foerderung">
+        <Foerderung
+          items={[
+            {
+              href: 'https://www.bmwk.de/',
+              src: '/logos/bmwk.svg',
+              alt: 'Bundesministerium für Wirtschaft und Klimaschutz',
+            },
+            {
+              href: 'https://www.esf.de/portal/DE/ESF-Plus-2021-2027/Liste-der-Vorhaben/inhalt.html',
+              src: '/logos/eu_esf.svg',
+              alt: 'Europäische Union – Europäischer Sozialfonds Plus (ESF Plus)',
+            },
+            {
+              href: 'https://www.exist.de/',
+              src: '/logos/exist.svg',
+              alt: 'EXIST – Existenzgründungen aus der Wissenschaft',
+            },
+          ]}
+          description={
+            <>
+              Die Europäische Union fördert zusammen mit dem Bundesministerium für Wirtschaft und
+              Klimaschutz über den Europäischen Sozialfonds Plus (ESF Plus) das Programm{' '}
+              <em>Existenzgründungen aus der Wissenschaft (EXIST)</em> in Deutschland.
+            </>
+          }
         />
       </section>
     </main>
