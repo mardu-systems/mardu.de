@@ -159,7 +159,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section id="foerderung">
+      {/*<section id="foerderung">
         <Foerderung
           items={[
             {
@@ -186,7 +186,7 @@ export default function HomePage() {
             </>
           }
         />
-      </section>
+      </section> */}
 
       <TripleImageSection
         cards={[
