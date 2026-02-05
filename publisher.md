@@ -1,6 +1,6 @@
 ## Angaben gemäß § 5 TMG
 
-**Mardu GmbH i. G.**
+**Mardu GmbH**
 
 A1
 Alter Schlachthof 39  
@@ -9,6 +9,8 @@ Deutschland
 
 E-Mail: [info@mardu.de](mailto:info@mardu.de)
 
+Registergericht: Amtsgericht Mannheim (Baden-Württemberg), HRB 757158
+
 Geschäftsführung:  
 Luca Schöneberg, Erik Frey
 
@@ -16,7 +18,7 @@ Luca Schöneberg, Erik Frey
 
 ## Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV / MStV
 
-**Mardu GmbH i. G.**
+**Mardu GmbH**
 
 A1
 Alter Schlachthof 39  

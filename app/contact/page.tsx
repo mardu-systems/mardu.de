@@ -23,7 +23,7 @@ export default function ContactPage() {
               <p>Du hast Fragen oder möchtest uns besuchen? Melde dich gerne bei uns.</p>
               <div className="space-y-1">
                 <p>
-                  <strong>Mardu A1</strong>
+                  <strong>Mardu GmbH</strong>
                   <br />
                   Alter Schlachthof 39
                   <br />
