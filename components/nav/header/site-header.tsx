@@ -39,7 +39,7 @@ export default function SiteHeader({ items }: HeaderProps) {
               >
                 <div className="relative h-12 w-37.5">
                   <Image
-                    src="/marduspace_logo_bg_white.svg"
+                    src="/logos/Logo.svg"
                     alt="Mardu Logo"
                     fill
                     className="object-contain"
