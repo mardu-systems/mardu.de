@@ -12,7 +12,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <SiteFooter
-        description="Verwalte Zutritt und Maschinennutzung – mobil auf der Baustelle oder stationär inder Werkstatt. - Mardu passt sich an deine Bedürfnisse an."
+        description="Verwalte Zutritt und Maschinennutzung – mobil auf der Baustelle oder stationär in der Werkstatt. Mardu passt sich deinen Bedürfnissen an."
         navLinks={defaultFooterNavLinks}
         metaLinks={defaultFooterMetaLinks}
       />
