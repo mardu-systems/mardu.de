@@ -86,21 +86,21 @@ export default function SiteFooter({
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary';
 
   const linkBase =
-    `rounded-sm transition-colors ${focusRing} touch-manipulation ` +
+    `inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm px-2 transition-colors ${focusRing} touch-manipulation ` +
     'text-primary-foreground/80 hover:text-primary-foreground';
 
   return (
     <footer className="w-full bg-primary text-primary-foreground">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-10">
         {/* Top row: gebündelter, weniger Luft, bessere Ausrichtung */}
-        <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center md:gap-8">
           <div className="flex flex-col gap-5">
             <Link
               href="/"
               aria-label="Mardu Home"
               className={focusRing + ' inline-block rounded-sm'}
             >
-              <div className="relative h-12 w-[200px]">
+              <div className="relative h-12 w-50">
                 <Image
                   src="/logos/LogoWeiss.svg"
                   alt="Mardu Logo"
@@ -120,57 +120,12 @@ export default function SiteFooter({
 
           {/* Right cluster: Icons + Back-to-top als kompakter Block */}
           <div className="flex flex-col gap-3 md:items-end">
-            {socialLinks.length ? (
-              <div className="flex items-center justify-start gap-4 md:justify-end">
-                {socialLinks.map((link) => {
-                  const Icon = iconByLabel(link.label);
-                  const external = isExternalHref(link.href);
-
-                  if (external) {
-                    return (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={linkBase}
-                        aria-label={link.label}
-                        onClick={link.onClick}
-                      >
-                        {Icon ? (
-                          <Icon className="h-5 w-5" />
-                        ) : (
-                          <span className="text-sm">{link.label}</span>
-                        )}
-                      </a>
-                    );
-                  }
-
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={linkBase}
-                      aria-label={link.label}
-                      onClick={link.onClick}
-                    >
-                      {Icon ? (
-                        <Icon className="h-5 w-5" />
-                      ) : (
-                        <span className="text-sm">{link.label}</span>
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : null}
-
             <Button
               onClick={scrollToTop}
               variant="ghost"
               className={[
                 // kompakter als vorher (Screenshot: wirkt sehr “luftig”)
-                'h-9 px-3 py-0 inline-flex items-center gap-2',
+                'h-11 px-4 py-0 inline-flex items-center gap-2 touch-manipulation',
                 'text-primary-foreground hover:bg-primary-foreground/10',
                 focusRing,
               ].join(' ')}
@@ -196,7 +151,7 @@ export default function SiteFooter({
             aria-label="Footer Navigation"
             className="mt-8 border-t border-primary-foreground/15 pt-5"
           >
-            <ul className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:justify-start">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -256,14 +211,57 @@ export default function SiteFooter({
             </ul>
           </nav>
         )}
-      </div>
+        <div className="mt-6 flex flex-row flex-wrap items-center justify-between gap-4 sm:mt-8">
+          {socialLinks.length ? (
+            <div className="flex items-center justify-start gap-4">
+              {socialLinks.map((link) => {
+                const Icon = iconByLabel(link.label);
+                const external = isExternalHref(link.href);
 
-      {/* Copyright Bar */}
-      <div className="w-full bg-accent text-accent-foreground/90">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2">
-          <p className="text-center text-xs" suppressHydrationWarning>
-            Copyright © <span suppressHydrationWarning>{year}</span> Mardu. All rights reserved.
-          </p>
+                if (external) {
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkBase}
+                      aria-label={link.label}
+                      onClick={link.onClick}
+                    >
+                      {Icon ? (
+                        <Icon className="h-5 w-5" />
+                      ) : (
+                        <span className="text-sm">{link.label}</span>
+                      )}
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={linkBase}
+                    aria-label={link.label}
+                    onClick={link.onClick}
+                  >
+                    {Icon ? (
+                      <Icon className="h-5 w-5" />
+                    ) : (
+                      <span className="text-sm">{link.label}</span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          ) : null}
+          {/* Copyright Bar */}
+          <div className="text-right">
+            <p className="text-xs whitespace-nowrap" suppressHydrationWarning>
+              Copyright © <span suppressHydrationWarning>{year}</span> Mardu.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
