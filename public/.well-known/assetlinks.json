@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mardu.connect",
+      "sha256_cert_fingerprints": [
+        "19:C5:30:10:36:E3:A1:E1:80:DB:41:D2:1E:8B:CF:24:AC:D5:1E:9A:2E:CA:5C:4C:C7:24:52:A6:D0:CA:40:EC"
+      ]
+    }
+  }
+]
