@@ -4,6 +4,17 @@ import React from 'react';
 import SiteShell from '@/components/layout/site-shell';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import localFont from 'next/font/local';
+
+const geist = localFont({
+  src: [
+    { path: '../public/fonts/Inter-Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/Inter-Medium.woff2', weight: '500', style: 'normal' },
+    { path: '../public/fonts/Inter-Bold.woff2', weight: '700', style: 'normal' },
+    { path: '../public/fonts/Inter-ExtraBold.woff2', weight: '800', style: 'normal' },
+  ],
+  variable: '--font-geist-sans',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -120,7 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="text-foreground antialiased overflow-x-hidden">
+      <body className={`${geist.variable} bg-background text-foreground overflow-x-hidden`}>
         <SiteShell>{children}</SiteShell>
         <Analytics />
         <SpeedInsights />

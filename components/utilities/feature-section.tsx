@@ -1,28 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import * as React from 'react';
-import { ReactNode } from 'react';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
-import { motion, useReducedMotion } from 'framer-motion';
-import { MeetergoCTAButton } from './meetergo-cta-button';
 
 export type FeatureSectionProps = {
   title: string | ReactNode;
-
   description: string | ReactNode;
-
   imageSrc: string;
-
   imageAlt: string;
-
   buttonText?: string;
-
   buttonHref?: string;
-
   backgroundColor?: string;
-
   className?: string;
 };
 
@@ -35,59 +25,40 @@ export default function FeatureSection({
   buttonText,
   buttonHref,
   backgroundColor,
-}: React.ComponentProps<'div'> & FeatureSectionProps) {
-  const shouldReduceMotion = useReducedMotion();
-
+}: React.ComponentProps<'section'> & FeatureSectionProps) {
   return (
     <section
-      className={cn(
-        'w-full py-12 md:py-16 lg:py-20 my-10 px-4 md:px-8 bg-primary text-primary-foreground',
-        className,
-      )}
+      className={cn('section-hairline relative overflow-hidden py-18 md:py-24', className)}
       style={backgroundColor ? { backgroundColor } : undefined}
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left Column - Text Content */}
-          <ScrollReveal className="space-y-6" direction="up">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl leading-tight font-bold">{title}</h2>
+      <div className="mardu-container relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="space-y-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-foreground/50">Die Mardu-Lösung</p>
+          <h2 className="headline-balance text-[clamp(1.95rem,4vw,3.25rem)] leading-[1.04] tracking-[-0.02em]">
+            {title}
+          </h2>
+          <div className="max-w-2xl space-y-4 text-[15px] leading-relaxed text-foreground/76 md:text-base">
+            {typeof description === 'string' ? <p>{description}</p> : description}
+          </div>
+          {buttonText && buttonHref ? (
+            <Link href={buttonHref} className="mardu-cta rounded-none border-black/15">
+              {buttonText}
+            </Link>
+          ) : null}
+        </div>
 
-            <div className="text-base md:text-lg leading-relaxed opacity-95 space-y-4">
-              {typeof description === 'string' ? <p>{description}</p> : description}
-            </div>
-
-            {buttonText && buttonHref && (
-              <div className="pt-4">
-                <MeetergoCTAButton>Jetzt Newsletter abonnieren</MeetergoCTAButton>
-              </div>
-            )}
-          </ScrollReveal>
-
-          {/* Right Column */}
-          <ScrollReveal
-            className="relative flex items-center justify-center"
-            delay={0.1}
-            direction="right"
-          >
-            <motion.div
-              className="md:pl-10 lg:pl-12 md:pt-10 lg:pt-12 w-full max-w-150 rounded-2xl"
-              animate={shouldReduceMotion ? undefined : { scale: [1, 1.02, 1] }}
-              transition={
-                shouldReduceMotion
-                  ? undefined
-                  : { duration: 10, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }
-              }
-            >
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                width={1200}
-                height={500}
-                className="w-full h-auto object-contain rounded-2xl"
-                loading="lazy"
-              />
-            </motion.div>
-          </ScrollReveal>
+        <div className="relative border border-black/10 bg-white/55 p-4 md:p-6">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.05)_1px,transparent_1px)] bg-[size:26px_26px]" />
+          <div className="relative overflow-hidden border border-black/15 bg-white/70">
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              width={1200}
+              height={800}
+              className="h-auto w-full object-cover"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </section>

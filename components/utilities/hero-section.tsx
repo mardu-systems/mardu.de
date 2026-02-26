@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import WavyBackground from '@/components/ui/wavy-background';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
-import { motion, useReducedMotion } from 'framer-motion';
+import { HeroHeadline, Overline } from '@/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, Orbit, ShieldCheck, Radio } from 'lucide-react';
 
 export interface HeroSectionProps {
   title: string;
@@ -37,122 +35,75 @@ export default function HeroSection({
   videoUrl,
   onPlayClick,
 }: HeroSectionProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
+  void title;
+  void imageSrc;
+  void imageAlt;
+  void mediaType;
+  void videoUrl;
+  void onPlayClick;
 
-  const handlePlayClick = () => {
-    setIsPlaying(true);
-    if (onPlayClick) {
-      onPlayClick();
-    }
-  };
   return (
-    <section className={cn('flex flex-col items-center py-20 bg-background', className)}>
-      {/* Waves behind the copy */}
-      <WavyBackground
-        colors={['#F5C842', '#F786AE', '#351B59']} // Keeping brand specific wave colors for now as they might be specific assets
-        waveWidth={30}
-        blur={8}
-        speed="fast"
-        waveOpacity={0.1}
-        containerClassName="w-full overflow-hidden"
-        className="w-full max-w-7xl px-4 md:px-8 mx-auto py-10 lg:py-20"
-      >
-        <ScrollReveal className="flex flex-col items-start gap-6 w-full">
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-5xl lg:text-5xl font-semibold leading-tight text-primary w-full max-w-4xl text-balance">
-            {title}
-          </h1>
+    <section className={cn('relative overflow-hidden border-b border-black/8 pt-32 pb-20 md:pt-40 md:pb-28', className)}>
+      <div className="mardu-container relative grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="space-y-7">
+          <Overline>Engineering Access Platform</Overline>
+          <HeroHeadline prefix="Zutrittskontrolle, die" emphasis="mitdenkt." />
+          <p className="max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">{description}</p>
+          <div className="flex flex-wrap gap-3 pt-1">
+            {buttonText ? (
+              <Link href={buttonHref}>
+                <Button className="mardu-cta rounded-none border-black/15">
+                  {buttonText}
+                  <ArrowRight className="size-4" />
+                </Button>
+              </Link>
+            ) : null}
+            {secondaryButtonText && secondaryButtonHref ? (
+              <Link href={secondaryButtonHref}>
+                <Button variant="outline" className="mardu-ghost rounded-none">
+                  {secondaryButtonText}
+                </Button>
+              </Link>
+            ) : null}
+          </div>
+        </div>
 
-          {/* Description Text */}
-          <div className="text-base md:text-lg leading-relaxed text-foreground w-full max-w-3xl">
-            {description}
+        <div className="relative border border-black/10 bg-white/45 p-5 backdrop-blur-[1px] md:p-8">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.07)_1px,transparent_1px)] bg-size-[22px_22px]" />
+          <div className="relative aspect-5/4 overflow-hidden border border-black/15 bg-linear-to-br from-white to-[#f0eee7]">
+            <div className="absolute left-7 top-7 flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-foreground/45">
+              <Orbit className="size-3.5" /> Mesh Topology
+            </div>
+            <svg viewBox="0 0 400 280" className="absolute inset-0 size-full">
+              <g fill="none" stroke="rgba(15,23,42,0.22)" strokeWidth="1">
+                <path d="M48 220 L120 140 L210 175 L318 95" />
+                <path d="M120 140 L200 86 L298 130" />
+                <path d="M200 86 L258 50" />
+              </g>
+              <g fill="rgba(255,90,31,0.88)" stroke="rgba(15,23,42,0.38)" strokeWidth="0.5">
+                <circle cx="48" cy="220" r="5" />
+                <circle cx="120" cy="140" r="5" />
+                <circle cx="210" cy="175" r="5" />
+                <circle cx="318" cy="95" r="5" />
+                <circle cx="200" cy="86" r="5" />
+                <circle cx="258" cy="50" r="5" />
+              </g>
+            </svg>
           </div>
 
-          {(buttonText || secondaryButtonText) && (
-            <ScrollReveal className="flex flex-wrap gap-4" delay={0.1} direction="up">
-              {buttonText && (
-                <Link
-                  href={buttonHref}
-                  className="inline-flex touch-manipulation items-center justify-center h-11 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
-                  {buttonText}
-                </Link>
-              )}
-              {secondaryButtonText && secondaryButtonHref && (
-                <Link
-                  href={secondaryButtonHref}
-                  className="inline-flex touch-manipulation items-center justify-center h-11 px-6 rounded-lg border-2 border-primary hover:bg-primary hover:text-primary-foreground text-primary font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
-                  {secondaryButtonText}
-                </Link>
-              )}
-            </ScrollReveal>
-          )}
-        </ScrollReveal>
-      </WavyBackground>
-
-      {/* Image Section (no waves behind it) */}
-      <ScrollReveal className="w-full max-w-7xl px-4 md:px-8 mx-auto mt-3" direction="up">
-        <motion.div
-          className="relative w-full h-125 md:h-162.5 lg:h-160 rounded-[34px] overflow-hidden shadow-lg bg-muted"
-          animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
-          transition={
-            shouldReduceMotion
-              ? undefined
-              : { duration: 12, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }
-          }
-        >
-          {!isPlaying ? (
-            <>
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 1280px"
-                className="object-cover"
-              />
-
-              {/* Play Button Overlay - nur bei Video */}
-              {mediaType === 'video' && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button
-                    type="button"
-                    onClick={handlePlayClick}
-                    className="flex touch-manipulation items-center justify-center w-22 h-22 bg-background rounded-lg shadow-lg hover:scale-110 transition-transform duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    aria-label="Video abspielen"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-1 text-primary"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M6 4.5L18 12L6 19.5V4.5Z" fill="currentColor" />
-                    </svg>
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            // Video-Player
-            videoUrl && (
-              <iframe
-                src={videoUrl}
-                className="absolute inset-0 w-full h-full"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-                title={imageAlt}
-              />
-            )
-          )}
-        </motion.div>
-      </ScrollReveal>
+          <div className="relative mt-5 grid gap-3 text-xs uppercase tracking-[0.13em] text-foreground/60 md:grid-cols-3">
+            <p className="inline-flex items-center gap-2 border border-black/10 px-3 py-2">
+              <Radio className="size-3.5" /> Dual-Band Mesh
+            </p>
+            <p className="inline-flex items-center gap-2 border border-black/10 px-3 py-2">
+              <ShieldCheck className="size-3.5" /> Rechte + Audit Trail
+            </p>
+            <p className="inline-flex items-center gap-2 border border-black/10 px-3 py-2">
+              <Orbit className="size-3.5" /> Remote + Lokal
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
