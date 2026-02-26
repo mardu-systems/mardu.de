@@ -60,13 +60,13 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
               </div>
 
               {(card.linkedinUrl || card.email) && (
-                <div className="mt-5 flex gap-2 border-t border-black/10 pt-4">
+                <div className="relative z-20 mt-5 flex gap-2 border-t border-black/10 pt-4">
                   {card.linkedinUrl ? (
                     <Link
                       href={card.linkedinUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mardu-ghost h-10 w-10 rounded-none border-black/15 p-0"
+                      className="mardu-ghost pointer-events-auto h-10 w-10 rounded-none border-black/15 p-0"
                       aria-label={`LinkedIn Profil von ${card.title}`}
                     >
                       <Linkedin className="size-4" />
@@ -75,7 +75,7 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
                   {card.email ? (
                     <Link
                       href={`mailto:${card.email}`}
-                      className="mardu-cta h-10 w-10 rounded-none border-black/15 p-0"
+                      className="mardu-cta pointer-events-auto h-10 w-10 rounded-none border-black/15 p-0"
                       aria-label={`E-Mail an ${card.title}`}
                     >
                       <Mail className="size-4" />

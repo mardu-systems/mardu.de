@@ -104,6 +104,7 @@ export default function CTASection({
             className="object-cover"
             aria-hidden="true"
           />
+          <div className="absolute inset-0 bg-[linear-gradient(95deg,rgba(9,12,24,0.11)_0%,rgba(12,15,26,0.38)_40%,rgba(12,15,26,0.12)_100%)]" />
           <div className="absolute inset-y-0 right-[8%] w-[22%] bg-[repeating-linear-gradient(to_right,rgba(255,255,255,0.08)_0,rgba(255,255,255,0.08)_1px,transparent_1px,transparent_12px)] opacity-35" />
 
           <div className="relative max-w-4xl">
