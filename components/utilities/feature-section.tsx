@@ -34,9 +34,11 @@ export default function FeatureSection({
       <div className="mardu-container relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <p className="text-xs uppercase tracking-[0.18em] text-foreground/50">Die Mardu-Lösung</p>
-          <h2 className="headline-balance text-[clamp(1.95rem,4vw,3.25rem)] leading-[1.04] tracking-[-0.02em]">
-            {title}
-          </h2>
+          <div className="relative isolate inline-block">
+            <h2 className="headline-balance relative z-10 text-[clamp(1.95rem,4vw,3.25rem)] leading-[1.04] tracking-[-0.02em]">
+              {title}
+            </h2>
+          </div>
           <div className="max-w-2xl space-y-4 text-[15px] leading-relaxed text-foreground/76 md:text-base">
             {typeof description === 'string' ? <p>{description}</p> : description}
           </div>
