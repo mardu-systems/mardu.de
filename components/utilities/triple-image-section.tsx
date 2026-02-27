@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Linkedin, Mail } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export interface TripleImageCardProps {
   imageSrc: string;
@@ -40,15 +41,16 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
               key={card.title ?? index}
               className="group border border-black/10 bg-white/55 p-4 transition-colors hover:bg-white/75"
             >
-              <div className="relative mb-5 aspect-[4/5] overflow-hidden border border-black/10">
+              <div className="relative mb-5 aspect-4/5 overflow-hidden border border-black/10">
                 <Image
                   src={card.imageSrc}
                   alt={card.imageAlt}
                   fill
                   priority={index === 0}
                   unoptimized={card.unoptimized}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  quality={90}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 34vw, 420px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.01]"
                   style={card.objectPosition ? { objectPosition: card.objectPosition } : undefined}
                 />
               </div>
@@ -62,24 +64,28 @@ export default function TripleImageSection({ cards, className = '' }: TripleImag
               {(card.linkedinUrl || card.email) && (
                 <div className="relative z-20 mt-5 flex gap-2 border-t border-black/10 pt-4">
                   {card.linkedinUrl ? (
-                    <Link
-                      href={card.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mardu-ghost pointer-events-auto h-10 w-10 rounded-none border-black/15 p-0"
-                      aria-label={`LinkedIn Profil von ${card.title}`}
-                    >
-                      <Linkedin className="size-4" />
-                    </Link>
+                    <Button asChild variant="outline" size="icon" className="rounded-none">
+                      <Link
+                        href={card.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pointer-events-auto"
+                        aria-label={`LinkedIn Profil von ${card.title}`}
+                      >
+                        <Linkedin className="size-4" />
+                      </Link>
+                    </Button>
                   ) : null}
                   {card.email ? (
-                    <Link
-                      href={`mailto:${card.email}`}
-                      className="mardu-cta pointer-events-auto h-10 w-10 rounded-none border-black/15 p-0"
-                      aria-label={`E-Mail an ${card.title}`}
-                    >
-                      <Mail className="size-4" />
-                    </Link>
+                    <Button asChild size="icon" className="rounded-none">
+                      <Link
+                        href={`mailto:${card.email}`}
+                        className="pointer-events-auto"
+                        aria-label={`E-Mail an ${card.title}`}
+                      >
+                        <Mail className="size-4" />
+                      </Link>
+                    </Button>
                   ) : null}
                 </div>
               )}

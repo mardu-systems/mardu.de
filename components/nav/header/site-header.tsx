@@ -116,7 +116,7 @@ export default function SiteHeader({ items }: HeaderProps) {
             {navItems.map((item) => (
               <NavLink key={item.label} href={item.href} label={item.label} />
             ))}
-            <Button className="mardu-cta rounded-none border-black/15">Demo vereinbaren</Button>
+            <Button size="mardu">Demo vereinbaren</Button>
           </div>
 
           <Button
@@ -144,7 +144,7 @@ export default function SiteHeader({ items }: HeaderProps) {
                   onNavigate={() => setMobileOpen(false)}
                 />
               ))}
-              <Button className="mardu-cta mt-2 rounded-none border-black/15">
+              <Button size="mardu" className="mt-2">
                 Demo vereinbaren
               </Button>
             </div>

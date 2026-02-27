@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 export type FeatureSectionProps = {
   title: string | ReactNode;
@@ -43,9 +44,9 @@ export default function FeatureSection({
             {typeof description === 'string' ? <p>{description}</p> : description}
           </div>
           {buttonText && buttonHref ? (
-            <Link href={buttonHref} className="mardu-cta rounded-none border-black/15">
-              {buttonText}
-            </Link>
+            <Button asChild size="mardu">
+              <Link href={buttonHref}>{buttonText}</Link>
+            </Button>
           ) : null}
         </div>
 

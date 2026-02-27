@@ -46,6 +46,7 @@ export function MeetergoCTAButton({
   onClick,
   link = 'https://cal.meetergo.com/infomardu/30-min-meeting-or-info',
   prefill,
+  size = 'mardu',
   ...props
 }: MeetergoCTAButtonProps) {
   const SRC = 'https://liv-showcase.s3.eu-central-1.amazonaws.com/browser-v3.js';
@@ -136,9 +137,10 @@ export function MeetergoCTAButton({
     <Button
       onClick={handleClick}
       className={cn(
-        'w-full sm:w-auto h-12 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-3 sm:mt-0 sm:ml-4',
+        'mt-3 w-full sm:ml-4 sm:mt-0 sm:w-auto',
         className,
       )}
+      size={size}
       disabled={loading || props.disabled}
       aria-busy={loading}
       {...props}

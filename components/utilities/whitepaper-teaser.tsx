@@ -141,10 +141,7 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
                     }}
                   >
                     <DialogTrigger asChild>
-                      <Button
-                        size="lg"
-                        className="h-14 px-8 text-base bg-accent hover:bg-accent/90 text-accent-foreground border-none"
-                      >
+                      <Button size="mardu">
                         Jetzt kostenlos anfordern
                         <ArrowRight className="ml-2 w-5 h-5" />
                       </Button>
@@ -256,7 +253,8 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
 
                           <Button
                             type="submit"
-                            className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground"
+                            size="mardu"
+                            className="w-full"
                             disabled={loading}
                             aria-busy={loading}
                           >

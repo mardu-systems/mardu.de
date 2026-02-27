@@ -47,6 +47,7 @@
   /* Brand extras */
   --paper: #f9f8f4;
   --mardu-orange: #ff5a1f;
+  --mardu-orange-hover: #f14612;
   --line-soft: rgb(16 24 40 / 8%);
 }
 
@@ -138,9 +139,6 @@
     position: relative;
     isolation: isolate;
     background-color: var(--paper);
-    background-image:
-      radial-gradient(40% 36% at 16% 6%, rgb(255 154 113 / 8%), transparent 62%),
-      radial-gradient(36% 30% at 86% 16%, rgb(126 112 255 / 7%), transparent 68%);
     text-rendering: geometricPrecision;
   }
 
@@ -157,28 +155,14 @@
 
 @layer components {
   .mardu-container {
-    @apply mx-auto w-full max-w-[92rem] px-4 md:px-8;
+    @apply mx-auto w-full max-w-368 px-4 md:px-8;
   }
 
   .section-hairline {
     border-top: 1px solid var(--line-soft);
   }
 
-  .mardu-cta {
-    @apply inline-flex h-11 touch-manipulation items-center justify-center rounded-none border border-black/10 px-5 text-sm tracking-[0.08em] uppercase transition-colors;
-    background: var(--mardu-orange);
-    color: #0f172a;
-  }
-
-  .mardu-cta:hover {
-    background: color-mix(in oklab, var(--mardu-orange) 88%, black);
-    color: #fff8f1;
-  }
-
-  .mardu-ghost {
-    @apply inline-flex h-11 touch-manipulation items-center justify-center rounded-none border border-black/10 px-5 text-sm tracking-[0.08em] uppercase transition-colors;
-    @apply text-foreground hover:bg-black/5;
-  }
+  /* Buttons are now standardized via components/ui/button variants and sizes. */
 }
 
 @layer utilities {

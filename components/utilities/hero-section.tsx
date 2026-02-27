@@ -69,11 +69,11 @@ export default function HeroSection({
   return (
     <section
       className={cn(
-        'relative min-h-screen overflow-hidden border-b border-black/8 pt-32 pb-20 md:pt-40 md:pb-28',
+        'relative flex min-h-screen items-center overflow-hidden border-b border-black/8 py-20 md:py-24',
         className,
       )}
     >
-      <div className="mardu-container relative grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="mardu-container relative grid w-full gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div className="space-y-7">
           <Overline>Engineering Access Platform</Overline>
           <div className="relative isolate inline-block">
@@ -90,7 +90,7 @@ export default function HeroSection({
           <div className="flex flex-wrap gap-3 pt-1">
             {buttonText ? (
               <Link href={buttonHref}>
-                <Button className="mardu-cta rounded-none border-black/15">
+                <Button size="mardu">
                   {buttonText}
                   <ArrowRight className="size-4" />
                 </Button>
@@ -98,7 +98,7 @@ export default function HeroSection({
             ) : null}
             {secondaryButtonText && secondaryButtonHref ? (
               <Link href={secondaryButtonHref}>
-                <Button variant="outline" className="mardu-ghost rounded-none">
+                <Button variant="outline" size="mardu">
                   {secondaryButtonText}
                 </Button>
               </Link>
@@ -106,8 +106,8 @@ export default function HeroSection({
           </div>
         </div>
 
-        <div className="relative overflow-hidden">
-          <div className="relative grid gap-4 md:min-h-152">
+        <div className="relative overflow-visible">
+          <div className="relative grid gap-4 md:min-h-152 md:pb-4">
             <Link
               href="#produkte"
               onClick={scrollToProducts}

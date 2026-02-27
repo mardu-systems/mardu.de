@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { removeSubscriber, verifyToken } from '@/lib/newsletter';
+import { sendNewsletterEventToTwenty } from '@/lib/integrations/twenty';
 import { renderEmailLayout, sendEmail } from '@/lib/email';
+import type { NewsletterCrmEventDto } from '@/types/api/newsletter-crm';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -14,7 +16,20 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 400 });
   }
 
-  await removeSubscriber(data.email);
+  const removed = await removeSubscriber(data.email);
+  const role = removed?.role ?? data.role;
+  const source = role === 'whitepaper' ? 'whitepaper' : 'newsletter';
+  const crmPayload: NewsletterCrmEventDto = {
+    type: 'newsletter_unsubscribed',
+    email: data.email,
+    role,
+    source,
+    occurredAt: new Date().toISOString(),
+    consentModel: 'double-opt-in',
+  };
+  void sendNewsletterEventToTwenty(crmPayload).catch((err) => {
+    console.error('Failed to sync unsubscribe to Twenty', err);
+  });
 
   try {
     await sendEmail({

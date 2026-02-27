@@ -50,14 +50,17 @@ export async function saveSubscriber(sub: { email: string; role: string }) {
     }
 }
 
-export async function removeSubscriber(email: string) {
+export async function removeSubscriber(email: string): Promise<{ email: string; role: string } | null> {
     try {
         const data = await fs.readFile(SUBSCRIBERS_FILE, "utf8");
         const subs: { email: string; role: string }[] = JSON.parse(data);
+        const removed = subs.find((s) => s.email === email) ?? null;
         const filtered = subs.filter((s) => s.email !== email);
         await fs.mkdir(path.dirname(SUBSCRIBERS_FILE), {recursive: true});
         await fs.writeFile(SUBSCRIBERS_FILE, JSON.stringify(filtered, null, 2));
+        return removed;
     } catch (err) {
         console.error("Failed to remove subscriber", err);
+        return null;
     }
 }

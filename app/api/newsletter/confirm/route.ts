@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createToken, saveSubscriber, verifyToken } from '@/lib/newsletter';
+import { sendNewsletterEventToTwenty } from '@/lib/integrations/twenty';
 import { renderEmailLayout, sendEmail } from '@/lib/email';
+import type { NewsletterCrmEventDto } from '@/types/api/newsletter-crm';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -15,6 +17,18 @@ export async function GET(req: Request) {
   }
 
   await saveSubscriber(data);
+  const source = data.role === 'whitepaper' ? 'whitepaper' : 'newsletter';
+  const crmPayload: NewsletterCrmEventDto = {
+    type: 'newsletter_confirmed',
+    email: data.email,
+    role: data.role,
+    source,
+    occurredAt: new Date().toISOString(),
+    consentModel: 'double-opt-in',
+  };
+  void sendNewsletterEventToTwenty(crmPayload).catch((err) => {
+    console.error('Failed to sync subscriber to Twenty', err);
+  });
 
   try {
     const origin = process.env.APP_URL ?? req.headers.get('origin') ?? '';

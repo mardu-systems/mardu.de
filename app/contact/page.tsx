@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="pt-[calc(var(--app-header-height,64px)+env(safe-area-inset-top))] min-h-screen">
-      <section className="max-w-7xl mx-auto px-4 py-10">
-        <header className="pt-8 pb-6">
+      <section className="max-w-7xl mx-auto px-4 py-10 w-full my-auto">
+        <header className="pt-8 pb-6 text-center">
           <h1 className="text-3xl font-bold">Kontakt</h1>
           <p className="text-base text-muted-foreground mt-2">
             Melde dich bei uns – wir antworten so schnell wie möglich.
@@ -43,20 +43,22 @@ export default function ContactPage() {
                 <h2 className="text-lg font-semibold">Anfahrt</h2>
                 <p>
                   Unser Büro befindet sich im Kreativpark Alter Schlachthof in Karlsruhe. Die
-                  Straßenbahnhaltestellen Tullastraße sowie Gottesauer Platz/BGV (Linien 1 und 2) liegen
-                  nur wenige Minuten zu Fuß entfernt.
+                  Straßenbahnhaltestellen Tullastraße sowie Gottesauer Platz/BGV (Linien 1 und 2)
+                  liegen nur wenige Minuten zu Fuß entfernt.
                 </p>
                 <p>
-                  Mit dem Auto erreichst du uns über die Durlacher Allee. Folge der Beschilderung zum
-                  Alten Schlachthof und nutze die Parkplätze auf dem Gelände.
+                  Mit dem Auto erreichst du uns über die Durlacher Allee. Folge der Beschilderung
+                  zum Alten Schlachthof und nutze die Parkplätze auf dem Gelände.
                 </p>
               </div>
               <div className="space-y-2">
                 <h2 className="text-lg font-semibold">Schreib uns</h2>
-                <p>Gib uns einfach deine Kontaktdaten und eine kurze Beschreibung deines Vorhabens — das Formular steht auf der rechten Seite bereit.</p>
+                <p>
+                  Gib uns einfach deine Kontaktdaten und eine kurze Beschreibung deines Vorhabens.
+                </p>
               </div>
             </div>
-            <div>
+            <div className="mx-auto w-full max-w-2xl">
               <ContactForm />
             </div>
           </div>

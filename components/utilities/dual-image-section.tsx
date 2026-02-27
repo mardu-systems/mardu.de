@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 export interface ImageCardProps {
   imageSrc: string;
@@ -44,9 +45,9 @@ export default function DualImageSection({ cards, className = '' }: DualImageSec
                   {typeof card.description === 'string' ? <p>{card.description}</p> : card.description}
                 </div>
                 {card.buttonText && card.buttonHref ? (
-                  <Link href={card.buttonHref} className="mardu-ghost rounded-none border-black/15">
-                    {card.buttonText}
-                  </Link>
+                  <Button asChild variant="outline" size="mardu">
+                    <Link href={card.buttonHref}>{card.buttonText}</Link>
+                  </Button>
                 ) : null}
               </div>
             </article>
