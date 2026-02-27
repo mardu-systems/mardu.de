@@ -19,39 +19,96 @@ export interface HeaderProps {
   salesPhone?: string;
 }
 
-export default function SiteHeader({ items }: HeaderProps) {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [scrolledPastHero, setScrolledPastHero] = React.useState(false);
+function useScrolledPast(px: number) {
+  const [past, setPast] = React.useState(false);
 
   React.useEffect(() => {
-    const onScroll = () => {
-      setScrolledPastHero(window.scrollY > window.innerHeight);
+    let raf = 0;
+
+    const update = () => {
+      raf = 0;
+      setPast(window.scrollY >= px);
     };
-    onScroll();
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(update);
+    };
+
+    // initial
+    update();
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      if (raf) window.cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [px]);
+
+  return past;
+}
+
+export default function SiteHeader({ items }: HeaderProps) {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const headerRef = React.useRef<HTMLElement | null>(null);
+  const [headerHeight, setHeaderHeight] = React.useState(72); // fallback, ca. h-18
+
+  React.useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const measure = () => setHeaderHeight(el.getBoundingClientRect().height);
+
+    measure();
+
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(el);
+
+    return () => ro.disconnect();
   }, []);
 
-  const navItems = items.filter((item): item is Extract<NavEntry, { type: 'link' }> => item.type === 'link');
+  const scrolledPastHeader = useScrolledPast(headerHeight);
+
+  const navItems = items.filter(
+    (item): item is Extract<NavEntry, { type: 'link' }> => item.type === 'link',
+  );
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header
+      ref={headerRef}
+      className="fixed inset-x-0 top-0 z-50"
+      style={
+        {
+          '--site-header-h': `${headerHeight}px`,
+        } as React.CSSProperties
+      }
+    >
       <div
         className={[
-          'transition-[background-color,border-color] duration-150',
-          scrolledPastHero
-            ? 'border-b border-black/8 bg-[var(--paper)]'
+          'transition-[background-color,border-color,backdrop-filter] duration-150',
+          scrolledPastHeader
+            ? 'border-b border-black/8 bg-(--paper) backdrop-blur supports-backdrop-filter:bg-(--paper)/90'
             : 'border-b border-transparent bg-transparent',
         ].join(' ')}
       >
-        <nav className="mardu-container flex h-18 items-center justify-between gap-4" aria-label="Hauptnavigation">
+        <nav
+          className="mardu-container flex h-18 items-center justify-between gap-4"
+          aria-label="Hauptnavigation"
+        >
           <Link
             href="/"
             aria-label="Mardu Home"
             className="block touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="relative h-11 w-35">
-              <Image src="/logos/Logo.svg" alt="Mardu Logo" fill className="object-contain" priority />
+              <Image
+                src="/logos/Logo.svg"
+                alt="Mardu Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
           </Link>
 
@@ -67,14 +124,16 @@ export default function SiteHeader({ items }: HeaderProps) {
             size="icon"
             className="md:hidden"
             onClick={() => setMobileOpen((value) => !value)}
-            aria-label="Menü öffnen"
+            aria-label={mobileOpen ? 'Menü schließen' : 'Menü öffnen'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
           >
             {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </Button>
         </nav>
 
         {mobileOpen ? (
-          <div className="border-t border-black/8 bg-background/95 md:hidden">
+          <div id="mobile-nav" className="border-t border-black/8 bg-background/95 md:hidden">
             <div className="mardu-container flex flex-col gap-5 py-5">
               {navItems.map((item) => (
                 <NavLink
@@ -85,7 +144,9 @@ export default function SiteHeader({ items }: HeaderProps) {
                   onNavigate={() => setMobileOpen(false)}
                 />
               ))}
-              <Button className="mardu-cta mt-2 rounded-none border-black/15">Demo vereinbaren</Button>
+              <Button className="mardu-cta mt-2 rounded-none border-black/15">
+                Demo vereinbaren
+              </Button>
             </div>
           </div>
         ) : null}
