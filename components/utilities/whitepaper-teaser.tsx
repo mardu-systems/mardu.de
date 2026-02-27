@@ -141,7 +141,7 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
                     }}
                   >
                     <DialogTrigger asChild>
-                      <Button size="mardu">
+                      <Button>
                         Jetzt kostenlos anfordern
                         <ArrowRight className="ml-2 w-5 h-5" />
                       </Button>
@@ -253,7 +253,6 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
 
                           <Button
                             type="submit"
-                            size="mardu"
                             className="w-full"
                             disabled={loading}
                             aria-busy={loading}

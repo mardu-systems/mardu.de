@@ -90,7 +90,7 @@ export default function HeroSection({
           <div className="flex flex-wrap gap-3 pt-1">
             {buttonText ? (
               <Link href={buttonHref}>
-                <Button size="mardu">
+                <Button>
                   {buttonText}
                   <ArrowRight className="size-4" />
                 </Button>
@@ -98,7 +98,7 @@ export default function HeroSection({
             ) : null}
             {secondaryButtonText && secondaryButtonHref ? (
               <Link href={secondaryButtonHref}>
-                <Button variant="outline" size="mardu">
+                <Button variant="outline">
                   {secondaryButtonText}
                 </Button>
               </Link>

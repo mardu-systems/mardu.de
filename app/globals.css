@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.0rem;
 
   /* Core shadcn tokens */
   --background: oklch(0.982 0.006 95.4);
@@ -86,10 +86,10 @@
   --font-sans: var(--font-geist-sans);
   --font-serif: "Iowan Old Style", "Times New Roman", ui-serif, serif;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius));
+  --radius-md: calc(var(--radius));
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius));
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

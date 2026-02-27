@@ -20,7 +20,7 @@ export default function NewsletterButton({ primaryButtonText }: { primaryButtonT
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="mardu" className="w-full sm:w-auto">
+        <Button className="w-full sm:w-auto">
           {primaryButtonText}
         </Button>
       </DialogTrigger>
@@ -93,7 +93,6 @@ export default function NewsletterButton({ primaryButtonText }: { primaryButtonT
 
           <Button
             type="submit"
-            size="mardu"
             className="w-full sm:w-auto"
           >
             Anmelden

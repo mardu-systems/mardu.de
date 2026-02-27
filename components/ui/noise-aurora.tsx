@@ -27,10 +27,7 @@ export type HeadingNoiseAccentProps = {
   intensity?: NoiseAuroraIntensity;
 };
 
-function getAuroraStyle(
-  tone: NoiseAuroraTone,
-  intensity: NoiseAuroraIntensity,
-): CSSProperties {
+function getAuroraStyle(tone: NoiseAuroraTone, intensity: NoiseAuroraIntensity): CSSProperties {
   const opacityByIntensity: Record<NoiseAuroraIntensity, number> = {
     soft: 0.4,
     medium: 0.55,

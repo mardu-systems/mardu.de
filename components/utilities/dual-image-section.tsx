@@ -26,7 +26,7 @@ export default function DualImageSection({ cards, className = '' }: DualImageSec
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
           {cards.map((card, index) => (
             <article key={card.title ?? index} className="border border-black/10 bg-white/50 p-4 md:p-5">
-              <div className="relative mb-5 aspect-[16/10] overflow-hidden border border-black/10">
+              <div className="relative mb-5 aspect-16/10 overflow-hidden border border-black/10">
                 <Image
                   src={card.imageSrc}
                   alt={card.imageAlt}
@@ -45,7 +45,7 @@ export default function DualImageSection({ cards, className = '' }: DualImageSec
                   {typeof card.description === 'string' ? <p>{card.description}</p> : card.description}
                 </div>
                 {card.buttonText && card.buttonHref ? (
-                  <Button asChild variant="outline" size="mardu">
+                  <Button asChild variant="outline">
                     <Link href={card.buttonHref}>{card.buttonText}</Link>
                   </Button>
                 ) : null}

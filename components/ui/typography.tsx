@@ -32,6 +32,8 @@ type OverlineProps = {
 
 export function Overline({ children, className }: OverlineProps) {
   return (
-    <p className={cn('text-xs uppercase tracking-[0.2em] text-foreground/55', className)}>{children}</p>
+    <p className={cn('text-xs uppercase tracking-[0.2em] text-foreground/55', className)}>
+      {children}
+    </p>
   );
 }

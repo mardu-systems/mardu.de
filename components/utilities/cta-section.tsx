@@ -131,7 +131,7 @@ export default function CTASection({
                 }}
               >
                 <DialogTrigger asChild>
-                  <Button size="mardu">
+                  <Button>
                     {primaryButtonText}
                   </Button>
                 </DialogTrigger>
@@ -261,7 +261,6 @@ export default function CTASection({
 
                     <Button
                       type="submit"
-                      size="mardu"
                       disabled={isSubmitting}
                       aria-busy={isSubmitting}
                     >

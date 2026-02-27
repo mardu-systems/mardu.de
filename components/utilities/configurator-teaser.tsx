@@ -42,7 +42,7 @@ export default function ConfiguratorTeaser({ className }: ConfiguratorTeaserProp
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
-                  <Button asChild size="mardu">
+                  <Button asChild>
                     <Link href="/configurator">
                       Konfiguration starten
                       <ArrowRight className="ml-2 w-5 h-5" />

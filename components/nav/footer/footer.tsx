@@ -56,7 +56,6 @@ export default function SiteFooter({
             </p>
             <Button
               variant="outline"
-              size="mardu"
               onClick={scrollToTop}
             >
               <ArrowUp className="size-4" />

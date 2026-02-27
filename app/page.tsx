@@ -14,7 +14,6 @@ export default function HomePage() {
     <main className="relative min-h-screen flex flex-col justify-center md:justify-start">
       {/* Hero Header Section */}
       <section id="home">
-        <div className="paper-fade absolute inset-0" aria-hidden="true" />
         <HeroSection
           title="Smarte Zugangssysteme für Baustellen, Werkstätten und Labore"
           description={

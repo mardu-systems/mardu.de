@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
+import { type HTMLMotionProps, motion, useReducedMotion } from 'framer-motion';
 
 const directionOffsets = {
   up: { axis: 'y', sign: 1 },

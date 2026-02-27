@@ -44,7 +44,7 @@ export default function FeatureSection({
             {typeof description === 'string' ? <p>{description}</p> : description}
           </div>
           {buttonText && buttonHref ? (
-            <Button asChild size="mardu">
+            <Button asChild>
               <Link href={buttonHref}>{buttonText}</Link>
             </Button>
           ) : null}
