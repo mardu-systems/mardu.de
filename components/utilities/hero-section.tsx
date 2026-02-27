@@ -69,7 +69,7 @@ export default function HeroSection({
   return (
     <section
       className={cn(
-        'relative overflow-hidden border-b border-black/8 pt-32 pb-20 md:pt-40 md:pb-28',
+        'relative min-h-screen overflow-hidden border-b border-black/8 pt-32 pb-20 md:pt-40 md:pb-28',
         className,
       )}
     >
@@ -77,7 +77,12 @@ export default function HeroSection({
         <div className="space-y-7">
           <Overline>Engineering Access Platform</Overline>
           <div className="relative isolate inline-block">
-            <HeroHeadline prefix="Die Zutrittskontrolle, die" emphasis="mitdenkt." className="relative z-10" />
+            <div className="absolute -left-2 top-[16%] z-0 h-[42%] w-[58%] bg-[repeating-linear-gradient(135deg,rgba(31,41,55,0.14)_0,rgba(31,41,55,0.14)_1px,transparent_1px,transparent_9px)] opacity-35" />
+            <HeroHeadline
+              prefix="Die Zutrittskontrolle, die"
+              emphasis="mitdenkt."
+              className="relative z-10"
+            />
           </div>
           <p className="max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">
             {description}
