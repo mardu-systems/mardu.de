@@ -74,7 +74,15 @@ export default function HeroSection({
       )}
     >
       <div className="mardu-container relative grid w-full gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <div className="space-y-7">
+        <div className="relative space-y-7">
+          <Image
+            src="/landing/Ellipse.png"
+            alt=""
+            width={3945}
+            height={1991}
+            aria-hidden
+            className="pointer-events-none absolute -left-24 -z-10 w-[170%] max-w-none opacity-65 md:-left-28 md:-top-32 lg:w-[150%]"
+          />
           <Overline>Engineering Access Platform</Overline>
           <div className="relative isolate inline-block">
             <div className="absolute -left-2 top-[16%] z-0 h-[42%] w-[58%] bg-[repeating-linear-gradient(135deg,rgba(31,41,55,0.14)_0,rgba(31,41,55,0.14)_1px,transparent_1px,transparent_9px)] opacity-35" />
@@ -98,9 +106,7 @@ export default function HeroSection({
             ) : null}
             {secondaryButtonText && secondaryButtonHref ? (
               <Link href={secondaryButtonHref}>
-                <Button variant="outline">
-                  {secondaryButtonText}
-                </Button>
+                <Button variant="outline">{secondaryButtonText}</Button>
               </Link>
             ) : null}
           </div>
