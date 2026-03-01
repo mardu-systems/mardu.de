@@ -20,7 +20,7 @@ export default function NewsletterButton({ primaryButtonText }: { primaryButtonT
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#F5C842] hover:bg-[#FFB703] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2">
+        <Button className="w-full sm:w-auto">
           {primaryButtonText}
         </Button>
       </DialogTrigger>
@@ -93,8 +93,7 @@ export default function NewsletterButton({ primaryButtonText }: { primaryButtonT
 
           <Button
             type="submit"
-            variant="ghost"
-            className="w-full sm:w-auto h-12 px-6 rounded-lg bg-[#FFB703] hover:bg-[#FFB703] text-black font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C842] focus-visible:ring-offset-2"
+            className="w-full sm:w-auto"
           >
             Anmelden
           </Button>

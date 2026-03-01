@@ -39,8 +39,7 @@ const WavyBackground = ({
   const [isSafari, setIsSafari] = React.useState(false);
 
   const waveColors = React.useMemo(
-    () =>
-      colors ?? ['#38bdf8', '#818cf8', '#c084fc', '#e879f9', '#22d3ee'],
+    () => colors ?? ['#38bdf8', '#818cf8', '#c084fc', '#e879f9', '#22d3ee'],
     [colors],
   );
 

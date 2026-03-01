@@ -4,6 +4,19 @@ import React from 'react';
 import SiteShell from '@/components/layout/site-shell';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import localFont from 'next/font/local';
+
+const SITE_URL = 'https://www.mardu.de';
+
+const geist = localFont({
+  src: [
+    { path: '../public/fonts/Inter-Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/Inter-Medium.woff2', weight: '500', style: 'normal' },
+    { path: '../public/fonts/Inter-Bold.woff2', weight: '700', style: 'normal' },
+    { path: '../public/fonts/Inter-ExtraBold.woff2', weight: '800', style: 'normal' },
+  ],
+  variable: '--font-geist-sans',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -14,7 +27,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://mardu.de'),
+  metadataBase: new URL(SITE_URL),
+  applicationName: 'Mardu',
   title: {
     default: 'Mardu – Zutrittskontrolle & Maschinenfreigabe für Werkstätten, Labore & Baustellen',
     template: '%s | Mardu',
@@ -29,7 +43,10 @@ export const metadata: Metadata = {
     'Open Education Badges',
   ],
   alternates: {
-    canonical: 'https://mardu.de',
+    canonical: '/',
+    languages: {
+      'de-DE': '/',
+    },
   },
   icons: {
     icon: [
@@ -41,7 +58,7 @@ export const metadata: Metadata = {
     apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     shortcut: [{ url: '/favicon/favicon.ico' }],
   },
-  manifest: '/site.webmanifest',
+  manifest: '/manifest.webmanifest',
   robots: {
     index: true,
     follow: true,
@@ -57,7 +74,7 @@ export const metadata: Metadata = {
     title: 'Mardu – Zutrittskontrolle & Maschinenfreigabe',
     description:
       'Smarte Zutrittskontrolle und Maschinenfreigabe für Werkstätten, Labore, Makerspaces und Baustellen – flexibel, ausfallsicher, DSGVO-konform.',
-    url: '/',
+    url: SITE_URL,
     siteName: 'Mardu',
     locale: 'de_DE',
     type: 'website',
@@ -84,6 +101,9 @@ export const metadata: Metadata = {
       'Zutrittskontrolle und Maschinenfreigabe für Werkstätten, Labore, Makerspaces und Baustellen – flexibel, ausfallsicher, DSGVO-konform.',
     images: ['/_A7_9072_quer.webp', '/_A7_9072_quer.jpg'],
   },
+  verification: {
+    google: 'a9afa5f97adbb711',
+  },
 };
 
 const jsonLd = {
@@ -92,20 +112,20 @@ const jsonLd = {
     {
       '@type': 'Organization',
       name: 'Mardu',
-      url: 'https://mardu.de',
-      logo: 'https://mardu.de/logos/Logo.svg',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logos/Logo.svg`,
       email: 'info@mardu.de',
       sameAs: ['https://www.linkedin.com/company/marduofficial'],
     },
     {
       '@type': 'WebSite',
       name: 'Mardu',
-      url: 'https://mardu.de',
+      url: SITE_URL,
       publisher: {
         '@type': 'Organization',
         name: 'Mardu',
-        url: 'https://mardu.de',
-        logo: 'https://mardu.de/logos/Logo.svg',
+        url: SITE_URL,
+        logo: `${SITE_URL}/logos/Logo.svg`,
       },
     },
   ],
@@ -120,7 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="text-foreground antialiased overflow-x-hidden">
+      <body className={`${geist.variable} bg-background text-foreground overflow-x-hidden`}>
         <SiteShell>{children}</SiteShell>
         <Analytics />
         <SpeedInsights />

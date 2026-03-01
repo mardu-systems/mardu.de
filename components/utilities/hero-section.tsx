@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import WavyBackground from '@/components/ui/wavy-background';
+import type { MouseEvent } from 'react';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { ScrollReveal } from '@/components/ui/motion/scroll-reveal';
-import { motion, useReducedMotion } from 'framer-motion';
+import { HeroHeadline, Overline } from '@/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 export interface HeroSectionProps {
   title: string;
@@ -37,122 +37,130 @@ export default function HeroSection({
   videoUrl,
   onPlayClick,
 }: HeroSectionProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
+  void title;
+  void imageSrc;
+  void imageAlt;
+  void mediaType;
+  void videoUrl;
+  void onPlayClick;
 
-  const handlePlayClick = () => {
-    setIsPlaying(true);
-    if (onPlayClick) {
-      onPlayClick();
+  const scrollToProducts = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (
+      event.defaultPrevented ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.button !== 0
+    ) {
+      return;
     }
-  };
-  return (
-    <section className={cn('flex flex-col items-center py-20 bg-background', className)}>
-      {/* Waves behind the copy */}
-      <WavyBackground
-        colors={['#F5C842', '#F786AE', '#351B59']} // Keeping brand specific wave colors for now as they might be specific assets
-        waveWidth={30}
-        blur={8}
-        speed="fast"
-        waveOpacity={0.1}
-        containerClassName="w-full overflow-hidden"
-        className="w-full max-w-7xl px-4 md:px-8 mx-auto py-10 lg:py-20"
-      >
-        <ScrollReveal className="flex flex-col items-start gap-6 w-full">
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-5xl lg:text-5xl font-semibold leading-tight text-primary w-full max-w-4xl text-balance">
-            {title}
-          </h1>
 
-          {/* Description Text */}
-          <div className="text-base md:text-lg leading-relaxed text-foreground w-full max-w-3xl">
+    event.preventDefault();
+
+    const section = document.getElementById('produkte');
+    if (!section) return;
+
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    section.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+    window.history.replaceState(null, '', '#produkte');
+  };
+
+  return (
+    <section
+      className={cn(
+        'relative flex min-h-screen items-center overflow-hidden border-b border-black/8 py-20 md:py-24',
+        className,
+      )}
+    >
+      <div className="mardu-container relative grid w-full gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="relative space-y-7">
+          <Image
+            src="/landing/Ellipse.png"
+            alt=""
+            width={3945}
+            height={1991}
+            aria-hidden
+            className="pointer-events-none absolute -left-24 -z-10 w-[170%] max-w-none opacity-65 md:-left-28 lg:w-[150%]"
+          />
+          <Overline>Engineering Access Platform</Overline>
+          <div className="relative isolate inline-block">
+            <div className="absolute -left-2 top-[16%] z-0 h-[42%] w-[58%] bg-[repeating-linear-gradient(135deg,rgba(31,41,55,0.14)_0,rgba(31,41,55,0.14)_1px,transparent_1px,transparent_9px)] opacity-35" />
+            <HeroHeadline
+              prefix="Zutrittskontrolle & Maschinenfreigabe"
+              emphasis="für Werkstätten, Labore & Baustellen."
+              className="relative z-10"
+            />
+          </div>
+          <div className="max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">
             {description}
           </div>
-
-          {(buttonText || secondaryButtonText) && (
-            <ScrollReveal className="flex flex-wrap gap-4" delay={0.1} direction="up">
-              {buttonText && (
-                <Link
-                  href={buttonHref}
-                  className="inline-flex touch-manipulation items-center justify-center h-11 px-6 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
+          <div className="flex flex-wrap gap-3 pt-1">
+            {buttonText ? (
+              <Link href={buttonHref}>
+                <Button>
                   {buttonText}
-                </Link>
-              )}
-              {secondaryButtonText && secondaryButtonHref && (
-                <Link
-                  href={secondaryButtonHref}
-                  className="inline-flex touch-manipulation items-center justify-center h-11 px-6 rounded-lg border-2 border-primary hover:bg-primary hover:text-primary-foreground text-primary font-medium text-sm tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
-                  {secondaryButtonText}
-                </Link>
-              )}
-            </ScrollReveal>
-          )}
-        </ScrollReveal>
-      </WavyBackground>
+                  <ArrowRight className="size-4" />
+                </Button>
+              </Link>
+            ) : null}
+            {secondaryButtonText && secondaryButtonHref ? (
+              <Link href={secondaryButtonHref}>
+                <Button variant="outline">{secondaryButtonText}</Button>
+              </Link>
+            ) : null}
+          </div>
+        </div>
 
-      {/* Image Section (no waves behind it) */}
-      <ScrollReveal className="w-full max-w-7xl px-4 md:px-8 mx-auto mt-3" direction="up">
-        <motion.div
-          className="relative w-full h-125 md:h-162.5 lg:h-160 rounded-[34px] overflow-hidden shadow-lg bg-muted"
-          animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
-          transition={
-            shouldReduceMotion
-              ? undefined
-              : { duration: 12, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }
-          }
-        >
-          {!isPlaying ? (
-            <>
+        <div className="relative overflow-visible">
+          <div className="relative grid gap-4 md:min-h-152 md:pb-4">
+            <Link
+              href="#produkte"
+              onClick={scrollToProducts}
+              className="group relative z-20 aspect-16/10 overflow-hidden rounded-2xl border border-black/15 md:absolute md:right-0 md:top-2 md:w-[88%] md:rotate-[0.8deg]"
+              aria-label="Zu den Produktlösungen mardu.space scrollen"
+            >
               <Image
-                src={imageSrc}
-                alt={imageAlt}
+                src="/_A7_9094_quer.jpg"
+                alt="Maschinenfreischaltung an einer Drehbank mit mardu.space"
                 fill
                 priority
-                sizes="(max-width: 768px) 100vw, 1280px"
+                sizes="(max-width: 1024px) 100vw, 48vw"
                 className="object-cover"
               />
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/15 to-transparent" />
+              <div className="absolute left-4 top-4 border border-white/45 bg-black/38 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white">
+                mardu.space
+              </div>
+              <p className="absolute bottom-4 left-4 max-w-[34ch] text-sm text-white/95 group-hover:text-white">
+                Maschinenzugang per NFC in Werkstatt und Labor.
+              </p>
+            </Link>
 
-              {/* Play Button Overlay - nur bei Video */}
-              {mediaType === 'video' && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button
-                    type="button"
-                    onClick={handlePlayClick}
-                    className="flex touch-manipulation items-center justify-center w-22 h-22 bg-background rounded-lg shadow-lg hover:scale-110 transition-transform duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    aria-label="Video abspielen"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-1 text-primary"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M6 4.5L18 12L6 19.5V4.5Z" fill="currentColor" />
-                    </svg>
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            // Video-Player
-            videoUrl && (
-              <iframe
-                src={videoUrl}
-                className="absolute inset-0 w-full h-full"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-                title={imageAlt}
+            <Link
+              href="#produkte"
+              onClick={scrollToProducts}
+              className="group relative z-10 aspect-16/10 overflow-hidden rounded-2xl border border-black/15 md:absolute md:bottom-0 md:left-0 md:w-[82%] md:-rotate-[1.2deg]"
+              aria-label="Zu den Produktlösungen mardu.construction scrollen"
+            >
+              <Image
+                src="/mardu-constructions.webp"
+                alt="Freischaltung einer Bautür mit mardu.construction"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
               />
-            )
-          )}
-        </motion.div>
-      </ScrollReveal>
+              <div className="absolute inset-0 bg-linear-to-t from-black/58 via-black/16 to-transparent" />
+              <div className="absolute right-4 bottom-4 border border-white/45 bg-black/38 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white">
+                mardu.construction
+              </div>
+              <p className="absolute bottom-4 left-4 max-w-[30ch] text-sm text-white/90 group-hover:text-white">
+                Digitale Zutrittskontrolle für Baustellentüren und Tore.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

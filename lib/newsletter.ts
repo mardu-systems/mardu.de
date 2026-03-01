@@ -1,63 +1,166 @@
-import {createHmac} from "crypto";
-import {promises as fs} from "node:fs";
-import path from "node:path";
+import { createHmac } from 'crypto';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { dataPath } from '@/lib/data-dir';
 
-import {dataPath} from "@/lib/data-dir";
+const SUBSCRIBERS_FILE = dataPath('newsletter.json');
 
-const SUBSCRIBERS_FILE = dataPath("newsletter.json");
+export type NewsletterTokenPayload = {
+  email: string;
+  role: string;
+  firstName?: string;
+  lastName?: string;
+  company?: string;
+};
+
+export type NewsletterSubscriber = NewsletterTokenPayload;
 
 function getSecret() {
-    const secret = process.env.NEWSLETTER_SECRET;
-    if (!secret) {
-        throw new Error("Missing newsletter secret");
+  const secret = process.env.NEWSLETTER_SECRET;
+  if (!secret) {
+    throw new Error('Missing newsletter secret');
+  }
+  return secret;
+}
+
+function sign(value: string): string {
+  return createHmac('sha256', getSecret()).update(value).digest('hex');
+}
+
+export function createToken(
+  email: string,
+  role: string,
+  extra?: Pick<NewsletterTokenPayload, 'firstName' | 'lastName' | 'company'>,
+): string {
+  const payload: NewsletterTokenPayload = {
+    email,
+    role,
+    ...(extra?.firstName ? { firstName: extra.firstName } : {}),
+    ...(extra?.lastName ? { lastName: extra.lastName } : {}),
+    ...(extra?.company ? { company: extra.company } : {}),
+  };
+
+  const serialized = JSON.stringify(payload);
+  const encoded = Buffer.from(serialized).toString('base64url');
+  return `${encoded}.${sign(serialized)}`;
+}
+
+function parseNewToken(token: string): NewsletterTokenPayload | null {
+  const [encodedPayload, signature] = token.split('.');
+  if (!encodedPayload || !signature) {
+    return null;
+  }
+
+  const decoded = Buffer.from(encodedPayload, 'base64url').toString('utf8');
+  const expected = sign(decoded);
+  if (expected !== signature) {
+    return null;
+  }
+
+  const parsed = JSON.parse(decoded) as Partial<NewsletterTokenPayload>;
+  if (!parsed.email || !parsed.role) {
+    return null;
+  }
+
+  return {
+    email: parsed.email,
+    role: parsed.role,
+    ...(parsed.firstName ? { firstName: parsed.firstName } : {}),
+    ...(parsed.lastName ? { lastName: parsed.lastName } : {}),
+    ...(parsed.company ? { company: parsed.company } : {}),
+  };
+}
+
+function parseLegacyToken(token: string): NewsletterTokenPayload | null {
+  try {
+    const decoded = Buffer.from(token, 'base64url').toString('utf8');
+    const [email, role, signature] = decoded.split(':');
+    if (!email || !role || !signature) {
+      return null;
     }
-    return secret;
-}
-
-export function createToken(email: string, role: string): string {
-    const payload = `${email}:${role}`;
-    const signature = createHmac("sha256", getSecret()).update(payload).digest("hex");
-    return Buffer.from(`${payload}:${signature}`).toString("base64url");
-}
-
-export function verifyToken(token: string): { email: string; role: string } | null {
-    try {
-        const decoded = Buffer.from(token, "base64url").toString("utf8");
-        const [email, role, signature] = decoded.split(":");
-        const expected = createHmac("sha256", getSecret()).update(`${email}:${role}`).digest("hex");
-        if (signature !== expected) return null;
-        return {email, role};
-    } catch {
-        return null;
+    const expected = sign(`${email}:${role}`);
+    if (signature !== expected) {
+      return null;
     }
+    return { email, role };
+  } catch {
+    return null;
+  }
 }
 
-export async function saveSubscriber(sub: { email: string; role: string }) {
-    try {
-        let subs: { email: string; role: string }[] = [];
-        try {
-            const data = await fs.readFile(SUBSCRIBERS_FILE, "utf8");
-            subs = JSON.parse(data);
-        } catch {
+export function verifyToken(token: string): NewsletterTokenPayload | null {
+  try {
+    return parseNewToken(token) ?? parseLegacyToken(token);
+  } catch {
+    return null;
+  }
+}
+
+async function readSubscribers(): Promise<NewsletterSubscriber[]> {
+  try {
+    const data = await fs.readFile(SUBSCRIBERS_FILE, 'utf8');
+    const raw = JSON.parse(data) as unknown[];
+    if (!Array.isArray(raw)) {
+      return [];
+    }
+
+    return raw
+      .map((entry) => {
+        if (!entry || typeof entry !== 'object') {
+          return null;
         }
-        if (!subs.find((s) => s.email === sub.email)) {
-            subs.push(sub);
-            await fs.mkdir(path.dirname(SUBSCRIBERS_FILE), {recursive: true});
-            await fs.writeFile(SUBSCRIBERS_FILE, JSON.stringify(subs, null, 2));
+        const candidate = entry as Partial<NewsletterSubscriber>;
+        if (!candidate.email || !candidate.role) {
+          return null;
         }
-    } catch (err) {
-        console.error("Failed to save subscriber", err);
-    }
+        return {
+          email: candidate.email,
+          role: candidate.role,
+          ...(candidate.firstName ? { firstName: candidate.firstName } : {}),
+          ...(candidate.lastName ? { lastName: candidate.lastName } : {}),
+          ...(candidate.company ? { company: candidate.company } : {}),
+        };
+      })
+      .filter((entry): entry is NewsletterSubscriber => entry !== null);
+  } catch {
+    return [];
+  }
 }
 
-export async function removeSubscriber(email: string) {
-    try {
-        const data = await fs.readFile(SUBSCRIBERS_FILE, "utf8");
-        const subs: { email: string; role: string }[] = JSON.parse(data);
-        const filtered = subs.filter((s) => s.email !== email);
-        await fs.mkdir(path.dirname(SUBSCRIBERS_FILE), {recursive: true});
-        await fs.writeFile(SUBSCRIBERS_FILE, JSON.stringify(filtered, null, 2));
-    } catch (err) {
-        console.error("Failed to remove subscriber", err);
+async function writeSubscribers(subscribers: NewsletterSubscriber[]) {
+  await fs.mkdir(path.dirname(SUBSCRIBERS_FILE), { recursive: true });
+  await fs.writeFile(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2));
+}
+
+export async function saveSubscriber(subscriber: NewsletterSubscriber) {
+  try {
+    const subscribers = await readSubscribers();
+    const index = subscribers.findIndex((item) => item.email === subscriber.email);
+
+    if (index < 0) {
+      subscribers.push(subscriber);
+    } else {
+      subscribers[index] = {
+        ...subscribers[index],
+        ...subscriber,
+      };
     }
+
+    await writeSubscribers(subscribers);
+  } catch (err) {
+    console.error('Failed to save subscriber', err);
+  }
+}
+
+export async function removeSubscriber(email: string): Promise<NewsletterSubscriber | null> {
+  try {
+    const subscribers = await readSubscribers();
+    const removed = subscribers.find((item) => item.email === email) ?? null;
+    const filtered = subscribers.filter((item) => item.email !== email);
+    await writeSubscribers(filtered);
+    return removed;
+  } catch (err) {
+    console.error('Failed to remove subscriber', err);
+    return null;
+  }
 }

@@ -6,7 +6,10 @@ import { renderEmailLayout, sendEmail } from '@/lib/email';
 const Schema = z.object({
   email: z.email(),
   role: z.string(),
-  token: z.string(),
+  firstName: z.string().trim().min(1),
+  lastName: z.string().trim().min(1),
+  company: z.string().trim().optional(),
+  token: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -16,13 +19,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
   }
 
-  const { email, role, token } = parsed.data;
+  const { email, role, token, firstName, lastName, company } = parsed.data;
   const isDev = process.env.NODE_ENV === 'development';
-  if (!isDev) {
-    const secret = process.env.RECAPTCHA_SECRET_KEY;
-    if (!secret) {
-      return NextResponse.json({ error: 'Missing captcha secret' }, { status: 500 });
-    }
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  const shouldVerifyCaptcha = !isDev && Boolean(token && secret);
+
+  if (shouldVerifyCaptcha) {
     const captchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -32,10 +34,16 @@ export async function POST(req: Request) {
     if (!captchaJson.success) {
       return NextResponse.json({ error: 'Invalid captcha' }, { status: 400 });
     }
+  } else if (!isDev && (token || secret)) {
+    console.warn('Newsletter captcha check skipped due to partial captcha configuration');
   }
 
   try {
-    const confirmToken = createToken(email, role);
+    const confirmToken = createToken(email, role, {
+      ...(firstName ? { firstName } : {}),
+      ...(lastName ? { lastName } : {}),
+      ...(company ? { company } : {}),
+    });
     const origin = process.env.APP_URL ?? req.headers.get('origin') ?? '';
     const confirmUrl = `${origin}/api/newsletter/confirm?token=${encodeURIComponent(confirmToken)}`;
     await sendEmail({

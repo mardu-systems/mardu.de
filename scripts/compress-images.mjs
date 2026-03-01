@@ -19,6 +19,9 @@ async function ensureDir(dir) {
 function parseArgs() {
     const args = process.argv.slice(2);
     const overwrite = args.includes('--overwrite');
+    const minSizeArg = args.find(a => a.startsWith('--min-size-kb='));
+    const minSizeKb = minSizeArg ? Number(minSizeArg.split('=')[1]) : 0;
+    const minSizeBytes = Number.isFinite(minSizeKb) && minSizeKb > 0 ? minSizeKb * 1024 : 0;
 
     const positional = args.filter(a => !a.startsWith('--'));
     // Defaults
@@ -30,10 +33,10 @@ function parseArgs() {
 
     if (overwrite) destDir = srcDir;
 
-    return {srcDir, destDir, overwrite};
+    return {srcDir, destDir, overwrite, minSizeBytes};
 }
 
-async function collectFiles(srcDir) {
+async function collectFiles(srcDir, minSizeBytes = 0) {
     const exts = new Set(['.jpg', '.jpeg', '.png', '.svg']);
     /** @type {string[]} */
     const files = [];
@@ -46,7 +49,12 @@ async function collectFiles(srcDir) {
                 await walk(full);
             } else {
                 const ext = path.extname(entry.name).toLowerCase();
-                if (exts.has(ext)) files.push(full);
+                if (!exts.has(ext)) continue;
+                if (minSizeBytes > 0) {
+                    const stats = await fsp.stat(full);
+                    if (stats.size < minSizeBytes) continue;
+                }
+                files.push(full);
             }
         }
     }
@@ -89,7 +97,7 @@ async function optimizeImage(inputPath) {
 }
 
 async function main() {
-    const {srcDir, destDir, overwrite} = parseArgs();
+    const {srcDir, destDir, overwrite, minSizeBytes} = parseArgs();
 
     if (!fs.existsSync(srcDir)) {
         console.error(`Quelle existiert nicht: ${srcDir}`);
@@ -100,7 +108,7 @@ async function main() {
         await ensureDir(destDir);
     }
 
-    const files = await collectFiles(srcDir);
+    const files = await collectFiles(srcDir, minSizeBytes);
     if (files.length === 0) {
         console.log(`Keine Bilder gefunden in: ${srcDir}`);
         return;
@@ -108,6 +116,7 @@ async function main() {
 
     console.log(`Bilder gefunden: ${files.length}`);
     console.log(`Modus: ${overwrite ? 'Overwrite (in-place)' : `Kopieren nach ${destDir}`}`);
+    console.log(`Mindestgröße: ${minSizeBytes > 0 ? `${formatBytes(minSizeBytes)}` : 'keine'}`);
 
     let totalBefore = 0;
     let totalAfter = 0;
@@ -124,8 +133,19 @@ async function main() {
 
         try {
             const data = await optimizeImage(file);
-            await fsp.writeFile(outPath, data);
             const afterSize = data.length;
+
+            if (afterSize >= beforeSize) {
+                if (!overwrite) {
+                    await fsp.copyFile(file, outPath);
+                }
+                totalBefore += beforeSize;
+                totalAfter += beforeSize;
+                console.log(`• ${rel}  unverändert (${formatBytes(beforeSize)}), Optimierung brachte keinen Vorteil`);
+                continue;
+            }
+
+            await fsp.writeFile(outPath, data);
 
             totalBefore += beforeSize;
             totalAfter += afterSize;

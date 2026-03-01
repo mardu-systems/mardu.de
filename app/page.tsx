@@ -37,28 +37,29 @@ export default function HomePage() {
 
       <section id="loesung">
         <FeatureSection
-          className="text-white mb-20"
+          className="mb-10"
           title="Die Mardu-Lösung"
           description={
             <>
               <p>
-                Wir sind eine flexible, funkbasierte Lösung für die Zugriffs- und Zutrittskontrolle.
+                Mardu ist eine flexible, funkbasierte Lösung für Zugriffs- und Zutrittskontrolle.
                 Alle Endgeräte sind per Funk vernetzt und dank Dual-Band-Mesh-Technologie
-                hochausfallsicher. Mardu kann zentral verwaltet oder vollständig lokal betrieben
-                werden und deckt so verschiedenste Einsatzszenarien ab – von permanenter
-                Installation bis temporärem Setup.
+                ausfallsicher. Mardu kann zentral verwaltet oder vollständig lokal betrieben werden
+                und deckt so verschiedenste Einsatzszenarien ab – von permanenter Installation bis
+                temporärem Setup.
               </p>
               <p className="mt-4">
-                Ideal für Innen- und Außenbereiche sowie temporäre Setups (z. B. Festivals). Sichern
-                Sie damit Türen, Tore, Drehkreuze, Maschinenzugänge und weitere kritische Bereiche.
+                Ideal für Innen- und Außenbereiche sowie temporäre Setups. Damit sichern Sie Türen,
+                Tore, Drehkreuze, Maschinenzugänge und weitere kritische Bereiche.
               </p>
               <p className="mt-4">
-                Alle Vorgänge werden nachvollziehbar und DSGVO-konform protokolliert. Dadruch
-                reduzieren wir deine Bürokratie.
+                Alle Vorgänge werden nachvollziehbar und DSGVO-konform protokolliert. Das reduziert
+                Verwaltungsaufwand und schafft belastbare Nachweise.
               </p>
 
               <p className="mt-4">
-                Egal, ob von der Stange oder als Speziallösung – wir sind dein Ansprechpartner.
+                Egal ob Standardprodukt oder Speziallösung: Wir begleiten Konzeption, Umsetzung und
+                Betrieb.
               </p>
             </>
           }
@@ -79,14 +80,14 @@ export default function HomePage() {
               description: (
                 <>
                   <p>
-                    Werkstätten, Produktionshallen und Labore sind Orte der täglichen Arbeit bieten
-                    aber auch enormes Gefahrenpotential.
+                    Werkstätten, Produktionshallen und Labore sind Orte der täglichen Arbeit und
+                    gleichzeitig sensible Sicherheitsbereiche.
                   </p>
                   <p className="mt-4">
-                    Durch mardu.space wird mit dem Mardu System sichergestellt, dass nur berechtigte
-                    Nutzer Zugriff auf die Maschinen haben. Anwendung findet dieses System vorallem
-                    in Makerspaces, Schülerlaboren und Universitäten aber auch in größeren
-                    Produzierenden Betrieben oder Werkstätten mit mehreren Hunderten Geräten.
+                    Mit mardu.space stellt das Mardu-System sicher, dass nur berechtigte Personen
+                    Maschinen nutzen können. Das System wird in Makerspaces, Schülerlaboren und
+                    Universitäten eingesetzt, aber auch in produzierenden Betrieben und Werkstätten
+                    mit vielen hundert Geräten.
                   </p>
                 </>
               ),
@@ -100,11 +101,9 @@ export default function HomePage() {
               description: (
                 <>
                   <p>
-                    Digitale flexible und skalierbare Zutrittskontrollen für Baustellen das ist
-                    mardu.construction. Hierdurch erlangt vollständige Kontrolle und Übersicht über
-                    alle Bereiche, Lieferanten, Subunternehmer und Mitarbeitende auf der Baustelle.
-                    Gleichzeitig kann sich effektiv vor Diebstahl und Zeitverzögerungen geschützt
-                    werden.
+                    mardu.construction steht für digitale, flexible und skalierbare
+                    Zutrittskontrollen auf Baustellen. So erhalten Sie Übersicht über Bereiche,
+                    Lieferanten, Subunternehmer und Mitarbeitende.
                   </p>
                   <p className="mt-4">
                     mardu.construction befindet sich aktuell im Early-Access-Projektstadium.
@@ -215,7 +214,7 @@ export default function HomePage() {
       <section id="contact">
         <CTASection
           title="Sicherheit, Transparenz und Kontrolle – zentral gesteuert"
-          description="Sprechen sie uns gerne an, gemeinsam lässt sich für die verschiedensten Anwendungsfälle ein Lösung finden."
+          description="Sprechen Sie uns an. Gemeinsam entwickeln wir eine Lösung, die zu Ihren Prozessen, Flächen und Sicherheitsanforderungen passt."
           primaryButtonText="Jetzt für unseren Newsletter anmelden"
           secondaryButtonText="Beratung Vereinbaren"
         />
