@@ -87,14 +87,14 @@ export default function HeroSection({
           <div className="relative isolate inline-block">
             <div className="absolute -left-2 top-[16%] z-0 h-[42%] w-[58%] bg-[repeating-linear-gradient(135deg,rgba(31,41,55,0.14)_0,rgba(31,41,55,0.14)_1px,transparent_1px,transparent_9px)] opacity-35" />
             <HeroHeadline
-              prefix="Die Zutrittskontrolle, die"
-              emphasis="mitdenkt."
+              prefix="Zutrittskontrolle & Maschinenfreigabe"
+              emphasis="für Werkstätten, Labore & Baustellen."
               className="relative z-10"
             />
           </div>
-          <p className="max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">
+          <div className="max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">
             {description}
-          </p>
+          </div>
           <div className="flex flex-wrap gap-3 pt-1">
             {buttonText ? (
               <Link href={buttonHref}>

@@ -46,7 +46,7 @@ export function MeetergoCTAButton({
   onClick,
   link = 'https://cal.meetergo.com/infomardu/30-min-meeting-or-info',
   prefill,
-  size = 'mardu',
+  size,
   ...props
 }: MeetergoCTAButtonProps) {
   const SRC = 'https://liv-showcase.s3.eu-central-1.amazonaws.com/browser-v3.js';
