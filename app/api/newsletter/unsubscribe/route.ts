@@ -4,35 +4,47 @@ import { sendNewsletterEventToTwenty } from '@/lib/integrations/twenty';
 import { renderEmailLayout, sendEmail } from '@/lib/email';
 import type { NewsletterCrmEventDto } from '@/types/api/newsletter-crm';
 
+function redirectWithStatus(req: Request, status: string) {
+  const url = new URL('/newsletter/abmeldung', req.url);
+  url.searchParams.set('status', status);
+  return NextResponse.redirect(url);
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get('token');
   if (!token) {
-    return NextResponse.json({ error: 'Missing token' }, { status: 400 });
+    return redirectWithStatus(req, 'missing-token');
   }
 
   const data = verifyToken(token);
   if (!data || data.role !== 'unsubscribe') {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 400 });
+    return redirectWithStatus(req, 'invalid-token');
   }
 
-  const removed = await removeSubscriber(data.email);
-  const role = removed?.role ?? data.role;
-  const source = role === 'whitepaper' ? 'whitepaper' : 'newsletter';
-  const crmPayload: NewsletterCrmEventDto = {
-    type: 'newsletter_unsubscribed',
-    email: data.email,
-    role,
-    source,
-    ...(removed?.firstName ? { firstName: removed.firstName } : {}),
-    ...(removed?.lastName ? { lastName: removed.lastName } : {}),
-    ...(removed?.company ? { company: removed.company } : {}),
-    occurredAt: new Date().toISOString(),
-    consentModel: 'double-opt-in',
-  };
-  void sendNewsletterEventToTwenty(crmPayload).catch((err) => {
-    console.error('Failed to sync unsubscribe to Twenty', err);
-  });
+  let removed = null;
+  try {
+    removed = await removeSubscriber(data.email);
+    const role = removed?.role ?? data.role;
+    const source = role === 'whitepaper' ? 'whitepaper' : 'newsletter';
+    const crmPayload: NewsletterCrmEventDto = {
+      type: 'newsletter_unsubscribed',
+      email: data.email,
+      role,
+      source,
+      ...(removed?.firstName ? { firstName: removed.firstName } : {}),
+      ...(removed?.lastName ? { lastName: removed.lastName } : {}),
+      ...(removed?.company ? { company: removed.company } : {}),
+      occurredAt: new Date().toISOString(),
+      consentModel: 'double-opt-in',
+    };
+    void sendNewsletterEventToTwenty(crmPayload).catch((err) => {
+      console.error('Failed to sync unsubscribe to Twenty', err);
+    });
+  } catch (err) {
+    console.error('Failed to unsubscribe newsletter', err);
+    return redirectWithStatus(req, 'error');
+  }
 
   try {
     await sendEmail({
@@ -45,8 +57,8 @@ export async function GET(req: Request) {
       ),
     });
   } catch (err) {
-    console.error('Failed to send unsubscribe email', err);
+    console.error('Failed to send newsletter unsubscribe follow-up email', err);
   }
 
-  return NextResponse.json({ ok: true });
+  return redirectWithStatus(req, 'success');
 }

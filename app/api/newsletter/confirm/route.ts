@@ -4,34 +4,45 @@ import { sendNewsletterEventToTwenty } from '@/lib/integrations/twenty';
 import { renderEmailLayout, sendEmail } from '@/lib/email';
 import type { NewsletterCrmEventDto } from '@/types/api/newsletter-crm';
 
+function redirectWithStatus(req: Request, status: string) {
+  const url = new URL('/newsletter/anmeldung', req.url);
+  url.searchParams.set('status', status);
+  return NextResponse.redirect(url);
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get('token');
   if (!token) {
-    return NextResponse.json({ error: 'Missing token' }, { status: 400 });
+    return redirectWithStatus(req, 'missing-token');
   }
 
   const data = verifyToken(token);
   if (!data) {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 400 });
+    return redirectWithStatus(req, 'invalid-token');
   }
 
-  await saveSubscriber(data);
-  const source = data.role === 'whitepaper' ? 'whitepaper' : 'newsletter';
-  const crmPayload: NewsletterCrmEventDto = {
-    type: 'newsletter_confirmed',
-    email: data.email,
-    role: data.role,
-    source,
-    ...(data.firstName ? { firstName: data.firstName } : {}),
-    ...(data.lastName ? { lastName: data.lastName } : {}),
-    ...(data.company ? { company: data.company } : {}),
-    occurredAt: new Date().toISOString(),
-    consentModel: 'double-opt-in',
-  };
-  void sendNewsletterEventToTwenty(crmPayload).catch((err) => {
-    console.error('Failed to sync subscriber to Twenty', err);
-  });
+  try {
+    await saveSubscriber(data);
+    const source = data.role === 'whitepaper' ? 'whitepaper' : 'newsletter';
+    const crmPayload: NewsletterCrmEventDto = {
+      type: 'newsletter_confirmed',
+      email: data.email,
+      role: data.role,
+      source,
+      ...(data.firstName ? { firstName: data.firstName } : {}),
+      ...(data.lastName ? { lastName: data.lastName } : {}),
+      ...(data.company ? { company: data.company } : {}),
+      occurredAt: new Date().toISOString(),
+      consentModel: 'double-opt-in',
+    };
+    void sendNewsletterEventToTwenty(crmPayload).catch((err) => {
+      console.error('Failed to sync subscriber to Twenty', err);
+    });
+  } catch (err) {
+    console.error('Failed to confirm newsletter subscription', err);
+    return redirectWithStatus(req, 'error');
+  }
 
   try {
     const origin = process.env.APP_URL ?? req.headers.get('origin') ?? '';
@@ -47,8 +58,8 @@ export async function GET(req: Request) {
       ),
     });
   } catch (err) {
-    console.error('Failed to send confirmation email', err);
+    console.error('Failed to send newsletter confirmation follow-up email', err);
   }
 
-  return NextResponse.json({ ok: true });
+  return redirectWithStatus(req, 'success');
 }
