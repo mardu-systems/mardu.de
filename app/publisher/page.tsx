@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import path from 'path';
 import fs from 'fs/promises';
 import Markdown from 'react-markdown';
+import { Overline } from '@/components/ui/typography';
 
 export const metadata: Metadata = {
   title: 'Impressum',
@@ -14,14 +15,15 @@ export default async function Publisher() {
 
   return (
     <main className="pt-[calc(var(--app-header-height,64px)+env(safe-area-inset-top))]">
-      <section className="max-w-7xl mx-auto px-4 py-10">
-        <div className="text-center">
-          <div className="text-center rounded-t-xl">
-            <h1 className="text-3xl font-bold">Impressum</h1>
-          </div>
+      <section className="mardu-container py-12 md:py-16">
+        <div className="max-w-3xl space-y-3">
+          <Overline>Rechtliches</Overline>
+          <h1 className="headline-balance text-[clamp(2rem,4.5vw,3.75rem)] leading-[0.95] tracking-[-0.03em] text-foreground">
+            Impressum
+          </h1>
         </div>
-        <div className="space-y-6 pt-8">
-          <article className="prose max-w-none">
+        <div className="space-y-6 pt-8 md:pt-10">
+          <article className="prose max-w-none prose-headings:font-sans prose-headings:tracking-[-0.02em] prose-p:text-foreground/85 prose-li:text-foreground/85 prose-strong:text-foreground prose-a:text-foreground prose-a:underline prose-a:underline-offset-3">
             <Markdown>{fileContent}</Markdown>
           </article>
         </div>
