@@ -81,7 +81,7 @@ export default function HeroSection({
             width={3945}
             height={1991}
             aria-hidden
-            className="pointer-events-none absolute -left-24 -z-10 w-[170%] max-w-none opacity-65 md:-left-28 md:-top-32 lg:w-[150%]"
+            className="pointer-events-none absolute -left-24 -z-10 w-[170%] max-w-none opacity-65 md:-left-28 lg:w-[150%]"
           />
           <Overline>Engineering Access Platform</Overline>
           <div className="relative isolate inline-block">
