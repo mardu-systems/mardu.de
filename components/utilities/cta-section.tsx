@@ -17,6 +17,8 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { MeetergoCTAButton } from './meetergo-cta-button';
+import { useRecaptcha } from '@/lib/recaptcha';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export interface CTASectionProps {
   title: string;
@@ -36,13 +38,23 @@ export default function CTASection({
   className = '',
 }: CTASectionProps) {
   const [open, setOpen] = useState(false);
-  const [formErrors, setFormErrors] = useState<{ email?: string; consent?: string }>({});
+  const [formErrors, setFormErrors] = useState<{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    consent?: string;
+  }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [consentChecked, setConsentChecked] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const emailInputRef = useRef<HTMLInputElement>(null);
+  const firstNameInputRef = useRef<HTMLInputElement>(null);
+  const lastNameInputRef = useRef<HTMLInputElement>(null);
   const consentRef = useRef<HTMLButtonElement>(null);
+  const executeRecaptcha = useRecaptcha();
 
-  const handleNewsletterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isSubmitting) return;
 
@@ -53,7 +65,16 @@ export default function CTASection({
     const company = String(formData.get('global.firma') ?? '').trim();
     const email = String(formData.get('email') ?? '').trim();
 
-    const nextErrors: { email?: string; consent?: string } = {};
+    const nextErrors: { firstName?: string; lastName?: string; email?: string; consent?: string } =
+      {};
+
+    if (!firstName) {
+      nextErrors.firstName = 'Bitte geben Sie Ihren Vornamen ein.';
+    }
+
+    if (!lastName) {
+      nextErrors.lastName = 'Bitte geben Sie Ihren Nachnamen ein.';
+    }
 
     if (!email) {
       nextErrors.email = 'Bitte geben Sie eine E-Mail-Adresse ein.';
@@ -67,29 +88,51 @@ export default function CTASection({
 
     if (Object.keys(nextErrors).length > 0) {
       setFormErrors(nextErrors);
-      if (nextErrors.email) emailInputRef.current?.focus();
+      if (nextErrors.firstName) firstNameInputRef.current?.focus();
+      else if (nextErrors.lastName) lastNameInputRef.current?.focus();
+      else if (nextErrors.email) emailInputRef.current?.focus();
       else consentRef.current?.focus();
       return;
     }
 
-    const updateValue = (name: string, value: string) => {
-      const input = form.elements.namedItem(name) as HTMLInputElement | null;
-      if (input) input.value = value;
-    };
-
-    updateValue('global.vorname', firstName);
-    updateValue('global.nachname', lastName);
-    updateValue('global.firma', company);
-    updateValue('email', email);
-
     setFormErrors({});
-    setIsSubmitting(true);
-    form.submit();
+    setStatus('idle');
+    setErrorMessage('');
 
-    setTimeout(() => {
-      setOpen(false);
+    try {
+      setIsSubmitting(true);
+      const token = await executeRecaptcha('newsletter_signup');
+
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          role: 'newsletter',
+          ...(token ? { token } : {}),
+          ...(firstName ? { firstName } : {}),
+          ...(lastName ? { lastName } : {}),
+          ...(company ? { company } : {}),
+        }),
+      });
+      const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) {
+        throw new Error(payload?.error || 'Newsletter-Anmeldung fehlgeschlagen');
+      }
+      setStatus('success');
+      form.reset();
+      setConsentChecked(false);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+    } catch (error: unknown) {
+      setStatus('error');
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Newsletter-Anmeldung fehlgeschlagen',
+      );
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -127,13 +170,13 @@ export default function CTASection({
                     setFormErrors({});
                     setIsSubmitting(false);
                     setConsentChecked(false);
+                    setStatus('idle');
+                    setErrorMessage('');
                   }
                 }}
               >
                 <DialogTrigger asChild>
-                  <Button>
-                    {primaryButtonText}
-                  </Button>
+                  <Button>{primaryButtonText}</Button>
                 </DialogTrigger>
 
                 <DialogContent className="sm:max-w-175 max-h-[90vh] overflow-y-auto border border-black/10 bg-background">
@@ -145,14 +188,7 @@ export default function CTASection({
                     </DialogDescription>
                   </DialogHeader>
 
-                  <form
-                    method="post"
-                    action="https://flow.cleverreach.com/fl/dc9cc0ca-817c-4e47-bad3-f00510d3efc3/confirm"
-                    target="_blank"
-                    className="space-y-5 pt-2"
-                    onSubmit={handleNewsletterSubmit}
-                    noValidate
-                  >
+                  <form className="space-y-5 pt-2" onSubmit={handleNewsletterSubmit} noValidate>
                     <input
                       type="text"
                       tabIndex={-1}
@@ -164,22 +200,66 @@ export default function CTASection({
 
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="global.vorname">Vorname</Label>
+                        <Label
+                          htmlFor="global.vorname"
+                          className="after:ml-0.5 after:text-destructive after:content-['*']"
+                        >
+                          Vorname
+                        </Label>
                         <Input
                           type="text"
                           id="global.vorname"
                           name="global.vorname"
                           autoComplete="given-name"
+                          ref={firstNameInputRef}
+                          onChange={() => {
+                            if (formErrors.firstName)
+                              setFormErrors((prev) => ({ ...prev, firstName: undefined }));
+                          }}
+                          aria-invalid={Boolean(formErrors.firstName)}
+                          aria-describedby={
+                            formErrors.firstName ? 'cta.first-name-error' : undefined
+                          }
                         />
+                        {formErrors.firstName ? (
+                          <p
+                            id="cta.first-name-error"
+                            className="text-xs text-destructive"
+                            aria-live="polite"
+                          >
+                            {formErrors.firstName}
+                          </p>
+                        ) : null}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="global.nachname">Nachname</Label>
+                        <Label
+                          htmlFor="global.nachname"
+                          className="after:ml-0.5 after:text-destructive after:content-['*']"
+                        >
+                          Nachname
+                        </Label>
                         <Input
                           type="text"
                           id="global.nachname"
                           name="global.nachname"
                           autoComplete="family-name"
+                          ref={lastNameInputRef}
+                          onChange={() => {
+                            if (formErrors.lastName)
+                              setFormErrors((prev) => ({ ...prev, lastName: undefined }));
+                          }}
+                          aria-invalid={Boolean(formErrors.lastName)}
+                          aria-describedby={formErrors.lastName ? 'cta.last-name-error' : undefined}
                         />
+                        {formErrors.lastName ? (
+                          <p
+                            id="cta.last-name-error"
+                            className="text-xs text-destructive"
+                            aria-live="polite"
+                          >
+                            {formErrors.lastName}
+                          </p>
+                        ) : null}
                       </div>
                     </div>
 
@@ -259,16 +339,24 @@ export default function CTASection({
                       ) : null}
                     </div>
 
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      aria-busy={isSubmitting}
-                    >
+                    <Button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
                       {isSubmitting ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
                       ) : null}
                       Anmelden
                     </Button>
+                    {status === 'success' ? (
+                      <Alert role="status" aria-live="polite">
+                        <AlertDescription>
+                          Fast geschafft: Bitte bestätigen Sie die Anmeldung per E-Mail.
+                        </AlertDescription>
+                      </Alert>
+                    ) : null}
+                    {status === 'error' ? (
+                      <Alert variant="destructive" role="alert" aria-live="assertive">
+                        <AlertDescription>{errorMessage}</AlertDescription>
+                      </Alert>
+                    ) : null}
                   </form>
                 </DialogContent>
               </Dialog>

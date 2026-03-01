@@ -24,6 +24,9 @@ export async function GET(req: Request) {
     email: data.email,
     role,
     source,
+    ...(removed?.firstName ? { firstName: removed.firstName } : {}),
+    ...(removed?.lastName ? { lastName: removed.lastName } : {}),
+    ...(removed?.company ? { company: removed.company } : {}),
     occurredAt: new Date().toISOString(),
     consentModel: 'double-opt-in',
   };

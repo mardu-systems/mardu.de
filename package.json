@@ -15,7 +15,9 @@
     "type-check:watch": "tsc --noEmit --watch",
     "clean": "rm -rf .next",
     "build:analyze": "ANALYZE=true next build",
-    "images:compress:overwrite": "node scripts/compress-images.mjs --overwrite"
+    "images:compress:overwrite": "node scripts/compress-images.mjs --overwrite",
+    "api:twenty:pull-openapi": "node scripts/fetch-twenty-openapi.mjs",
+    "api:twenty:generate": "npm run api:twenty:pull-openapi && orval --config orval.config.cjs && node scripts/mark-generated-twenty-no-check.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -64,6 +66,7 @@
     "imagemin-mozjpeg": "^10.0.0",
     "imagemin-pngquant": "^10.0.0",
     "imagemin-svgo": "^11.0.1",
+    "orval": "8.5.1",
     "prettier": "^3.8.1",
     "sass": "^1.97.3",
     "sharp": "^0.34.5",

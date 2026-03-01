@@ -23,6 +23,9 @@ export async function GET(req: Request) {
     email: data.email,
     role: data.role,
     source,
+    ...(data.firstName ? { firstName: data.firstName } : {}),
+    ...(data.lastName ? { lastName: data.lastName } : {}),
+    ...(data.company ? { company: data.company } : {}),
     occurredAt: new Date().toISOString(),
     consentModel: 'double-opt-in',
   };

@@ -26,12 +26,22 @@ interface WhitepaperTeaserProps {
 
 export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
   const [open, setOpen] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; consent?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState<{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    consent?: string;
+  }>({});
+  const firstNameInputRef = useRef<HTMLInputElement>(null);
+  const lastNameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const consentRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -41,7 +51,18 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedEmail = email.trim();
-    const nextErrors: { email?: string; consent?: string } = {};
+    const trimmedFirstName = firstName.trim();
+    const trimmedLastName = lastName.trim();
+    const nextErrors: { firstName?: string; lastName?: string; email?: string; consent?: string } =
+      {};
+
+    if (!trimmedFirstName) {
+      nextErrors.firstName = 'Bitte geben Sie Ihren Vornamen ein.';
+    }
+
+    if (!trimmedLastName) {
+      nextErrors.lastName = 'Bitte geben Sie Ihren Nachnamen ein.';
+    }
 
     if (!trimmedEmail) {
       nextErrors.email = 'Bitte geben Sie eine E-Mail-Adresse ein.';
@@ -55,7 +76,11 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
 
     if (Object.keys(nextErrors).length > 0) {
       setFieldErrors(nextErrors);
-      if (nextErrors.email) {
+      if (nextErrors.firstName) {
+        firstNameInputRef.current?.focus();
+      } else if (nextErrors.lastName) {
+        lastNameInputRef.current?.focus();
+      } else if (nextErrors.email) {
         emailInputRef.current?.focus();
       } else {
         consentRef.current?.focus();
@@ -71,12 +96,18 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
 
     try {
       const token = await executeRecaptcha('whitepaper_signup');
-      if (!token) throw new Error('Recaptcha verification failed');
 
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: trimmedEmail, role: 'whitepaper', token }),
+        body: JSON.stringify({
+          email: trimmedEmail,
+          role: 'whitepaper',
+          ...(firstName.trim() ? { firstName: firstName.trim() } : {}),
+          ...(lastName.trim() ? { lastName: lastName.trim() } : {}),
+          ...(company.trim() ? { company: company.trim() } : {}),
+          ...(token ? { token } : {}),
+        }),
       });
 
       const data = await res.json();
@@ -86,6 +117,9 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
       }
 
       setStatus('success');
+      setFirstName('');
+      setLastName('');
+      setCompany('');
       setEmail('');
       setConsent(false);
       setFieldErrors({});
@@ -176,6 +210,91 @@ export default function WhitepaperTeaser({ className }: WhitepaperTeaserProps) {
                         </div>
                       ) : (
                         <form onSubmit={handleSubmit} className="space-y-6 pt-4" noValidate>
+                          <div className="grid gap-4 md:grid-cols-2">
+                            <div className="space-y-2">
+                              <Label
+                                htmlFor="wp.firstName"
+                                className="after:ml-0.5 after:text-destructive after:content-['*']"
+                              >
+                                Vorname
+                              </Label>
+                              <Input
+                                type="text"
+                                id="wp.firstName"
+                                name="firstName"
+                                autoComplete="given-name"
+                                ref={firstNameInputRef}
+                                value={firstName}
+                                onChange={(e) => {
+                                  setFirstName(e.target.value);
+                                  if (fieldErrors.firstName) {
+                                    setFieldErrors((prev) => ({ ...prev, firstName: undefined }));
+                                  }
+                                }}
+                                aria-invalid={Boolean(fieldErrors.firstName)}
+                                aria-describedby={
+                                  fieldErrors.firstName ? 'wp.first-name-error' : undefined
+                                }
+                              />
+                              {fieldErrors.firstName ? (
+                                <p
+                                  id="wp.first-name-error"
+                                  className="text-xs text-destructive"
+                                  aria-live="polite"
+                                >
+                                  {fieldErrors.firstName}
+                                </p>
+                              ) : null}
+                            </div>
+                            <div className="space-y-2">
+                              <Label
+                                htmlFor="wp.lastName"
+                                className="after:ml-0.5 after:text-destructive after:content-['*']"
+                              >
+                                Nachname
+                              </Label>
+                              <Input
+                                type="text"
+                                id="wp.lastName"
+                                name="lastName"
+                                autoComplete="family-name"
+                                ref={lastNameInputRef}
+                                value={lastName}
+                                onChange={(e) => {
+                                  setLastName(e.target.value);
+                                  if (fieldErrors.lastName) {
+                                    setFieldErrors((prev) => ({ ...prev, lastName: undefined }));
+                                  }
+                                }}
+                                aria-invalid={Boolean(fieldErrors.lastName)}
+                                aria-describedby={
+                                  fieldErrors.lastName ? 'wp.last-name-error' : undefined
+                                }
+                              />
+                              {fieldErrors.lastName ? (
+                                <p
+                                  id="wp.last-name-error"
+                                  className="text-xs text-destructive"
+                                  aria-live="polite"
+                                >
+                                  {fieldErrors.lastName}
+                                </p>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="wp.company">Firma</Label>
+                            <Input
+                              type="text"
+                              id="wp.company"
+                              name="company"
+                              autoComplete="organization"
+                              value={company}
+                              onChange={(e) => setCompany(e.target.value)}
+                            />
+                          </div>
+
                           <div className="space-y-2">
                             <Label htmlFor="wp.email">E-Mail-Adresse</Label>
                             <Input

@@ -106,9 +106,12 @@ export function ContactForm({
           ...(extra || {}),
         }),
       });
-      if (!res.ok) throw new Error('Request failed');
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(payload?.error || 'Request failed');
+      }
       setStatus('success');
-      form.reset({ name: '', email: '', company: '', message: '' });
+      form.reset({ name: '', email: '', company: '', phone: '', message: '', consent: false });
     } catch (e: unknown) {
       console.error(e);
       setStatus('error');
