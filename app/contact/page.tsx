@@ -6,6 +6,22 @@ export const metadata: Metadata = {
   title: 'Kontakt',
   description:
     'Kontaktiere das Team von mardu.space und erfahre, wie du uns im Alten Schlachthof erreichst.',
+  alternates: {
+    canonical: '/contact',
+  },
+  openGraph: {
+    title: 'Kontakt | Mardu',
+    description:
+      'Kontaktiere das Team von mardu.space und erfahre, wie du uns im Alten Schlachthof erreichst.',
+    url: '/contact',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Kontakt | Mardu',
+    description:
+      'Kontaktiere das Team von mardu.space und erfahre, wie du uns im Alten Schlachthof erreichst.',
+  },
 };
 
 export default function ContactPage() {
