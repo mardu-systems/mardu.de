@@ -220,6 +220,10 @@ export function ContactForm({
                   <input
                     type="tel"
                     placeholder="+49 123 456789"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    pattern="^\\+?[0-9\\s().\\-/]{7,}$"
+                    title="Bitte eine gültige Telefonnummer eingeben, z. B. +4915202189213"
                     className="rounded-none border-0 border-b border-neutral-800/70 bg-transparent px-0 py-2"
                     {...field}
                     onBlur={(event) => {
