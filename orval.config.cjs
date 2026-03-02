@@ -2,7 +2,7 @@
  * Twenty REST API code generation.
  * Source spec is refreshed before generation via `npm run api:twenty:pull-openapi`.
  */
-const DEFAULT_FILTER_TAGS = ['people', 'companies'];
+const DEFAULT_FILTER_TAGS = ['people', 'companies', 'notes', 'noteTargets'];
 
 function parseCsvEnv(value) {
   if (!value) {

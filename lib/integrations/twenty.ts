@@ -7,6 +7,8 @@ import {
   getFindManyPeopleUrl,
   getUpdateOnePersonUrl,
 } from '@/lib/integrations/twenty/generated/endpoints/people/people';
+import { getCreateOneNoteUrl } from '@/lib/integrations/twenty/generated/endpoints/notes/notes';
+import { getCreateOneNoteTargetUrl } from '@/lib/integrations/twenty/generated/endpoints/note-targets/note-targets';
 import type { NewsletterCrmEventDto } from '@/types/api/newsletter-crm';
 import type { TwentyContactLeadDto } from '@/types/api/twenty-sync';
 
@@ -202,7 +204,15 @@ type EnsurePersonInput = {
   fullName?: string;
   phone?: string;
   companyId?: string;
+  source?: 'contact' | 'wizard';
+  message?: string;
+  newsletterOptIn?: boolean;
 };
+
+function readCustomFieldKey(envVar: string): string | undefined {
+  const value = process.env[envVar]?.trim();
+  return value ? value : undefined;
+}
 
 async function ensurePerson(input: EnsurePersonInput): Promise<string | undefined> {
   const payload: Record<string, unknown> = {
@@ -230,6 +240,21 @@ async function ensurePerson(input: EnsurePersonInput): Promise<string | undefine
     payload.companyId = input.companyId;
   }
 
+  const messageField = readCustomFieldKey('TWENTY_CONTACT_MESSAGE_FIELD');
+  if (messageField && input.message?.trim()) {
+    payload[messageField] = input.message.trim();
+  }
+
+  const sourceField = readCustomFieldKey('TWENTY_CONTACT_SOURCE_FIELD');
+  if (sourceField && input.source) {
+    payload[sourceField] = input.source;
+  }
+
+  const newsletterOptInField = readCustomFieldKey('TWENTY_CONTACT_NEWSLETTER_OPT_IN_FIELD');
+  if (newsletterOptInField && typeof input.newsletterOptIn === 'boolean') {
+    payload[newsletterOptInField] = input.newsletterOptIn;
+  }
+
   const personId = await findPersonIdByEmail(input.email);
   if (personId) {
     const updated = await requestTwenty(getUpdateOnePersonUrl(personId), {
@@ -247,6 +272,115 @@ async function ensurePerson(input: EnsurePersonInput): Promise<string | undefine
   return getNestedString(created, ['data', 'createPerson', 'id']);
 }
 
+function getContactSourceLabel(source: TwentyContactLeadDto['source']): string {
+  if (source === 'wizard') {
+    return 'Konfigurator';
+  }
+  if (source === 'contact') {
+    return 'Kontaktformular';
+  }
+  return 'Unbekannt';
+}
+
+function getContactSourceUrl(source: TwentyContactLeadDto['source']): string | undefined {
+  if (source !== 'contact') {
+    return undefined;
+  }
+
+  const appUrl = process.env.APP_URL?.trim();
+  if (!appUrl) {
+    return undefined;
+  }
+
+  try {
+    return new URL('/contact', appUrl).toString();
+  } catch {
+    return undefined;
+  }
+}
+
+type CreateContactNoteInput = {
+  personId: string;
+  message: string;
+  occurredAt: string;
+  source?: TwentyContactLeadDto['source'];
+  newsletterOptIn?: boolean;
+};
+
+function buildBlockNotePayload(text: string): string {
+  const lines = text.split('\n').filter((line) => line.trim().length > 0);
+  const blocks =
+    lines.length > 0
+      ? lines.map((line) => ({
+          type: 'paragraph',
+          content: [{ type: 'text', text: line, styles: {} }],
+          props: { textAlignment: 'left' },
+          children: [],
+        }))
+      : [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text, styles: {} }],
+            props: { textAlignment: 'left' },
+            children: [],
+          },
+        ];
+
+  return JSON.stringify(blocks);
+}
+
+async function createContactNote(input: CreateContactNoteInput): Promise<string | undefined> {
+  const trimmedMessage = input.message.trim();
+  if (!trimmedMessage) {
+    return undefined;
+  }
+
+  const sourceLabel = getContactSourceLabel(input.source);
+  const sourceUrl = getContactSourceUrl(input.source);
+  const titleDate = input.occurredAt.slice(0, 10);
+  const title = `Kontaktanfrage (${sourceLabel}, ${titleDate})`;
+  const details = [
+    `Datum: ${input.occurredAt}`,
+    `Quelle: ${sourceLabel}`,
+    ...(sourceUrl ? [`Quelle-URL: ${sourceUrl}`] : []),
+    ...(typeof input.newsletterOptIn === 'boolean'
+      ? [`Newsletter-Opt-in: ${input.newsletterOptIn ? 'ja' : 'nein'}`]
+      : []),
+  ];
+  const markdownBody = `${details.map((line) => `- ${line}`).join('\n')}\n\n${trimmedMessage}`;
+  const blocknoteBody = buildBlockNotePayload(markdownBody);
+
+  const createdNote = await requestTwenty(getCreateOneNoteUrl(), {
+    method: 'POST',
+    body: JSON.stringify({
+      title,
+      bodyV2: {
+        markdown: markdownBody,
+        blocknote: blocknoteBody,
+      },
+    }),
+  });
+
+  const noteId =
+    getNestedString(createdNote, ['data', 'createNote', 'id']) ??
+    getNestedString(createdNote, ['data', 'note', 'id']) ??
+    getNestedString(createdNote, ['data', 'id']);
+
+  if (!noteId) {
+    return undefined;
+  }
+
+  await requestTwenty(getCreateOneNoteTargetUrl(), {
+    method: 'POST',
+    body: JSON.stringify({
+      noteId,
+      personId: input.personId,
+    }),
+  });
+
+  return noteId;
+}
+
 export async function syncContactLeadToTwenty(
   payload: TwentyContactLeadDto,
 ): Promise<TwentySyncResult> {
@@ -259,12 +393,29 @@ export async function syncContactLeadToTwenty(
   const companyId = normalizedCompany
     ? await ensureCompany(normalizedCompany, payload.email)
     : undefined;
-  await ensurePerson({
+  const personId = await ensurePerson({
     email: payload.email,
     fullName: payload.name,
     phone: payload.phone,
+    source: payload.source,
+    message: payload.message,
+    newsletterOptIn: payload.newsletterOptIn,
     companyId,
   });
+
+  if (personId && payload.message?.trim()) {
+    try {
+      await createContactNote({
+        personId,
+        message: payload.message,
+        occurredAt: new Date().toISOString(),
+        source: payload.source,
+        newsletterOptIn: payload.newsletterOptIn,
+      });
+    } catch (error) {
+      console.error('Failed to create contact note in Twenty', error);
+    }
+  }
 
   return { ok: true, skipped: false };
 }

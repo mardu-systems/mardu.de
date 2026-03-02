@@ -3,6 +3,8 @@ export interface TwentyContactLeadDto {
   email: string;
   company?: string;
   phone?: string;
+  message?: string;
   source?: 'contact' | 'wizard';
   consent?: boolean;
+  newsletterOptIn?: boolean;
 }
