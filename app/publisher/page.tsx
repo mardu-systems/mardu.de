@@ -6,20 +6,20 @@ import { Overline } from '@/components/ui/typography';
 
 export const metadata: Metadata = {
   title: 'Impressum',
-  description: 'Angaben gemäß § 5 TMG für mardu.space.',
+  description: 'Angaben gemäß § 5 TMG für mardu.de.',
   alternates: {
     canonical: '/publisher',
   },
   openGraph: {
     title: 'Impressum | Mardu',
-    description: 'Angaben gemäß § 5 TMG für mardu.space.',
+    description: 'Angaben gemäß § 5 TMG für mardu.de.',
     url: '/publisher',
     type: 'article',
   },
   twitter: {
     card: 'summary',
     title: 'Impressum | Mardu',
-    description: 'Angaben gemäß § 5 TMG für mardu.space.',
+    description: 'Angaben gemäß § 5 TMG für mardu.de.',
   },
 };
 

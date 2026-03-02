@@ -8,20 +8,20 @@ import { Overline } from '@/components/ui/typography';
 
 export const metadata: Metadata = {
   title: 'Datenschutzerklärung',
-  description: 'Informationen zum Datenschutz bei mardu.space.',
+  description: 'Informationen zum Datenschutz bei mardu.de.',
   alternates: {
     canonical: '/privacy',
   },
   openGraph: {
     title: 'Datenschutzerklärung | Mardu',
-    description: 'Informationen zum Datenschutz bei mardu.space.',
+    description: 'Informationen zum Datenschutz bei mardu.de.',
     url: '/privacy',
     type: 'article',
   },
   twitter: {
     card: 'summary',
     title: 'Datenschutzerklärung | Mardu',
-    description: 'Informationen zum Datenschutz bei mardu.space.',
+    description: 'Informationen zum Datenschutz bei mardu.de.',
   },
 };
 

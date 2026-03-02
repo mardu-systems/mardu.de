@@ -23,7 +23,7 @@ export async function sendEmail({
 
     const resend = new Resend(apiKey);
 
-    const fromHeader = from.includes("<") ? from : `Mardu.space <${from}>`;
+    const fromHeader = from.includes("<") ? from : `Mardu GmbH <${from}>`;
 
     if (!apiKey || !from || !recipient) {
         throw new Error("Email service not configured");
@@ -88,7 +88,7 @@ export function renderEmailLayout(title: string, content: string): string {
 <body>
     <main style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;background-color:#f9f9f9;">
         <div style="text-align:center;margin-bottom:24px;">
-            <img src="https://mardu.space/logos/Logo.svg" alt="Mardu.space Logo" style="width:150px;height:auto;" />
+            <img src="https://www.mardu.de/logos/Logo.svg" alt="Mardu GmbH Logo" style="width:150px;height:auto;" />
         </div>
         <h1 style="text-align:center;font-size:24px;font-weight:bold;margin-bottom:24px;color:#333;">${title}</h1>
         <div style="font-size:16px;line-height:1.5;color:#333;">${content}</div>
@@ -152,14 +152,14 @@ export async function sendContactEmail(data: ContactEmailData) {
                 "Wenn du in der Zwischenzeit Fragen hast, erreichst du uns jederzeit unter info@mardu.de.",
                 "",
                 "Viele Grüße",
-                "dein Mardu.space Team",
+                "dein Team der Mardu GmbH",
             ];
 
             const htmlContent = [
                 `<p>${firstName ? `Hallo ${firstName}` : "Hallo"},</p>`,
                 "<p>vielen Dank für deine Anfrage über unseren Konfigurator. Unser Team meldet sich in Kürze bei dir, um die nächsten Schritte zu besprechen.</p>",
                 "<p>Wenn du in der Zwischenzeit Fragen hast, erreichst du uns jederzeit unter <a href=\"mailto:info@mardu.de\">info@mardu.de</a>.</p>",
-                "<p>Viele Grüße<br />dein Mardu.space Team</p>",
+                "<p>Viele Grüße<br />dein Team der Mardu GmbH</p>",
             ].join("\n");
 
             await sendEmail({

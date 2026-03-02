@@ -1,4 +1,4 @@
-# Mardu.space
+# Mardu.de
 
 This is the official repository for the Mardu website.
 

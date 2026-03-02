@@ -2,10 +2,11 @@
 
 **Mardu GmbH**
 
-A1
 Alter Schlachthof 39  
 76131 Karlsruhe  
 Deutschland
+
+Hinweis: Im Gebäudekomplex finden Sie uns unter **A1**.
 
 E-Mail: [info@mardu.de](mailto:info@mardu.de)
 
@@ -20,9 +21,10 @@ Luca Schöneberg, Erik Frey
 
 **Mardu GmbH**
 
-A1
 Alter Schlachthof 39  
 76131 Karlsruhe
+
+Hinweis: Im Gebäudekomplex finden Sie uns unter **A1**.
 
 ---
 

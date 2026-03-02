@@ -5,14 +5,14 @@ import { Overline } from '@/components/ui/typography';
 export const metadata: Metadata = {
   title: 'Kontakt',
   description:
-    'Kontaktiere das Team von mardu.space und erfahre, wie du uns im Alten Schlachthof erreichst.',
+    'Kontaktiere das Team der Mardu GmbH und erfahre, wie du uns im Alten Schlachthof erreichst.',
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
     title: 'Kontakt | Mardu',
     description:
-      'Kontaktiere das Team von mardu.space und erfahre, wie du uns im Alten Schlachthof erreichst.',
+      'Kontaktiere das Team der Mardu GmbH und erfahre, wie du uns im Alten Schlachthof erreichst.',
     url: '/contact',
     type: 'website',
   },
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'Kontakt | Mardu',
     description:
-      'Kontaktiere das Team von mardu.space und erfahre, wie du uns im Alten Schlachthof erreichst.',
+      'Kontaktiere das Team der Mardu GmbH und erfahre, wie du uns im Alten Schlachthof erreichst.',
   },
 };
 
