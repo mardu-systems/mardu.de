@@ -21,14 +21,22 @@ import {
 import { Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { normalizePhoneNumber } from '@/lib/phone';
+import type { ContactErrorResponseDto } from '@/types/api/contact';
 
 export const contactSchema = z.object({
   name: z.string().min(1, 'Bitte Name angeben'),
   email: z.email('Bitte eine gültige E-Mail angeben'),
   company: z.string().optional(),
-  phone: z.string().optional(),
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (value) => value == null || value.trim().length === 0 || Boolean(normalizePhoneNumber(value)),
+      'Bitte eine gültige Telefonnummer angeben',
+    ),
   message: z.string().max(500, 'Bitte maximal 500 Zeichen eingeben').optional(),
-  consent: z.boolean().optional(),
+  consent: z.boolean().refine((value) => value === true, 'Bitte Zustimmung erteilen'),
   newsletterOptIn: z.boolean().optional(),
 });
 
@@ -66,7 +74,8 @@ export function ContactForm({
       consent: initialValues?.consent ?? false,
       newsletterOptIn: initialValues?.newsletterOptIn ?? false,
     },
-    mode: submit ? 'onSubmit' : 'onChange',
+    mode: submit ? 'onBlur' : 'onChange',
+    reValidateMode: 'onChange',
   });
 
   React.useEffect(() => {
@@ -98,20 +107,27 @@ export function ContactForm({
       setSubmitting(true);
       setStatus('idle');
       setErrorMessage(null);
-      if (values.consent !== true) {
-        form.setError('consent', { type: 'required', message: 'Bitte Zustimmung erteilen' });
-        throw new Error('validation');
-      }
+      const normalizedPhone = normalizePhoneNumber(values.phone);
       const res = await fetch(action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...values,
+          phone: normalizedPhone,
           ...(extra || {}),
         }),
       });
       if (!res.ok) {
-        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+        const payload = (await res.json().catch(() => null)) as ContactErrorResponseDto | null;
+        if (payload?.details) {
+          for (const [field, messages] of Object.entries(payload.details)) {
+            const message = messages?.[0];
+            if (!message) continue;
+            if (field in form.getValues()) {
+              form.setError(field as keyof ContactValues, { type: 'server', message });
+            }
+          }
+        }
         throw new Error(payload?.error || 'Request failed');
       }
       setStatus('success');
@@ -206,8 +222,22 @@ export function ContactForm({
                     placeholder="+49 123 456789"
                     className="rounded-none border-0 border-b border-neutral-800/70 bg-transparent px-0 py-2"
                     {...field}
+                    onBlur={(event) => {
+                      field.onBlur();
+                      const normalized = normalizePhoneNumber(event.target.value);
+                      if (normalized) {
+                        form.setValue('phone', normalized, {
+                          shouldDirty: true,
+                          shouldTouch: true,
+                          shouldValidate: true,
+                        });
+                      }
+                    }}
                   />
                 </FormControl>
+                <FormDescription>
+                  Optional. Bitte im internationalen Format, z. B. `+4915202189213`.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
