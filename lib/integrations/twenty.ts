@@ -25,6 +25,14 @@ function getTimeoutMs(): number {
   return Math.floor(parsed);
 }
 
+function getRetryCount(): number {
+  const parsed = Number(process.env.TWENTY_SYNC_RETRIES ?? '1');
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return 1;
+  }
+  return Math.floor(parsed);
+}
+
 function getApiBaseUrl(): string {
   const configured = process.env.TWENTY_API_BASE_URL?.trim();
   if (configured) {
@@ -122,9 +130,22 @@ function buildHeaders(contentType = false): HeadersInit {
   return headers;
 }
 
-async function requestTwenty(pathname: string, init?: RequestInit): Promise<unknown> {
+function isAbortError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+  const candidate = error as { name?: unknown; code?: unknown };
+  return candidate.name === 'AbortError' || candidate.code === 20;
+}
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function requestTwentyOnce(pathname: string, init?: RequestInit): Promise<unknown> {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), getTimeoutMs());
+  const timeoutMs = getTimeoutMs();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch(toAbsoluteUrl(pathname), {
@@ -146,9 +167,37 @@ async function requestTwenty(pathname: string, init?: RequestInit): Promise<unkn
     }
 
     return JSON.parse(body) as unknown;
+  } catch (error) {
+    if (isAbortError(error)) {
+      const method = init?.method ?? 'GET';
+      throw new Error(
+        `Twenty request timed out after ${timeoutMs}ms (${method} ${toAbsoluteUrl(pathname)})`,
+      );
+    }
+    throw error;
   } finally {
     clearTimeout(timeout);
   }
+}
+
+async function requestTwenty(pathname: string, init?: RequestInit): Promise<unknown> {
+  const attempts = getRetryCount() + 1;
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await requestTwentyOnce(pathname, init);
+    } catch (error) {
+      lastError = error;
+      const shouldRetry = isAbortError(error) || String(error).includes('timed out');
+      if (!shouldRetry || attempt === attempts) {
+        throw error;
+      }
+      await wait(150 * attempt);
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('Unknown Twenty request error');
 }
 
 async function findCompanyIdByName(name: string): Promise<string | undefined> {
