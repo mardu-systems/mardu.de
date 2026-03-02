@@ -3,13 +3,23 @@ import { z } from 'zod';
 import { sendContactEmail } from '@/lib/email';
 import { syncContactLeadToTwenty } from '@/lib/integrations/twenty';
 import { sendNewsletterConfirmationEmail, splitFullName } from '@/lib/newsletter-confirmation';
+import { normalizePhoneNumber } from '@/lib/phone';
 import type { ContactRequestDto, ContactResponseDto } from '@/types/api/contact';
+
+const PhoneSchema = z
+  .string()
+  .optional()
+  .refine(
+    (value) => value == null || value.trim().length === 0 || Boolean(normalizePhoneNumber(value)),
+    'Invalid phone number format',
+  )
+  .transform((value) => normalizePhoneNumber(value));
 
 const Schema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   company: z.string().optional(),
-  phone: z.string().optional(),
+  phone: PhoneSchema,
   message: z.string().max(500).optional(),
   config: z.any().optional(),
   token: z.string().optional(),
@@ -22,7 +32,8 @@ export async function POST(req: Request) {
   const json = await req.json();
   const parsed = Schema.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    const details = parsed.error.flatten().fieldErrors;
+    return NextResponse.json({ error: 'Invalid payload', details }, { status: 400 });
   }
 
   try {

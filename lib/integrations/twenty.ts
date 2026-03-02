@@ -9,6 +9,7 @@ import {
 } from '@/lib/integrations/twenty/generated/endpoints/people/people';
 import { getCreateOneNoteUrl } from '@/lib/integrations/twenty/generated/endpoints/notes/notes';
 import { getCreateOneNoteTargetUrl } from '@/lib/integrations/twenty/generated/endpoints/note-targets/note-targets';
+import { normalizePhoneNumber } from '@/lib/phone';
 import type { NewsletterCrmEventDto } from '@/types/api/newsletter-crm';
 import type { TwentyContactLeadDto } from '@/types/api/twenty-sync';
 
@@ -230,9 +231,10 @@ async function ensurePerson(input: EnsurePersonInput): Promise<string | undefine
     payload.name = splitName(input.fullName);
   }
 
-  if (input.phone?.trim()) {
+  const normalizedPhone = normalizePhoneNumber(input.phone);
+  if (normalizedPhone) {
     payload.phones = {
-      primaryPhoneNumber: input.phone.trim(),
+      primaryPhoneNumber: normalizedPhone,
     };
   }
 

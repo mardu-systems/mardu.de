@@ -8,6 +8,9 @@ export interface ContactRequestDto {
   name: string;
   email: string;
   company?: string;
+  /**
+   * Optional phone number normalized to E.164 before downstream sync (e.g. `+4915202189213`).
+   */
   phone?: string;
   message?: string;
   consent?: boolean;
@@ -23,4 +26,8 @@ export interface ContactResponseDto {
 
 export interface ContactErrorResponseDto {
   error: string;
+  /**
+   * Optional validation details keyed by request field.
+   */
+  details?: Record<string, string[] | undefined>;
 }
