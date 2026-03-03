@@ -1,4 +1,6 @@
 import type { MetadataRoute } from 'next';
+import { getPayload } from 'payload';
+import config from '@/payload.config';
 
 const SITE_URL = 'https://www.mardu.de';
 
@@ -6,10 +8,10 @@ const SITE_URL = 'https://www.mardu.de';
  * SEO sitemap endpoint (`/sitemap.xml`) using Next.js MetadataRoute DTO.
  * Add new indexable routes here when pages are introduced.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
       lastModified,
@@ -35,4 +37,74 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
+
+  if (!process.env.DATABASE_URI) {
+    return [
+      ...staticRoutes,
+      {
+        url: `${SITE_URL}/blog`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      },
+    ];
+  }
+
+  try {
+    const payload = await getPayload({ config });
+    const posts = await payload.find({
+      collection: 'blog-posts',
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
+      select: {
+        slug: true,
+        updatedAt: true,
+      },
+      limit: 200,
+      pagination: false,
+    });
+
+    const blogRoutes: MetadataRoute.Sitemap = [
+      {
+        url: `${SITE_URL}/blog`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      },
+      ...posts.docs.flatMap((doc) => {
+        if (typeof doc.slug !== 'string') {
+          return [];
+        }
+
+        const docLastModified =
+          typeof doc.updatedAt === 'string' || doc.updatedAt instanceof Date
+            ? doc.updatedAt
+            : lastModified;
+
+        return [
+          {
+            url: `${SITE_URL}/blog/${doc.slug}`,
+            lastModified: docLastModified,
+            changeFrequency: 'weekly' as const,
+            priority: 0.7,
+          },
+        ];
+      }),
+    ];
+
+    return [...staticRoutes, ...blogRoutes];
+  } catch {
+    return [
+      ...staticRoutes,
+      {
+        url: `${SITE_URL}/blog`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      },
+    ];
+  }
 }

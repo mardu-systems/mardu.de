@@ -1,0 +1,90 @@
+# Payload Endpoints and Runtime Contracts
+
+Diese Datei dokumentiert alle bereitgestellten Payload-Routen, deren Zugriff und Betriebsregeln.
+
+## Bereitstellung
+
+Payload REST wird ueber die Catch-all Route bereitgestellt:
+[app/api/[...slug]/route.ts](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/api/[...slug]/route.ts)
+
+Supported Methods:
+
+- `GET`
+- `POST`
+- `PATCH`
+- `PUT`
+- `DELETE`
+- `OPTIONS`
+
+## Oeffentliche Blog-Endpunkte
+
+1. `GET /api/blog-posts`
+2. `GET /api/blog-posts/:id`
+3. `GET /api/blog-categories`
+
+DTO-Vertrag fuer Blog-Consumer:
+[types/api/blog.ts](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/types/api/blog.ts)
+
+Erweiterte Blog-Details:
+[docs/api/blog-payload-integration.md](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/docs/api/blog-payload-integration.md)
+
+## Admin-Routing-Vertrag
+
+Entry-Routen:
+
+1. `/admin`
+2. `/admin/login`
+3. `/admin/create-first-user`
+4. `/admin/collections/:collection`
+5. `/admin/globals/:global`
+
+Implementierung:
+
+- [app/(payload)/admin/page.tsx](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/page.tsx)
+- [app/(payload)/admin/[...segments]/page.tsx](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/[...segments]/page.tsx)
+- [app/(payload)/admin/layout.tsx](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/layout.tsx)
+
+Import-Map Single Source of Truth:
+
+- [app/(payload)/admin/importMap.js](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/importMap.js)
+
+## Access-Regeln
+
+Beispiel `blog-posts`:
+
+- Public Read: nur `published`
+- Authenticated Read: erweitert (Admin)
+
+Quelle:
+[collections/blog-posts.ts](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/collections/blog-posts.ts)
+
+## DB-Isolation (verbindlicher Betriebsmodus)
+
+`DATABASE_URI` muss auf eine eigene Payload-Datenbank zeigen, nicht auf bestehende App-Altbestaende.
+
+Empfohlener Ablauf:
+
+1. Datenbank `mardu_payload` anlegen.
+2. `.env.local` setzen:
+   - `DATABASE_URI=postgres://.../mardu_payload`
+   - `PAYLOAD_SECRET=...`
+   - `PAYLOAD_PUBLIC_SERVER_URL=http://localhost:3000`
+3. Migrationen anwenden:
+   - `bun run payload migrate`
+4. Status pruefen:
+   - `bun run payload migrate:status`
+
+Wichtig:
+
+- `db push` nicht als Standard verwenden.
+- `db push` nur kontrolliert mit Backup und leerer/isolierter DB.
+
+## Bun / Tooling Konvention
+
+- Paketmanager: Bun
+- Lockfile-Quelle: `bun.lock`
+- Standardchecks:
+  1. `bun run lint`
+  2. `bun run type-check`
+  3. `bun run build`
+  4. `bun run payload migrate:status`

@@ -5,6 +5,7 @@ export const defaultFooterNavLinks: FooterLink[] = [
     { href: "/#loesung", label: "Lösung" },
     { href: "/#produkte", label: "Angebote" },
     { href: "/#argumente", label: "Vorteile" },
+    { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Kontakt" },
 ];
 

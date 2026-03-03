@@ -5,6 +5,6 @@ export const defaultHeaderItems: NavEntry[] = [
   { type: 'link', label: 'Lösung', href: '#loesung' },
   { type: 'link', label: 'Angebote', href: '#produkte' },
   { type: 'link', label: 'Vorteile', href: '#argumente' },
+  { type: 'link', label: 'Blog', href: '/blog' },
   { type: 'link', label: 'Kontakt', href: '/contact' },
 ];
-
