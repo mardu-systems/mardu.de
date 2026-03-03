@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 
 @plugin "@tailwindcss/typography";
+@layer payload-default, payload;
 
 @custom-variant dark (&:is(.dark *));
 
@@ -142,6 +143,12 @@
     text-rendering: geometricPrecision;
   }
 
+  body.payload-admin-route {
+    background-color: var(--theme-elevation-0, var(--paper));
+    color: var(--theme-text, inherit);
+    text-rendering: auto;
+  }
+
   img {
     max-width: 100%;
     height: auto;
@@ -188,4 +195,9 @@
 
 .grecaptcha-badge {
   display: none;
+}
+
+.payload-admin-root {
+  color-scheme: light;
+  min-height: 100dvh;
 }

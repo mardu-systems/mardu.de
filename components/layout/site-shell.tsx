@@ -12,11 +12,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   const isPayloadAdminRoute = pathname?.startsWith('/admin');
 
   if (isPayloadAdminRoute) {
-    return (
-      <div data-theme="light" style={{ colorScheme: 'light' }}>
-        {children}
-      </div>
-    );
+    return <>{children}</>;
   }
 
   return (

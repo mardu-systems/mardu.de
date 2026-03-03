@@ -28,6 +28,19 @@ DTO-Vertrag fuer Blog-Consumer:
 Erweiterte Blog-Details:
 [docs/api/blog-payload-integration.md](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/docs/api/blog-payload-integration.md)
 
+## SSO-Endpunkte (OIDC)
+
+1. `GET /api/sso/login`
+2. `GET /api/sso/callback`
+3. `GET /api/sso/logout`
+4. `GET /api/sso/debug` (nur development + `OIDC_DEBUG=true`)
+
+DTO-Vertrag fuer SSO:
+[types/api/payload-sso.ts](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/types/api/payload-sso.ts)
+
+Erweiterte SSO-Dokumentation:
+[docs/api/payload-sso-integration.md](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/docs/api/payload-sso-integration.md)
+
 ## Admin-Routing-Vertrag
 
 Entry-Routen:
@@ -43,6 +56,10 @@ Implementierung:
 - [app/(payload)/admin/page.tsx](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/page.tsx)
 - [app/(payload)/admin/[...segments]/page.tsx](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/[...segments]/page.tsx)
 - [app/(payload)/admin/layout.tsx](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/(payload)/admin/layout.tsx)
+
+Login-Modus bei aktivem OIDC:
+
+- OIDC + Passwort parallel sichtbar.
 
 Import-Map Single Source of Truth:
 

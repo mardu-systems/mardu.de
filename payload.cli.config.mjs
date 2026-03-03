@@ -6,6 +6,7 @@ import blogCategoriesModule from './collections/blog-categories.ts';
 import blogPostsModule from './collections/blog-posts.ts';
 import mediaModule from './collections/media.ts';
 import usersModule from './collections/users.ts';
+import { mcpPlugin } from '@payloadcms/plugin-mcp';
 
 const { BlogAuthors } = blogAuthorsModule;
 const { BlogCategories } = blogCategoriesModule;
@@ -27,9 +28,28 @@ export default buildConfig({
   collections: [Users, Media, BlogCategories, BlogAuthors, BlogPosts],
   admin: {
     user: Users.slug,
+    theme: 'light',
+    components: {
+      graphics: {
+        Logo: '/components/payload/admin-login-logo.tsx#AdminLoginLogo',
+      },
+      logout: {
+        Button: '/components/payload/admin-sso-logout-button.tsx#AdminSSOLogoutButton',
+      },
+      settingsMenu: ['/components/payload/admin-auth-status.tsx#AdminAuthStatus'],
+    },
     importMap: {
       baseDir: process.cwd(),
     },
   },
+  plugins: [
+    mcpPlugin({
+      collections: {
+        posts: {
+          enabled: true,
+        },
+      },
+    }),
+  ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'],
 });
