@@ -137,15 +137,5 @@ export const BlogPosts: CollectionConfig = {
       relationTo: 'blog-authors',
       required: true,
     },
-    {
-      name: 'seoTitle',
-      type: 'text',
-      maxLength: 70,
-    },
-    {
-      name: 'seoDescription',
-      type: 'textarea',
-      maxLength: 160,
-    },
   ],
 };

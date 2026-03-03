@@ -18,8 +18,7 @@ type PayloadDoc = {
   excerpt?: string;
   featured?: boolean;
   publishedAt?: string;
-  seoTitle?: string;
-  seoDescription?: string;
+  meta?: unknown;
   content?: unknown;
   coverImage?: unknown;
   categories?: unknown;
@@ -46,6 +45,13 @@ type PayloadAuthor = {
   avatar?: unknown;
 };
 
+type PayloadMeta = {
+  description?: string;
+  image?: unknown;
+  title?: string;
+  url?: string;
+};
+
 const toId = (value: string | number | undefined): string => {
   if (value === undefined) {
     return '';
@@ -60,6 +66,14 @@ const toMedia = (value: unknown): PayloadMedia | null => {
   }
 
   return value as PayloadMedia;
+};
+
+const toMeta = (value: unknown): PayloadMeta | null => {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+
+  return value as PayloadMeta;
 };
 
 const normalizeMediaUrl = (url: string | undefined): string => {
@@ -254,6 +268,8 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPostDetailDto
   }
 
   const base = mapPost(doc);
+  const meta = toMeta(doc.meta);
+  const ogImage = toMedia(meta?.image);
 
   if (!base) {
     return null;
@@ -261,8 +277,11 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPostDetailDto
 
   return {
     ...base,
-    ...(doc.seoTitle ? { seoTitle: doc.seoTitle } : {}),
-    ...(doc.seoDescription ? { seoDescription: doc.seoDescription } : {}),
+    ...(meta?.url ? { canonicalUrl: meta.url } : {}),
+    ...(ogImage?.url ? { ogImageUrl: normalizeMediaUrl(ogImage.url) } : {}),
+    ...(ogImage?.alt ? { ogImageAlt: ogImage.alt } : {}),
+    ...(meta?.title ? { seoTitle: meta.title } : {}),
+    ...(meta?.description ? { seoDescription: meta.description } : {}),
     content: doc.content,
   };
 };

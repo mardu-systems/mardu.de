@@ -19,6 +19,17 @@ Kanonische Typen: [types/api/blog.ts](/Users/lucaschoeneberg/Documents/GitHub/ma
 - `BlogPostDetailDto`
 - `PaginatedBlogPostsDto`
 
+SEO-Felder im Detail-DTO:
+
+- `seoTitle`
+- `seoDescription`
+- `canonicalUrl` (optional)
+- `ogImageUrl` (optional)
+- `ogImageAlt` (optional)
+
+Hinweis:
+- Diese Werte kommen aus dem Payload SEO Plugin (`meta.*`) und nicht aus eigenen Blog-Collection-Feldern.
+
 ## Endpunktmatrix (Blog)
 
 Bereitstellung ueber: [app/api/[...slug]/route.ts](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/app/api/[...slug]/route.ts)
@@ -96,6 +107,9 @@ Typische Fehler:
 
 - Unbekannter Beitrag unter `/blog/[slug]` -> 404.
 - `app/sitemap.ts` fuegt `/blog` und alle publizierten Slugs hinzu.
+- Metadata-Prioritaet in `/blog/[slug]`:
+  1. SEO-Plugin-Daten aus Payload (`meta.title`, `meta.description`, `meta.image`, `meta.url`)
+  2. Fallback auf Titel/Excerpt/Coverbild
 
 ## Umgebungsvariablen
 

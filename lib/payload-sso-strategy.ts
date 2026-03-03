@@ -4,7 +4,7 @@ import {
   isOidcEnabled,
   logOidcDebug,
   verifyOidcSessionToken,
-} from './payload-sso.js';
+} from './payload-sso.ts';
 import type { AuthStrategy } from 'payload';
 
 export const OidcSessionStrategy: AuthStrategy = {

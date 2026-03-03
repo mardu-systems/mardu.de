@@ -35,6 +35,9 @@ export type BlogPostListItemDto = {
 };
 
 export type BlogPostDetailDto = BlogPostListItemDto & {
+  canonicalUrl?: string;
+  ogImageAlt?: string;
+  ogImageUrl?: string;
   seoTitle?: string;
   seoDescription?: string;
   content: unknown;

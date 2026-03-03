@@ -26,6 +26,7 @@
     "@payloadcms/db-postgres": "^3.78.0",
     "@payloadcms/next": "^3.78.0",
     "@payloadcms/plugin-mcp": "^3.78.0",
+    "@payloadcms/plugin-seo": "^3.78.0",
     "@payloadcms/richtext-lexical": "^3.78.0",
     "@stepperize/react": "^5.1.9",
     "@tailwindcss/typography": "^0.5.19",

@@ -154,22 +154,25 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
   const title = post.seoTitle || `${post.title} | Mardu`;
   const description = post.seoDescription || post.excerpt;
+  const canonical = post.canonicalUrl || `/blog/${post.slug}`;
+  const socialImageUrl = post.ogImageUrl || post.coverImageUrl;
+  const socialImageAlt = post.ogImageAlt || post.coverImageAlt;
 
   return {
     title,
     description,
     alternates: {
-      canonical: `/blog/${post.slug}`,
+      canonical,
     },
     openGraph: {
       title,
       description,
-      url: `/blog/${post.slug}`,
+      url: canonical,
       type: 'article',
       images: [
         {
-          url: post.coverImageUrl,
-          alt: post.coverImageAlt,
+          url: socialImageUrl,
+          alt: socialImageAlt,
         },
       ],
     },
@@ -177,7 +180,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       card: 'summary_large_image',
       title,
       description,
-      images: [post.coverImageUrl],
+      images: [socialImageUrl],
     },
   };
 }

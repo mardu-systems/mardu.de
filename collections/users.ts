@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload';
-import { OidcSessionStrategy } from '../lib/payload-sso-strategy.js';
+import { OidcSessionStrategy } from '../lib/payload-sso-strategy.ts';
 
 export const Users: CollectionConfig = {
   slug: 'users',

@@ -41,6 +41,18 @@ DTO-Vertrag fuer SSO:
 Erweiterte SSO-Dokumentation:
 [docs/api/payload-sso-integration.md](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/docs/api/payload-sso-integration.md)
 
+## SEO-Plugin-Endpunkte (Payload Plugin SEO)
+
+Wenn das SEO-Plugin aktiv ist, stellt Payload zusaetzlich folgende Endpunkte bereit:
+
+1. `POST /api/plugin-seo/generate-title`
+2. `POST /api/plugin-seo/generate-description`
+3. `POST /api/plugin-seo/generate-url`
+4. `POST /api/plugin-seo/generate-image`
+
+Hinweis:
+- Diese Endpunkte sind primär fuer das Payload Admin UI gedacht.
+
 ## Admin-Routing-Vertrag
 
 Entry-Routen:
