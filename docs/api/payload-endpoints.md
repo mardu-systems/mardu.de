@@ -28,6 +28,19 @@ DTO-Vertrag fuer Blog-Consumer:
 Erweiterte Blog-Details:
 [docs/api/blog-payload-integration.md](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/docs/api/blog-payload-integration.md)
 
+## Integrations-Endpunkte
+
+1. `GET /api/integrations`
+2. `GET /api/integrations/:id`
+3. `GET /api/integration-categories`
+4. `GET /api/integration-protocols`
+
+DTO-Vertrag fuer Integrations-Consumer:
+[types/api/integrations.ts](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/types/api/integrations.ts)
+
+Erweiterte Integrations-Dokumentation:
+[docs/api/integrations-payload-integration.md](/Users/lucaschoeneberg/Documents/GitHub/mardu.de/docs/api/integrations-payload-integration.md)
+
 ## SSO-Endpunkte (OIDC)
 
 1. `GET /api/sso/login`

@@ -5,11 +5,12 @@ import DualImageSection from '@/components/utilities/dual-image-section';
 import ThreeArguments from '@/components/utilities/three-arguments';
 import Foerderung from '@/components/utilities/foerderung';
 import TripleImageSection from '@/components/utilities/triple-image-section';
+import { IntegrationsPreview } from '@/components/integrations/integrations-preview';
 import { FileSearchCorner, HeartHandshake, Milestone } from 'lucide-react';
 
 /* ===================== Seite ===================== */
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <main className="relative min-h-screen flex flex-col justify-center md:justify-start">
       {/* Hero Header Section */}
@@ -69,6 +70,8 @@ export default function HomePage() {
           buttonHref="/contact"
         />
       </section>
+
+      <IntegrationsPreview />
 
       <section id="produkte">
         <DualImageSection

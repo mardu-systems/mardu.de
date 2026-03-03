@@ -42,6 +42,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [
       ...staticRoutes,
       {
+        url: `${SITE_URL}/integrations`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.85,
+      },
+      {
         url: `${SITE_URL}/blog`,
         lastModified,
         changeFrequency: 'weekly',
@@ -66,8 +72,45 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       limit: 200,
       pagination: false,
     });
+    const integrations = await payload.find({
+      collection: 'integrations',
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
+      select: {
+        slug: true,
+        updatedAt: true,
+      },
+      limit: 400,
+      pagination: false,
+    });
 
     const blogRoutes: MetadataRoute.Sitemap = [
+      {
+        url: `${SITE_URL}/integrations`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.85,
+      },
+      ...integrations.docs.flatMap((doc) => {
+        if (typeof doc.slug !== 'string') {
+          return [];
+        }
+
+        const docLastModified =
+          typeof doc.updatedAt === 'string' ? doc.updatedAt : lastModified;
+
+        return [
+          {
+            url: `${SITE_URL}/integrations/${doc.slug}`,
+            lastModified: docLastModified,
+            changeFrequency: 'weekly' as const,
+            priority: 0.75,
+          },
+        ];
+      }),
       {
         url: `${SITE_URL}/blog`,
         lastModified,
@@ -80,9 +123,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
 
         const docLastModified =
-          typeof doc.updatedAt === 'string' || doc.updatedAt instanceof Date
-            ? doc.updatedAt
-            : lastModified;
+          typeof doc.updatedAt === 'string' ? doc.updatedAt : lastModified;
 
         return [
           {
@@ -99,6 +140,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch {
     return [
       ...staticRoutes,
+      {
+        url: `${SITE_URL}/integrations`,
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.85,
+      },
       {
         url: `${SITE_URL}/blog`,
         lastModified,

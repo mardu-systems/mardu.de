@@ -5,6 +5,9 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import * as blogAuthorsModule from './collections/blog-authors.ts';
 import * as blogCategoriesModule from './collections/blog-categories.ts';
 import * as blogPostsModule from './collections/blog-posts.ts';
+import * as integrationCategoriesModule from './collections/integration-categories.ts';
+import * as integrationProtocolsModule from './collections/integration-protocols.ts';
+import * as integrationsModule from './collections/integrations.ts';
 import * as mediaModule from './collections/media.ts';
 import * as usersModule from './collections/users.ts';
 
@@ -29,6 +32,15 @@ const resolveCollectionExport = (module, exportName) => {
 const BlogAuthors = resolveCollectionExport(blogAuthorsModule, 'BlogAuthors');
 const BlogCategories = resolveCollectionExport(blogCategoriesModule, 'BlogCategories');
 const BlogPosts = resolveCollectionExport(blogPostsModule, 'BlogPosts');
+const IntegrationCategories = resolveCollectionExport(
+  integrationCategoriesModule,
+  'IntegrationCategories',
+);
+const IntegrationProtocols = resolveCollectionExport(
+  integrationProtocolsModule,
+  'IntegrationProtocols',
+);
+const Integrations = resolveCollectionExport(integrationsModule, 'Integrations');
 const Media = resolveCollectionExport(mediaModule, 'Media');
 const Users = resolveCollectionExport(usersModule, 'Users');
 
@@ -43,7 +55,16 @@ const payloadSharedConfig = {
     },
   }),
   editor: lexicalEditor(),
-  collections: [Users, Media, BlogCategories, BlogAuthors, BlogPosts],
+  collections: [
+    Users,
+    Media,
+    BlogCategories,
+    BlogAuthors,
+    BlogPosts,
+    IntegrationCategories,
+    IntegrationProtocols,
+    Integrations,
+  ],
   admin: {
     user: Users.slug,
     theme: 'light',
@@ -66,11 +87,18 @@ const payloadSharedConfig = {
         'blog-posts': {
           enabled: true,
         },
+        integrations: {
+          enabled: true,
+        },
       },
     }),
     seoPlugin({
-      collections: ['blog-posts'],
+      collections: ['blog-posts', 'integrations'],
       generateDescription: ({ doc }) => {
+        if (typeof doc?.shortDescription === 'string') {
+          return doc.shortDescription;
+        }
+
         if (typeof doc?.excerpt === 'string') {
           return doc.excerpt;
         }
@@ -78,6 +106,14 @@ const payloadSharedConfig = {
         return '';
       },
       generateImage: ({ doc }) => {
+        if (typeof doc?.heroImage === 'object' && doc.heroImage && 'id' in doc.heroImage) {
+          return doc.heroImage.id;
+        }
+
+        if (typeof doc?.logo === 'object' && doc.logo && 'id' in doc.logo) {
+          return doc.logo.id;
+        }
+
         if (typeof doc?.coverImage === 'object' && doc.coverImage && 'id' in doc.coverImage) {
           return doc.coverImage.id;
         }
@@ -93,6 +129,14 @@ const payloadSharedConfig = {
       },
       generateURL: ({ doc }) => {
         const baseURL = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000';
+
+        if (
+          typeof doc?.availabilityStatus === 'string' &&
+          typeof doc?.slug === 'string' &&
+          doc.slug.length > 0
+        ) {
+          return `${baseURL}/integrations/${doc.slug}`;
+        }
 
         if (typeof doc?.slug === 'string' && doc.slug.length > 0) {
           return `${baseURL}/blog/${doc.slug}`;
